@@ -1,0 +1,12 @@
+[package]
+name = "min-article"
+version = "0.1.0"
+entrypoint = "src/lib.typ"
+authors = ["Maycon F. Melo <https://mayconfmelo.netlify.app>"]
+license = "MIT-0"
+description = "A collection of LaTeX-inspired basic layouts, designed to simplify book writing process providing formatting and a variety of structures."
+
+[template]
+path = "template"
+entrypoint = "main.typ"
+thumbnail = "thumbnail.png"
