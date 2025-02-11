@@ -1,4 +1,4 @@
-#import "@local/min-article:0.0.0": article, abstract, abbrev, gloss, appendix, annex, acknowledgments, figure
+#import "@local/min-article:0.1.0": article, abstract, abbrev, gloss, appendix, annex, acknowledgments, figure
 
 #show: article.with(  
 	title: [Main Title],
