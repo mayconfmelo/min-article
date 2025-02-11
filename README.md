@@ -38,7 +38,7 @@ find where it belongs in the article, will and put it there.
 This project uses `just` to automate all development processes. To install
 the package to the default _preview_ release namespace, ideal to final use, run:
 
-```bash
+```
 just install preview
 ```
 
@@ -49,7 +49,7 @@ and to uninstall it, use `just remove preview`.
 To install the package in a separated _local_ test namespace, ideal to development
 tests, run:
 
-```bash
+```
 just install local
 ```
 
@@ -63,7 +63,7 @@ project and the package _local_ namespace under the special _0.0.0_ version
 — this way, every change made in these source files will be imediatelly available
 in Typst through `local:0.0.0` imoport. To use it, run:
 
-```bash
+```
 just dev-link
 ```
 
@@ -76,25 +76,25 @@ The `docs/manual.typ` and `docs/manual-pt.typ` are the official _min-article_
 documentation. They are available as pre-compiled PDFs in `docs/` folder, and
 can be locally compiled with:
 
-```bash
+```
 just manual
 ```
 
 and the Brazilian version:
 
-```bash
+```
 just manual-pt
 ```
 
 As for examples, they are in `docs/assets/example.typ` and can be compiled too,
 with:
 
-```bash
+```
 just compile
 ```
 
 or be watched, with:
 
-```bash
+```
 just watch
 ```
