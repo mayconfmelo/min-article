@@ -8,7 +8,7 @@ description = "A collection of LaTeX-inspired basic layouts, designed to simplif
 exclude = [
   "dev/",
   "test/",
-  "docs/"
+  "docs/",
   "scripts/",
   ".git",
   ".gitignore",
