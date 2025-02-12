@@ -42,9 +42,9 @@ Gere artigos autênticos, estruturados, e no padrão, em conformidade com os
 requerimentos da Associação Brasileira de Normas Técnicas (ABNT). O principal
 diferencial deste pacote, além de seguir os padrões ABNT definidos pelas normas
 NBR 6022 e NBR 14724, é ser capaz de gerenciar por conta própria a praticamente
-toda a estressante estruturação e suas regrinhas: apenas insira os dados em
-qualquer local, e o _min-article_ encontrará onde eles devem estar no artigo, e
-os colocará la.
+toda a estressante estruturação do documento e suas regrinhas: apenas insira os
+dados em qualquer local que o _min-article_ encontrará onde eles devem estar no
+artigo, e os colocará la.
 
 Este manual será atualizado apenas quando novas versões quebrarem ou modificarem
 algo; do contrário, este será válido para todas as novas versões, a partir desta

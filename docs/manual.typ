@@ -41,7 +41,7 @@ differential of this package, apart from fallowing the ABNT standards set by the
 NBR 6022 and NBR 14724 norms, is being able to manage by itself almost all
 of that mind-frying document structuration and its little rules: just input the
 data at any place, and _min-article_ will find where it belongs in the article,
-will and put it there.
+and will put it there.
 
 This manual will be updated only when new versions break or modify something;
 otherwise, it will be valid to all newer versions starting by the one documented
