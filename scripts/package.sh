@@ -84,20 +84,33 @@ case "${ACTION}" in
     fi
     
     # Find files and directories excluded from tje final package:
-    EXCLUDES=($(
+    EXCLUDES=()
+    IFS=$'\n'
+    while read -r linha; do
+        EXCLUDES+=("$linha")
+    done < <(
       perl -00 -ne \
-        'if (/\s*exclude\s*=\s*\[(.*?)\]/s) { my @values = $1 =~ /("[^"]+")/g; print "$_\n" for @values }' \
+        'if (/\s*exclude\s*=\s*\[(.*?)\]/s) {
+          my @values = $1 =~ /"([^"]+)"/g;
+          print "$_\n" for @values
+        }' \
         "${PROJECT_ROOT}/typst.toml"
-    ))
+    )
     
     # Remove files and directories excluded in typst.toml:
-    echo "Removing excluded files from final package."
-    cd "${LIB_DIR}/${VERSION}"
-    for EXCLUDE in "${EXCLUDES[@]}"; do
-      if [[ -d "${EXCLUDE}" ]]; then
-        rm -r "${EXCLUDE}"
-      fi
-    done
+    if [[ ${#EXCLUDES[@]} -ne 0 ]]; then
+      echo "Removing excluded files from final package."
+      cd "${LIB_DIR}/${VERSION}"
+
+      for EXCLUDE in ${EXCLUDES[@]}; do
+        if [[ -e "${EXCLUDE}" ]]; then
+          rm -r "${EXCLUDE}"
+          echo "File or directory removed: ${EXCLUDE}"
+        else
+          echo "File or directory does not exist: ${EXCLUDE}"
+        fi
+      done
+    fi
     echo "Package \"${NAME}\" installed in \"${TARGET}\"."
     ;;
     
