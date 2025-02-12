@@ -39,7 +39,7 @@ find where it belongs in the article, and will put it there.
 - [Official manual](docs/pdf/manual.pdf)
 - [Official manual (Portuguese)](docs/pdf/manual-pt.pdf)
 - [Example PDF result](docs/pdf/example.pdf)
-- [Example Typst code](docs/template/main.typ)
+- [Example Typst code](template/main.typ)
 
 
 # Setup
