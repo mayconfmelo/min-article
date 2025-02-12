@@ -4,6 +4,7 @@
   Simple and easy way to write ABNT-compliant articles
 </center>
 
+
 # Quick Start
 
 ```typst
@@ -22,6 +23,7 @@
 )
 ```
 
+
 # Description
 
 Generate a authentic, structured, and standard articles, compliant with the
@@ -36,8 +38,8 @@ find where it belongs in the article, and will put it there.
 
 - [Official manual](docs/pdf/manual.pdf)
 - [Official manual (Portuguese)](docs/pdf/manual-pt.pdf)
-- [Example Result](docs/pdf/example.pdf)
-- [Example Code](docs/assets/example.typ)
+- [Example PDF result](docs/pdf/example.pdf)
+- [Example Typst code](docs/template/main.typ)
 
 
 # Setup
@@ -46,7 +48,7 @@ This project uses `just` to automate all development processes. Run `just` or
 refer to the _justfile_ for more information.
 
 
-## Release
+### Release
 
 Install the package in default _preview_ namespace:
 
@@ -61,7 +63,7 @@ just remove preview
 ```
 
 
-## Testing
+### Testing
 
 Install the package in a separated _local_ namespace:
 
@@ -79,7 +81,7 @@ The command `just install-all` installs it in both _preview_ and _local_
 namespaces at the same time.
 
 
-## Development
+### Development
 
 Create a direct symbolic link between this project and and the _local_ namespace,
 under a special _0.0.0_ version:
