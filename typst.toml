@@ -2,11 +2,12 @@
 name = "min-article"
 version = "0.1.0"
 entrypoint = "src/lib.typ"
-authors = ["Maycon F. Melo <https://mayconfmelo.netlify.app>"]
+authors = ["Maycon F. Melo <@mayconfmelo>"]
 license = "MIT-0"
 description = "Simple and easy way to write ABNT-compliant articles."
 categories = [ "layout", "paper" ]
 keywords = [ "article", "abnt", "scientific paper" ]
+repository = "https://github.com/mayconfmelo/min-article"
 exclude = [
   "dev/",
   "test/",
