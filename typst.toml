@@ -15,9 +15,9 @@ exclude = [
   "scripts/",
   ".git",
   ".gitignore",
-  "justfile"
+  "justfile",
+  "CHANGELOG.md"
 ]
-
 
 [template]
 path = "template"

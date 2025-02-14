@@ -146,4 +146,5 @@ case "${ACTION}" in
     echo "USAGE: $0 [ACTION] [TARGET] [PROJECT-ROOT]"
     exit 1
     ;;
+    
 esac
