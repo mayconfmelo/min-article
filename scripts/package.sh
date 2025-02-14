@@ -12,7 +12,7 @@ fi
 
 # Check invalid target package path;
 case "$2" in
-  "local"|"preview")
+  "local"|"preview"|"pkg")
     TARGET="$2"
     ;;
   "")
@@ -68,6 +68,7 @@ fi
 
 # Set package directory
 LIB_DIR="${DATA_DIR}/typst/packages/${TARGET}/${NAME}"
+
 # Install or remove package:
 case "${ACTION}" in
   "install")
@@ -99,19 +100,34 @@ case "${ACTION}" in
     
     # Remove files and directories excluded in typst.toml:
     if [[ ${#EXCLUDES[@]} -ne 0 ]]; then
-      echo "Removing excluded files from final package."
+      echo "Removing excluded paths from final package:"
       cd "${LIB_DIR}/${VERSION}"
 
       for EXCLUDE in ${EXCLUDES[@]}; do
         if [[ -e "${EXCLUDE}" ]]; then
           rm -r "${EXCLUDE}"
-          echo "File or directory removed: ${EXCLUDE}"
+          echo "Removed: ${EXCLUDE}"
         else
-          echo "File or directory does not exist: ${EXCLUDE}"
+          echo "Does not exist: ${EXCLUDE}"
         fi
       done
     fi
     echo "Package \"${NAME}\" installed in \"${TARGET}\"."
+    
+    # Move installled package to project
+    if [[ "${TARGET}" == "pkg" ]]; then
+      echo "Moving package to: \"${PROJECT_ROOT}/dev/pkg\""
+      rm -r  "${PROJECT_ROOT}/dev/pkg"
+      mkdir -p "${PROJECT_ROOT}/dev/pkg"
+      mv "${DATA_DIR}/typst/packages/pkg/" "${PROJECT_ROOT}/dev/"
+      
+      if [[ $? == 0 ]]; then
+        echo "Package moved successfully to \"dev/pkg\""
+      else
+        echo "Could not move package. Aborting..."
+        exit $?
+      fi
+    fi
     ;;
     
   "remove")
