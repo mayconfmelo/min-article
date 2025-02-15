@@ -6,7 +6,11 @@ authors = ["Maycon F. Melo <@mayconfmelo>"]
 license = "MIT-0"
 description = "Simple and easy way to write ABNT-compliant articles."
 categories = [ "layout", "paper" ]
-keywords = [ "article", "abnt", "scientific paper" ]
+keywords = [
+  "article", "abnt", "scientific paper",
+  "associação brasileira de normas técnicas",
+  "associacao brasileira de normas tecnicas"
+]
 repository = "https://github.com/mayconfmelo/min-article"
 exclude = [
   "dev/",
@@ -16,7 +20,8 @@ exclude = [
   ".git",
   ".gitignore",
   "justfile",
-  "CHANGELOG.md"
+  "CHANGELOG.md",
+  "SETUP.md"
 ]
 
 [template]

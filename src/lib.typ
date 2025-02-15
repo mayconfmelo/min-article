@@ -42,7 +42,7 @@
     }
   }
 
-  // Joins title and subtitle (if any) with a ": " in tue middle:
+  // Joins title and subtitle, if any:
   let full-title = if subtitle != none {
     title + ": " + subtitle
   }

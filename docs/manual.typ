@@ -25,9 +25,9 @@
 	foreign-title: "Título Principal",
 	foreign-subtitle: "Subtítulo complementar",
 	authors: (
-	  ("Main Author", "Doctor in Procrastination, etc, etc."),
-	  ("Main Collaborator", "Graduate in Doing Nothing, etc, etc."),
-	  ("Collaborator", "Student of Procrastination, etc, etc.")
+	  ("Main Author", "PhD in Procrastination, etc."),
+	  ("Main Collaborator", "Degree in Doing Nothing, etc."),
+	  ("Collaborator", "Procrastination Student, etc.")
 	),
 	lang-foreign: "pt"
 )
@@ -35,13 +35,12 @@
 
 = Description
 
-Generate a authentic, structured, and standard articles, compliant with the
-Brazilian Association of Technical Norms (ABNT) requirements. The main
-differential of this package, apart from fallowing the ABNT standards set by the
-NBR 6022 and NBR 14724 norms, is being able to manage by itself almost all
-of that mind-frying document structuration and its little rules: just input the
-data at any place, and _min-article_ will find where it belongs in the article,
-and will put it there.
+Generate authentic, structured, and standardized articles, compliant with the
+requirements of the Brazilian Association of Technical Standards (ABNT, in
+Portuguese). The main advantage of this package, apart from the ABNT standard,
+is being able to manage, all by itself, almost all the mind-frying document
+structuration and its rules: just input the data anywhere and _min-article_ will
+find where it belongs, and will put it there.
 
 This manual will be updated only when new versions break or modify something;
 otherwise, it will be valid to all newer versions starting by the one documented
@@ -87,14 +86,13 @@ understand it better, shall we?
   "title:", ("string", "content"),
   required: true
 )[
-  The article main title in native language.
+  The article title in the main language.
 ]
 
 #arg(
   "foreign-title:", ("string", "content")
 )[
-  The article title in a foreign language --- generally a _lingua franca_: a
-  language known and used universally (today it is English).
+  The article title in a foreign language --- generally a _lingua franca_.
 ]
 
 #arg(
@@ -106,23 +104,23 @@ understand it better, shall we?
 #arg(
   "foreign-subtitle:", ("string", "content", "none")
 )[
-  The article main subtitle in a foreign language.
+  The article main subtitle in a foreign language --- generally a _lingua franca_.
 ]
 
 #arg(
   "authors:", "array",
   required: true
 )[
-  An array of arrays containing the name and biref résumé of each author, in
-  format `( (NAME, RÉSUMÉ), (NAME, RÉSUMÉ) )`. If a plain array is set, its
-  first element will be treated as `NAME` and its second one, `RÉSUMÉ`.
+  An array of arrays containing the name and brief curriculum of each author, in
+  format `( (NAME, CV), (NAME, CV) )`. If a plain array is set, the
+  first element will be treated as `NAME` and the second one, as `RÉSUMÉ`.
 ]
 
 #arg(
   "abstract:", "content"
 )[
-  The ugly way to define the abstract — a formal resume of everything
-  the document talks about. It is prettier and more intuitivd to use the
+  The ugly way to define the abstract --- a formal resume of everything
+  the document talks about. It is prettier and more intuitive to use the
   `#abstract("main")` command instead.
 ]
 
@@ -142,7 +140,7 @@ understand it better, shall we?
 ]
 
 #arg(
-  "date:", ("array", "auto")
+  "date:", ("array", "datetime")
 )[
   The article publication date, in format `(yyyy, mm, dd)`. Fallback to today's date if not set, or set to `auto`.
 ]
@@ -150,26 +148,26 @@ understand it better, shall we?
 #arg(
   "paper:", "string"
 )[
-  Defines the page paper type --- and its size therefore.
+  Defines the page paper type --- and its size, therefore.
 ]
 
 #arg(
   "lang:", "string"
 )[
-  Defines the main language of the written text.
+  Defines the main language, used on the full text.
 ]
 
 #arg(
   "foreign-lang:", "string"
 )[
-  Defines the foreign language use on the secondary title and abstract.
+  Defines the foreign language, used on the foreign title and abstract.
 ]
 
 #arg(
   "lang-data:", "file"
 )[
-  Defines a custom #univ("linguify") file with translations for tue automatically created
-  headings. The default file officially has full support for English and Portuguese,
+  Defines a custom #univ("linguify") file with translations for the automatically created
+  headings. The default file have officially full support for English and Portuguese,
   as well as some other languages through AI translation.
 ]
 
@@ -202,16 +200,16 @@ understand it better, shall we?
   "font:", ("string", "array")
 )[
   Defines the font families used for the text: a principal font and its falbacks.
-  font too.
 ]
 
 #arg(
   "font-size:", "length"
 )[
-  Defines the size of the text in tue document.
+  Defines the size of the text in the document.
 ]
 
 #pagebreak()
+
 
 = Abstract command
 
@@ -224,7 +222,7 @@ understand it better, shall we?
 ```
 
 This is the best way to define the article abstracts. This commands just
-captures the abstract content and feed it to the `article` command where the
+captures the abstract content and feed it to the `article` command, where the
 abstracts are actually generated. Because of that, you can put this command
 anywhere inside the document body and it will be generated in the right place,
 right after the titles, as the ABNT NBR 6022 determines.
@@ -232,6 +230,7 @@ right after the titles, as the ABNT NBR 6022 determines.
 
 #arg(
   "type", "string",
+  required: true
 )[
   Defines which abstract this is: the `"main"` abstract, or the `"foreign"`
   abstract; only those two string values are accepted.
@@ -239,6 +238,7 @@ right after the titles, as the ABNT NBR 6022 determines.
 
 #arg(
   "body", "content",
+  required: true
 )[
   The abstract content.
 ]
@@ -256,32 +256,32 @@ right after the titles, as the ABNT NBR 6022 determines.
 ```
 
 This command manages abbreviations as the ABNT NBR 14724 requires: The first
-time it is used, will print the full long name, and its abbreviation between
+time it is used, print the full long name and its abbreviation between
 parenthesis; from then on, when is used again with the same abbreviation, it will
 print just the abbreviation. Additionally, every new abbreviation is collected to
-be used in a glossary automatically generated, along with a optional longer
-definition of the abbreviation and its long name.
+be used in a automatically generated glossary, along with a optional definition
+of the abbreviation and its long name.
 
 #arg(
   "abbreviation", ("string", "content"),
   required: true
 )[
-  The abbreviation itself. Does not support any stylization os quotes --- even
-  apostrophes. Is recommended to use just lowercase letters — automatically
-  uppercased, — and do any needed stylization outside the `#abbrev` command.
+  The abbreviation itself. Does not support any stylizationz quotes, or
+  apostrophes. Is recommended to use just lowercase letters --- automatically
+  uppercased, --- and do any needed stylization outside the `#abbrev` command.
 ]
 
 #arg(
   "long", ("string", "content"),
 )[
-  The long name represented by the abbreviation.
+  The long name that the abbreviation represents.
 ]
 
 #arg(
   "definition", ("string", "content"),
 )[
-  A optional definition to be used in the glossary. When no definition is set,
-  the long name is used as the definition.
+  An optional definition, used in the glossary. When no definition is set,
+  the long name is used as definition.
 ]
 
 
@@ -299,15 +299,15 @@ This commands works alongside `#abbrev` collecting terms for a automatically
 generated glossary. While `abbrev` only collects abbreviations, `gloss` can
 collect any word or expression. It just retrieves the data and then prints the
 term in the place where the command is writen; later, the `article` command use
-this data to generate a automatic glossary after the man text body, as the
-ABNT NBR 6022 determines. If not data is collected by neither `gloss` nor
+this data to generate an automatic glossary after the main text body, as the
+ABNT NBR 6022 determines. If no data is collected by neither `gloss` nor
 `abbrev`, no glossary is generated.
 
 #arg(
   "term-name", ("string", "content"),
   required: true
 )[
-  The name of the term in the glossary; it is what will be defined. If the name,
+  The name of the glossary term; it is what will be defined. If the name,
   have any fancy caracters like apostrophes or quotes, is recommended to use
   a string instead of content.
 ]
@@ -316,7 +316,8 @@ ABNT NBR 6022 determines. If not data is collected by neither `gloss` nor
   "definition", ("string", "content"),
   required: true
 )[
-  The definution of `term-name`; a brief text that describes and explains it.
+  A concise and descriptive text about the `term-name`; it is what defines the
+  glossary term.
 ]
 
 
@@ -329,21 +330,21 @@ ABNT NBR 6022 determines. If not data is collected by neither `gloss` nor
 )
 ```
 
-This commands just captures appendices given to it along the text body and feed
-them to the `article` command where the appendices are actually generated.
+This command just captures appendices given to it along the text body and feed
+them to the `article` command, where the appendices are actually generated.
 Because of that, you can put this command anywhere inside the document body and
 it will be generated in the right place, right after the  glossary, if any, as
 the ABNT NBR 6022 determines. It is possible to use the command multiple times
 to collect multiple appendices. Appendices are additional data and information
-that was not included in the document itself, but was cited or is related by it.
+not included in the document itself, but cited or related to it.
 
 #arg(
   "appendix", "content",
   required: true
 )[
   The appendix content itself. In longer documents, is recommended to use
-  separated _typ_ file for appendices and include it here. Inside the content,
-  each level 1 heading is treated as a new appendix.
+  separated _typ_ files for appendices. Inside the content, each level 1 heading
+  is treated as a new appendix.
 ]
 
 
@@ -356,22 +357,23 @@ that was not included in the document itself, but was cited or is related by it.
 )
 ```
 
-This commands just captures the annexes given to it along the text body and feed
+This command just captures the annexes given to it along the text body and feed
 them to the `article` command, where the annexes are actually generated.
 Because of that, you can put this command anywhere inside the document body and
-it will be generated in the right place, right after the appendices, if any. It
-is possible to use the command multiple times to collect multiple annexes.
-Annexes are documents made or data collected by another person that was cited or
-is related to the actual document.
+it will be generated in the right place, right after the appendices, if any, as
+the ABNT NBR 6022 requires. It is possible to use the command multiple times to
+collect multiple annexes. Annexes are third-party documents or data cited or
+related to the actual document.
 
 #arg(
   "annex", "content",
   required: true
 )[
   The annex content itself. In longer documents, is recommended to use
-  separated _typ_ file for annexes and include them here. Inside the content,
-  each level 1 heading is treated as a new annex.
+  separated _typ_ file for annexes. Inside the content, each level 1 heading is
+  treated as a new annex.
 ]
+
 
 = Acknowledgments command
 
@@ -382,11 +384,11 @@ is related to the actual document.
 )
 ```
 
-This commands just captures the acknowledgments content and feed it to the
+This command just captures the acknowledgments content and feed it to the
 `article` command, where the acknowledgments section is actually generated.
 Because of that, you can put this command anywhere inside the document body and
 it will be generated in the right place, right at the very end of the document
-as the ABNT NBR 6022 determines. Acknowledgments is a text to thank and
+as the ABNT NBR 6022 determines. Acknowledgments is a text used to thank and
 recognize the worth of prople with important roles in the creation of the article.
 
 
@@ -401,19 +403,18 @@ recognize the worth of prople with important roles in the creation of the articl
 )
 ```
 
-This commands shadows the default `#figure` command to add two arguments to it.
-As the ABNT NBT 6022 requires, all figures must have a caption on its too and a
-source on its bottom, and this commands fulfills it by adding the `source`
-argument — the other argument, `aglignment`, is just miscelanea to align the
-figure using less code.
+This command shadows the default `#figure` command to add two arguments to it.
+The ABNT NBR 6022 requires that all figures have a caption above it and its
+source below, and this command allows this by adding the `source` argument; the
+other argument, `aglignment`, is just sintax sugar to align the figure using
+less code.
 
 #arg(
   "source:", ("string", "content"),
   required: true
 )[
-  The source of the information displayed in the figure — even if is the author
-  itself. Generally, is a bibliographical reference or just "Author" and the
-  year of the figure criation.
+  The source of the information displayed in the figure --- even if is the author
+  itself. Generally, is a bibliographical reference.
 ]
 
 #arg(
@@ -431,6 +432,7 @@ figure using less code.
   in this command.
 ]
 
+
 = A Note On Bibliography
 
 Unfortunatelly, there is no way to load the bibliography file to let
@@ -438,22 +440,19 @@ _min-article_ deal with it and generate the Bibliography in the right place.
 So this is up to you. This means if you insert the command in some place, it
 will appear in the place where it was writen and not in the right place
 automatically. I'm looking foward to workaround this issue, but seems like this
-is a matter of Typst's limitation.
+is a limitation of Typst itself.
 
-Because of that, as it is necessary to manually set where the bibliography will
-be, write the `bibliography` command after the end of all text body content and
-it will appear at the right place as ABNT NBR 6022 requires: after the text and
-before the glossary, if any. It can be written before any of the collector
-commands described here, but any other content writen after it will appear after
-it.
+Because of this limitation, write the `bibliography` command after the end of
+all text content and it will appear at the right place, as ABNT NBR 6022 requires:
+after the text and before the glossary, if any.
 
 
 = Translations
 
 This package uses #univ("linguify") to translate the headings automatically generated.
 Currently, it offers support to English and Portuguese, and some other languages
-by IA translations. If your language is not supported, or wrongly translated by
-AI, consider contrivuting to this project by helping in the translation.
+through IA translations. If your language is not supported, or wrongly translated by
+IA, consider contributing to this project by helping in the translation.
 
 #pagebreak()
 
@@ -461,13 +460,12 @@ AI, consider contrivuting to this project by helping in the translation.
 = Copyright
 
 Copyright #sym.copyright #datetime.today().year() Maycon F. Melo. \
-This manual is licensed under MIT terms and rights. \
-The manual source code is free software:
-you are free to change and redistribute it.  There is NO WARRANTY, to the extent
-permitted by law.
+This manual is licensed under MIT. \
+The manual source code is free software: you are free to change and redistribute
+it.  There is NO WARRANTY, to the extent permitted by law.
 
 The logo was obtained from #link("https://flaticon.com")[Flaticon] website.
 
 This project does not have any association with the Associação Brasileira de Normas
-Técnicas, and the — costly — norms cited here are all property of ABNT. This is
+Técnicas, and the --- costly --- norms cited here are all property of ABNT. This is
 not an official project.

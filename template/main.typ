@@ -6,9 +6,9 @@
 	foreign-title: "Título Principal",
 	foreign-subtitle: "Subtítulo complementar, com não mais que duas linhas",
 	authors: (
-	  ("Main Author", "Doctor in Procrastination, with minor degree in Doing Nothing. Professor at Lazy University."),
-	  ("Main Collaborator", "Graduate in Doing Nothing, and researcher at Lazy University."),
-	  ("Collaborator", "Student of Procrastination at Lazy University.")
+	  ("Main Author", "PhD in Procrastination with a minor in Doing Nothing. Professor at Lazy University."),
+	  ("Main Collaborator", "Degree in Doing Nothing and researcher at Lazy University."),
+	  ("Collaborator", "Procrastination Student at Lazy University.")
 	),
 	lang-foreign: "pt",
 )
