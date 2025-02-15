@@ -13,18 +13,17 @@ keywords = [
 ]
 repository = "https://github.com/mayconfmelo/min-article"
 exclude = [
+  ".git/",
   "dev/",
-  "test/",
   "docs/",
   "scripts/",
-  ".git",
   ".gitignore",
-  "justfile",
   "CHANGELOG.md",
-  "SETUP.md"
+  "justfile",
+  "SETUP.md",
 ]
 
 [template]
 path = "template"
 entrypoint = "main.typ"
-thumbnail = "/docs/assets/thumbnail.png"
+thumbnail = "/template/assets/thumbnail.png"
