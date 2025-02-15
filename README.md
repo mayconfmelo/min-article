@@ -36,9 +36,9 @@ find where it belongs in the article, and will put it there.
 
 # More Information
 
-- [Official manual](docs/pdf/manual.pdf)
-- [Official manual (Portuguese)](docs/pdf/manual-pt.pdf)
-- [Example PDF result](docs/pdf/example.pdf)
+- [Official manual](https://raw.githubusercontent.com/mayconfmelo/min-article/main/docs/pdf/manual.pdf)
+- [Official manual (Portuguese)](https://raw.githubusercontent.com/mayconfmelo/min-article/main/docs/pdf/manual-pt.pdf)
+- [Example PDF result](https://raw.githubusercontent.com/mayconfmelo/min-article/main/docs/pdf/example.pdf)
 - [Example Typst code](template/main.typ)
 
 
