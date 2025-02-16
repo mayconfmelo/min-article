@@ -39,7 +39,7 @@ Generate authentic, structured, and standardized articles, compliant with the
 requirements of the Brazilian Association of Technical Standards (ABNT, in
 Portuguese). The main advantage of this package, apart from the ABNT standard,
 is being able to manage, all by itself, almost all the mind-frying document
-structuration and its rules: just input the data anywhere and _min-article_ will
+structure and its rules: just input the data anywhere and _min-article_ will
 find where it belongs, and will put it there.
 
 This manual will be updated only when new versions break or modify something;
@@ -79,7 +79,7 @@ Those are the full list of options available and its default values:
 )
 ```
 
-Seems like an awfull lot to start with, but let's just break down all this to
+Seems like an awful lot to start with, but let's just break down all this to
 understand it better, shall we?
 
 #arg(
@@ -174,7 +174,7 @@ understand it better, shall we?
 #arg(
   "justify:", "boolean"
 )[
-  Defines if the text will have justified aligment.
+  Defines if the text will have justified alignment.
 ]
 
 #arg(
@@ -199,7 +199,7 @@ understand it better, shall we?
 #arg(
   "font:", ("string", "array")
 )[
-  Defines the font families used for the text: a principal font and its falbacks.
+  Defines the font families used for the text: a principal font and its fallback.
 ]
 
 #arg(
@@ -266,9 +266,9 @@ of the abbreviation and its long name.
   "abbreviation", ("string", "content"),
   required: true
 )[
-  The abbreviation itself. Does not support any stylizationz quotes, or
+  The abbreviation itself. Does not support any styling, quotes, or
   apostrophes. Is recommended to use just lowercase letters --- automatically
-  uppercased, --- and do any needed stylization outside the `#abbrev` command.
+  turned uppercase, --- and do any needed stylization outside the `#abbrev` command.
 ]
 
 #arg(
@@ -298,7 +298,7 @@ of the abbreviation and its long name.
 This commands works alongside `#abbrev` collecting terms for a automatically
 generated glossary. While `abbrev` only collects abbreviations, `gloss` can
 collect any word or expression. It just retrieves the data and then prints the
-term in the place where the command is writen; later, the `article` command use
+term in the place where the command is written; later, the `article` command use
 this data to generate an automatic glossary after the main text body, as the
 ABNT NBR 6022 determines. If no data is collected by neither `gloss` nor
 `abbrev`, no glossary is generated.
@@ -308,7 +308,7 @@ ABNT NBR 6022 determines. If no data is collected by neither `gloss` nor
   required: true
 )[
   The name of the glossary term; it is what will be defined. If the name,
-  have any fancy caracters like apostrophes or quotes, is recommended to use
+  have any fancy characters like apostrophes or quotes, is recommended to use
   a string instead of content.
 ]
 
@@ -389,7 +389,7 @@ This command just captures the acknowledgments content and feed it to the
 Because of that, you can put this command anywhere inside the document body and
 it will be generated in the right place, right at the very end of the document
 as the ABNT NBR 6022 determines. Acknowledgments is a text used to thank and
-recognize the worth of prople with important roles in the creation of the article.
+recognize the worth of people with important roles in the creation of the article.
 
 
 = Figure command
@@ -406,7 +406,7 @@ recognize the worth of prople with important roles in the creation of the articl
 This command shadows the default `#figure` command to add two arguments to it.
 The ABNT NBR 6022 requires that all figures have a caption above it and its
 source below, and this command allows this by adding the `source` argument; the
-other argument, `aglignment`, is just sintax sugar to align the figure using
+other argument, `alignment`, is just syntax sugar to align the figure using
 less code.
 
 #arg(
@@ -435,11 +435,11 @@ less code.
 
 = A Note On Bibliography
 
-Unfortunatelly, there is no way to load the bibliography file to let
+Unfortunately, there is no way to load the bibliography file to let
 _min-article_ deal with it and generate the Bibliography in the right place.
 So this is up to you. This means if you insert the command in some place, it
-will appear in the place where it was writen and not in the right place
-automatically. I'm looking foward to workaround this issue, but seems like this
+will appear in the place where it was written and not in the right place
+automatically. I'm looking forward to workaround this issue, but seems like this
 is a limitation of Typst itself.
 
 Because of this limitation, write the `bibliography` command after the end of

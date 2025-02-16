@@ -16,5 +16,5 @@
 - Automatic glossary (ABNT NBR 6022, item 5.3.2) generation
 - Automatic appendix (ABNT NBR 6022, item 5.3.3) insertion
 - Automatic annex (ABNT NBR 6022, item 5.3.4) insertion
-- Automatic acknowledgements (ABNT NBR 6022, item 5.3.5) insertion
+- Automatic acknowledgments (ABNT NBR 6022, item 5.3.5) insertion
 - Other minor enhancements

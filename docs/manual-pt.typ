@@ -1,5 +1,5 @@
-// Article Manual
 
+// Article Manual
 #import "@preview/min-manual:0.1.0": manual, arg, univ
 
 #show: manual.with(

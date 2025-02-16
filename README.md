@@ -30,7 +30,7 @@ Generate authentic, structured, and standardized articles, compliant with the
 requirements of the Brazilian Association of Technical Standards (ABNT, in
 Portuguese). The main advantage of this package, apart from the ABNT standard,
 is being able to manage, all by itself, almost all the mind-frying document
-structuration and its rules: just input the data anywhere and _min-article_ will
+structure and its rules: just input the data anywhere and _min-article_ will
 find where it belongs, and will put it there.
 
 

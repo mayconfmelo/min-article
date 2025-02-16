@@ -13,7 +13,7 @@
 	lang-foreign: "pt",
 )
 
-// This command could be anywhere alse in the document.
+// This command could be anywhere else in the document.
 #abstract("main")[
   The abstract must succinctly highlight the content of a text. The order and
   extent of the elements depend on the type of abstract (informative or
@@ -31,7 +31,7 @@
   Keywords: article; article example; abstract; ABNT; Brazilian norm.
 ]
 
-// This command could be anywhere alse in the document.
+// This command could be anywhere else in the document.
 #abstract("foreign")[
   O resumo deve ressaltar sucintamente o conteúdo de um texto. A ordem e a
   extensão dos elementos dependem do tipo de resumo (informativo ou indicativo)
@@ -126,8 +126,8 @@ This is a bibliographic citation: @vozes
 ]
 
 This text is written after the bibliography in the article source code and
-appears afternit in the result. Refer to `docs/manual.typ` and `docs/example.typ`
-to better understand this behaviour.
+appears after it in the result. Refer to `docs/manual.typ` and `docs/example.typ`
+to better understand this behavior.
 
 = Glossary and abbreviations
 
@@ -135,12 +135,12 @@ to better understand this behaviour.
 
 Abbreviations with definitions are automatically included in the glossary:
 #abbrev("abnt")[Associação Brasileira de Normas Técnicas][Brazilian association
-responsible for normatization and standardization.]
+responsible for technical standardization.]
 
 Abbreviations without definitions are automatically included as well:
 #abbrev[idk][I don't know]
 
-Glosary terms are automatically included too:
+Glossary terms are automatically included too:
 #gloss[saudade][Brazilian word with no direct translation; represents a
 feeling of longing for a known someone or something, and a strong desire to
 have this someone or something back.]
@@ -148,7 +148,7 @@ have this someone or something back.]
 As to abbreviations, if the same abbreviation is used again it will be
 automatically retrieved: #abbrev[abnt]
 
-// These "appendix" commands could be anywhere alse in the document.
+// These "appendix" commands could be anywhere else in the document.
 
 #appendix(include("assets/appendix.typ"))
 
@@ -158,7 +158,7 @@ automatically retrieved: #abbrev[abnt]
   #lorem(100)
 ]
 
-// These "annex" commands could be anywhere alse in the document.
+// These "annex" commands could be anywhere else in the document.
 
 #annex(include("assets/annex.typ"))
 
@@ -169,7 +169,7 @@ automatically retrieved: #abbrev[abnt]
 ]
 
 
-// This command could be anywhere alse in the document.
+// This command could be anywhere else in the document.
 #acknowledgments[
    That's all folks! \
    Thank you for your time.
