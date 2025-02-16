@@ -35,6 +35,10 @@ fi
 
 cd "${PROJECT_ROOT}"
 
+echo "Changing links in \"README.md\"..."
+sed -i "s/tags\/[0-9.]\+/tags\/${VERSION}/" "README.md"
+sed -i "s/blob\/[0-9.]\+/blob\/${VERSION}/" "README.md"
+
 SRC_CODE=(
   $(find . -type f -iname "*.typ")
 )
@@ -47,9 +51,10 @@ done
 echo "Updating version number in \"typst.toml\"..."
 perl -i -pe 's/^(\s*version\s*=\s*).*/$1"'${VERSION}'"/' "typst.toml"
 
-echo "Trying to commit unstaged changes, if any..."
+echo "Trying to commit and push unstaged changes, if any..."
 git add .
 git commit -m "Package version ${VERSION} released"
+git push origin main
 echo "Creating new git tag..."
 git tag -a "${VERSION}" -m "Package version updated to ${VERSION}"
 git push origin "${VERSION}"

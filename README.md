@@ -36,7 +36,8 @@ find where it belongs, and will put it there.
 
 ## More Information
 
-- [Official manual](https://raw.githubusercontent.com/mayconfmelo/min-article/main/docs/pdf/manual.pdf)
-- [Official manual (Portuguese)](https://raw.githubusercontent.com/mayconfmelo/min-article/main/docs/pdf/manual-pt.pdf)
-- [Example PDF result](https://raw.githubusercontent.com/mayconfmelo/min-article/main/docs/pdf/example.pdf)
-- [Example Typst code](template/main.typ)
+- [Official manual](https://raw.githubusercontent.com/mayconfmelo/min-article/refs/tags/0.1.0/docs/pdf/manual.pdf)
+- [Official manual (Portuguese)](https://raw.githubusercontent.com/mayconfmelo/min-article/refs/tags/0.1.0/docs/pdf/manual-pt.pdf)
+- [Example PDF result](https://raw.githubusercontent.com/mayconfmelo/min-article/refs/tags/0.1.0/docs/pdf/example.pdf)
+- [Example Typst code](https://github.com/mayconfmelo/min-article/blob/0.1.0/template/main.typ)
+- [Changelog](https://github.com/mayconfmelo/min-article/blob/main/CHANGELOG.md)
