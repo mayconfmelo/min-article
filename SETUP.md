@@ -52,3 +52,40 @@ Typst by using a `@local/min-article:0.0.0` import.
 
 This command is a toggle: run it once, and it creates the link; run it again and
 the link is removed; and so on.
+
+
+-------------------------
+
+## Other Usefull Commands
+
+Install the package in `dev/pkg/` for debug purposes:
+
+```
+just install pkg
+```
+
+Compile or watch the example file in `template/main.typ`:
+
+```
+just compile
+```
+
+or:
+
+```
+just watch
+```
+
+Compile the official manual:
+
+```
+just manual
+```
+
+or the official Brazilian manual:
+
+```
+just manual-pt
+```
+
+
