@@ -1,4 +1,5 @@
-// Article package
+// NAME: Minimal Articles
+// REQ: linguify:0.4.0, numbly:0.1.0
 
 #import "@preview/linguify:0.4.0": linguify, set-database
 
