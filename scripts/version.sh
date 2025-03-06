@@ -1,4 +1,5 @@
 #!/usr/local/env bash
+# DESC: Add a version Git tag to the project
 # USAGE: version [VERSION] [PROJECT-ROOT]
 
 VERSION="$1"

@@ -1,4 +1,5 @@
 #!/usr/local/env bash
+# DESC: Symlink Typst project in ../ to DATA-DIR/typst/package/local/
 # USAGE: dev-link [PROJECT-ROOT]
 
 # Find system data dir
@@ -36,6 +37,7 @@ if [[ -d "${LINK_DIR}/${VERSION}" ]]; then
   perl -i -pe \
     's/^(\s*version\s*=\s*).*?#(.*)/$1$2/' \
     "${PROJECT_ROOT}/typst.toml"
+  echo "Symlink removal finished"
 else
   echo "Creating symlink: \"${LINK_DIR}/${VERSION}\""
   mkdir "${LINK_DIR}" 2>/dev/null || true
@@ -44,4 +46,5 @@ else
   perl -i -pe \
     's/^(\s*version\s*=\s*)(.*)/$1"0.0.0" #$2/' \
     "${PROJECT_ROOT}/typst.toml"
+  echo "Symlink creation finished"
 fi
