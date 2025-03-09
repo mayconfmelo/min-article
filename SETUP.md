@@ -34,8 +34,8 @@ To uninstall:
 just remove local
 ```
 
-The command `just install-all` installs it in both _preview_ and _local_
-namespaces at the same time.
+The command `just install-all` installs the package in both _preview_ and _local_
+namespaces with just one command.
 
 
 ## Development
@@ -56,7 +56,11 @@ the link is removed; and so on.
 
 -------------------------
 
-## Other Usefull Commands
+
+## Other Useful Commands
+
+
+### Debug package
 
 Install the package in `dev/pkg/` for debug purposes:
 
@@ -64,28 +68,35 @@ Install the package in `dev/pkg/` for debug purposes:
 just install pkg
 ```
 
-Compile or watch the example file in `template/main.typ`:
+
+### Init debug project
+
+Initialize a template project in `dev/` for the package:
 
 ```
-just compile
+just init local
+just init preview
 ```
 
-or:
+The package must be already installed in the given namespace (see
+[Release](#release) and [Testing](#testing)) for this to work. If no namespace
+is given, fallback to `just preview`.
+
+
+### Compile project files as PDF
+
+Compile the Typst files — generally the template and the manual, — as PDF files:
 
 ```
-just watch
-```
-
-Compile the official manual:
-
-```
-just manual
-```
-
-or the official Brazilian manual:
-
-```
-just manual-pt
+just pdf
 ```
 
 
+### Compile project files as PDF
+
+Compile the Typst files — generally the template and the manual, — as image
+files:
+
+```
+just png
+```
