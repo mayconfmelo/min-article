@@ -82,129 +82,89 @@ Those are the full list of options available and its default values:
 Seems like an awful lot to start with, but let's just break down all this to
 understand it better, shall we?
 
-#arg(
-  "title:", ("string", "content"),
-  required: true
-)[
+#arg("title: <- string | content <required>")[
   The article title in the main language.
 ]
 
-#arg(
-  "foreign-title:", ("string", "content")
-)[
+#arg("foreign-title: <- string | content")[
   The article title in a foreign language --- generally a _lingua franca_.
 ]
 
-#arg(
-  "subtitle:", ("string", "content", "none")
-)[
+#arg("subtitle: <- string | content | none")[
   The article subtitle; generally two lines long or less.
 ]
 
-#arg(
-  "foreign-subtitle:", ("string", "content", "none")
-)[
+#arg("foreign-subtitle: <- string | content | none")[
   The article main subtitle in a foreign language --- generally a _lingua franca_.
 ]
 
-#arg(
-  "authors:", "array",
-  required: true
-)[
+#arg("authors: <- array <required>")[
   An array of arrays containing the name and brief curriculum of each author, in
   format `( (NAME, CV), (NAME, CV) )`. If a plain array is set, the
   first element will be treated as `NAME` and the second one, as `RÉSUMÉ`.
 ]
 
-#arg(
-  "abstract:", "content"
-)[
+#arg("abstract: <- content")[
   The ugly way to define the abstract --- a formal resume of everything
   the document talks about. It is prettier and more intuitive to use the
   `#abstract("main")` command instead.
 ]
 
-#arg(
-  "foreign-abstract:", "content"
-)[
+#arg("foreign-abstract: <- content")[
   The ugly way to define the foreign abstract. It is prettier and more
   intuitive to use the `#abstract("foreign")` command instead.
 ]
 
-#arg(
-  "acknowledgments:", "content"
-)[
+#arg("acknowledgments: <- content")[
   The ugly way to define the acknowledgments — the text with final thanks.
   It is prettier and more intuitive to use the `#acknowledgments` command
   instead.
 ]
 
-#arg(
-  "date:", ("array", "datetime")
-)[
+#arg("date: <- array | datetime")[
   The article publication date, in format `(yyyy, mm, dd)`. Fallback to today's date if not set, or set to `auto`.
 ]
 
-#arg(
-  "paper:", "string"
-)[
+#arg("paper: <- string")[
   Defines the page paper type --- and its size, therefore.
 ]
 
-#arg(
-  "lang:", "string"
-)[
+#arg("lang: <- string")[
   Defines the main language, used on the full text.
 ]
 
-#arg(
-  "foreign-lang:", "string"
-)[
+#arg("foreign-lang: <- string")[
   Defines the foreign language, used on the foreign title and abstract.
 ]
 
-#arg(
-  "lang-data:", "file"
-)[
+#arg("lang-data: <- file")[
   Defines a custom #univ("linguify") file with translations for the automatically created
   headings. The default file have officially full support for English and Portuguese,
   as well as some other languages through AI translation.
 ]
 
-#arg(
-  "justify:", "boolean"
-)[
+#arg("justify: <- boolean")[
   Defines if the text will have justified alignment.
 ]
 
-#arg(
-  "line-space:", "length"
-)[
+#arg("line-space: <- length")[
   Defines the space between lines in the document.
 ]
 
-#arg(
-  "par-margin:", "length"
-)[
+#arg("par-margin: <- length")[
   Defines the margin space after each paragraph. Set it the same as `line-space`
   to remove get paragraphs without additional space in between.
 ]
 
-#arg(
-  "margin:", "length"
-)[
+#arg("margin: <- length")[
   Defines the document margins.
 ]
 
-#arg(
-  "font:", ("string", "array")
-)[
+#arg("font: <- string | array")[
   Defines the font families used for the text: a principal font and its fallback.
 ]
 
-#arg(
-  "font-size:", "length"
-)[
+#arg("font-size: <- length")[
   Defines the size of the text in the document.
 ]
 
@@ -228,18 +188,12 @@ anywhere inside the document body and it will be generated in the right place,
 right after the titles, as the ABNT NBR 6022 determines.
 
 
-#arg(
-  "type", "string",
-  required: true
-)[
+#arg("type <- string <required>")[
   Defines which abstract this is: the `"main"` abstract, or the `"foreign"`
   abstract; only those two string values are accepted.
 ]
 
-#arg(
-  "body", "content",
-  required: true
-)[
+#arg("body <- content <required>")[
   The abstract content.
 ]
 
@@ -262,24 +216,17 @@ print just the abbreviation. Additionally, every new abbreviation is collected t
 be used in a automatically generated glossary, along with a optional definition
 of the abbreviation and its long name.
 
-#arg(
-  "abbreviation", ("string", "content"),
-  required: true
-)[
+#arg("abbreviation <- string | content <required>")[
   The abbreviation itself. Does not support any styling, quotes, or
   apostrophes. Is recommended to use just lowercase letters --- automatically
   turned uppercase, --- and do any needed stylization outside the `#abbrev` command.
 ]
 
-#arg(
-  "long", ("string", "content"),
-)[
+#arg("long <- string | content")[
   The long name that the abbreviation represents.
 ]
 
-#arg(
-  "definition", ("string", "content"),
-)[
+#arg("definition <- string | content")[
   An optional definition, used in the glossary. When no definition is set,
   the long name is used as definition.
 ]
@@ -303,19 +250,13 @@ this data to generate an automatic glossary after the main text body, as the
 ABNT NBR 6022 determines. If no data is collected by neither `gloss` nor
 `abbrev`, no glossary is generated.
 
-#arg(
-  "term-name", ("string", "content"),
-  required: true
-)[
+#arg("term-name <- string | content <required>")[
   The name of the glossary term; it is what will be defined. If the name,
   have any fancy characters like apostrophes or quotes, is recommended to use
   a string instead of content.
 ]
 
-#arg(
-  "definition", ("string", "content"),
-  required: true
-)[
+#arg("definition <- string | content <required>")[
   A concise and descriptive text about the `term-name`; it is what defines the
   glossary term.
 ]
@@ -338,10 +279,7 @@ the ABNT NBR 6022 determines. It is possible to use the command multiple times
 to collect multiple appendices. Appendices are additional data and information
 not included in the document itself, but cited or related to it.
 
-#arg(
-  "appendix", "content",
-  required: true
-)[
+#arg("appendix <- content <required>")[
   The appendix content itself. In longer documents, is recommended to use
   separated _typ_ files for appendices. Inside the content, each level 1 heading
   is treated as a new appendix.
@@ -365,10 +303,7 @@ the ABNT NBR 6022 requires. It is possible to use the command multiple times to
 collect multiple annexes. Annexes are third-party documents or data cited or
 related to the actual document.
 
-#arg(
-  "annex", "content",
-  required: true
-)[
+#arg("annex <- content <required>")[
   The annex content itself. In longer documents, is recommended to use
   separated _typ_ file for annexes. Inside the content, each level 1 heading is
   treated as a new annex.
@@ -409,25 +344,16 @@ source below, and this command allows this by adding the `source` argument; the
 other argument, `alignment`, is just syntax sugar to align the figure using
 less code.
 
-#arg(
-  "source:", ("string", "content"),
-  required: true
-)[
+#arg("source: <- string | content <required>")[
   The source of the information displayed in the figure --- even if is the author
   itself. Generally, is a bibliographical reference.
 ]
 
-#arg(
-  "alignment:", "alignment",
-  required: true
-)[
+#arg("alignment: <- alignment")[
   A sintatic sugar to align the figure in the page with less code.
 ]
 
-#arg(
-  "..figure-arguments", "argument",
-  required: true
-)[
+#arg("..figure-arguments <- argument <required>")[
   Any of the default original `#figure` arguments, all of them are supported
   in this command.
 ]

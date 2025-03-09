@@ -87,132 +87,92 @@ Esta é a lista completa de opções disponíveis, e seus valores padrão:
 Parece set muita coisa logo de cara, mas vamos por partes pra entender tudo isto
 melhor:
 
-#arg(
-  "title:", ("string", "conteúdo"),
-  required: true
-)[
+#arg("title: <- string | conteúdo <required>")[
   O título principal do artigo, em sua língua nativa.
 ]
 
-#arg(
-  "foreign-title:", ("string", "conteúdo")
-)[
+#arg("foreign-title: <- string | conteúdo")[
   O título do artigo em uma língua estrangeira --- geralmente uma _lingua franca_:
   um idioma conhecido e usado universalmente (atualmente é o inglês).
 ]
 
-#arg(
-  "subtitle:", ("string", "conteúdo", "none")
-)[
+#arg("subtitle: <- string | conteúdo | none")[
   O subtítulo do artigo; geralmente com duas linhas ou menos.
 ]
 
-#arg(
-  "foreign-subtitle:", ("string", "conteúdo", "none")
-)[
+#arg("foreign-subtitle: <- string | conteúdo | none")[
   O subtítulo do artigo na língua estrangeira.
 ]
 
-#arg(
-  "authors:", "array",
-  required: true
-)[
+#arg("authors: <- array <required>")[
   Um array de arrays contendo o nome e breve currículo de cada autor, no formato
   `( (NOME, CURRÍCULO), (NOME, CURRÍCULO) )`. Se um array simples for usado, seu
   primeiro elemento será tratado como `NOME` e seu segundo como `CURRÍCULO`.
 ]
 
-#arg(
-  "abstract:", "conteúdo"
-)[
+#arg("abstract: <- conteúdo")[
   A forma mais feia de definir o resumo formal de tudo que o documento fala. É
   mais bonito e intuitivo usar o comando `#abstract("main")` ao invés deste
   argumento.
 ]
 
-#arg(
-  "foreign-abstract:", "conteúdo"
-)[
+#arg("foreign-abstract: <- conteúdo")[
   A forma mais feia de definir o resumo do artigo em língua estrangeira. É
   mais bonito e intuitivo usar o comando `#abstract("foreign")` ao invés deste
   argumento.
 ]
 
-#arg(
-  "acknowledgments:", "conteúdo"
-)[
+#arg("acknowledgments: <- conteúdo")[
   A forma mais feia de definir os agradecimentos finais do artigo. É mais bonito
   e intuitivo usar o comando `#acknowledgments` ao invés deste argumento.
 ]
 
-#arg(
-  "date:", ("array", "auto")
-)[
+#arg("date: <- array | auto")[
   A data de publicação do artigo, no formato `(yyyy, mm, dd)`. Se não definida,
   ou definida como `auto`, será usads a data atual.
 ]
 
-#arg(
-  "paper:", "string"
-)[
+#arg("paper: <- string")[
   Define o tipo de papel da página --- e seu tamanho, por consequência.
 ]
 
-#arg(
-  "lang:", "string"
-)[
+#arg("lang: <- string")[
   Define o idioma principal do texto.
 ]
 
-#arg(
-  "foreign-lang:", "string"
-)[
+#arg("foreign-lang: <- string")[
   Define o idioma estrangeiro, usado no título e resumo secundários.
 ]
 
-#arg(
-  "lang-data:", "arquivo"
-)[
+#arg("lang-data: <- arquivo")[
   Define um arquivo do #univ("linguify") customizado com traduções para as seções
   geradas automaticamente. O arquivo padrão oficialmente possui total suporte
   para o português e o inglês, além de algumas outras linguagens obtidas de tradução
   por IA.
 ]
 
-#arg(
-  "justify:", "booleano"
-)[
+#arg("justify: <- booleano")[
   Define se o texto terá alinhamento justificado.
 ]
 
-#arg(
-  "line-space:", "tamanho"
-)[
+#arg("line-space: <- tamanho")[
   Define o eapaço entre linhas no documento.
 ]
 
-#arg(
-  "par-margin:", "tamanho"
-)[
+#arg("par-margin: <- tamanho")[
   Define o espaço de margrm após cada parágrafo. Defina o mesmo valor de
   `line-space` oara obter parágrafos sem espaço adicional entre si.
 ]
 
-#arg(
-  "margin:", "tamanho"
-)[
+#arg("margin: <- tamanho")[
   Define as margens do documento.
 ]
 
-#arg(
-  "font:", ("string", "array")
-)[
+#arg("font: <- string | array")[
   Define as faílias de fontes usadas no texto: uma fonte principal e suas suplentes.
 ]
 
-#arg(
-  "font-size:", "tamanho"
-)[
+#arg("font-size: <- tamanho")[
   Define o tamaho do texto no documento.
 ]
 
@@ -233,16 +193,12 @@ são gerados de fato. Por isso, você pode colocar este comando em qualquer luga
 dentro do corpo do documento, e ele será gerado no local correto, logo após os
 títulos, conforme determina a ABNT NBR 6022.
 
-#arg(
-  "type", "string",
-)[
+#arg("type <- string")[
   Define de qual resumo se trata: o resumo principal `"main"`, ou o resumo
   estrangeiro `"foreign"`; apenas strings com esses valores são aceitas.
 ]
 
-#arg(
-  "body", "conteúdo",
-)[
+#arg("body <- conteúdo")[
   O conteúdo do resumo
 ]
 
@@ -265,25 +221,18 @@ abreviação, imprime apenas a abreviação. Além disso, cada nova abreviação
 coletada para ser incluída em um glossário gerado automaticamente, juntamente
 com uma definição mais extensa da abreviação (opcional), e seu nome completo.
 
-#arg(
-  "abbreviation", ("string", "conteúdo"),
-  required: true
-)[
+#arg("abbreviation <- string | conteúdo <required>")[
   A abreviação em si. Não suporta qualquer estilização ou aspas --- até mesmo
   apóstrofes. É recomendado o uso de apenas letras minúsculas — automaticamente
   tranformadas em maiúsculas, — e realizar quaisquer estilizações necessárias
   no texto fora do comando `abbrev`.
 ]
 
-#arg(
-  "long", ("string", "conteúdo"),
-)[
+#arg("long <- string | conteúdo")[
   O nome extenso completo, que é representado pela abreviação.
 ]
 
-#arg(
-  "definition", ("string", "conteúdo"),
-)[
+#arg("definition <- string | conteúdo")[
   Uma definição opcional da abreviação e seu nome, para ser usada  no glossário.
   Quando nenhuma definicão é dada, o nome completo por extenso é usado como
   definição de sua abreviação.
@@ -310,19 +259,13 @@ conforme determina a ABNT NBR 6022. Se nenhum dado for coletado por `#gloss` ou
 `#abbrev`, nenhum glossário será gerado.
 
 
-#arg(
-  "term-name", ("string", "conteúdo"),
-  required: true
-)[
+#arg("term-name <- string | conteúdo <required>")[
   O nome do terml no glossário; é o quê será definido. Se o nome possui
   quaisquer caracteres espeicias como apóstrofes ou aspas, é recomendado usar
   uma string ao invés de conteúdo.
 ]
 
-#arg(
-  "definition", ("string", "conteúdo"),
-  required: true
-)[
+#arg("definition <- string | conteúdo <required>")[
   A definição de `term-name`; um texto sucinto que o descreve e o explica.
 ]
 
@@ -345,10 +288,7 @@ coletar múltiplos apêndices. Os apêndices contêm dados e informações adici
 que não foram incluídos no documento em si, mas que foram citados ou estão
 relacionados a ele.
 
-#arg(
-  "appendix", "conteúdo",
-  required: true
-)[
+#arg("appendix <- conteúdo <required>")[
   O conteúdo do apêndice em si. Em documentos mais extensos, é recomendado usar
   arquivos _typ_ separados para apêndices e incluí-los aqui. Dentro do conteúdo, toda seção
   primária (título de nível 1) é tratada como um novo apêndice.
@@ -373,10 +313,7 @@ para coletar múltiplos anexos. Os anexos são documentos criados ou informaçõ
 coletadas por terceiros, mas que foram citados ou estão relacionados ao documento
 atual.
 
-#arg(
-  "annex", "conteúdo",
-  required: true
-)[
+#arg("annex <- conteúdo <required>")[
   O conteúdo do anexo em si. Em documentos mais extensos, é recomendado usar
   arquivos _typ_ separados para anexos e incluí-los aqui. Dentro do conteúdo,
   toda seção primária (título de nível 1) é tratada como um novo anexo.
@@ -417,26 +354,17 @@ na parte superior e uma fonte na parte inferior, e este comando atende a essa
 exigência adicionando o argumento `source`. O outro argumento, `alignment`, é
 apenas um recurso adicional para alinhar a figura usando menos código.
 
-#arg(
-  "source:", ("string", "conteúdo"),
-  required: true
-)[
+#arg("source: <- string | conteúdo <required>")[
   A fonte da informação mostrada na figura — mesmo se for o próprio autor.
   Geralmente, é uma citação bibliográfica ou apenas "Autor" seguido do ano de
   criação da figura, entre parênteses.
 ]
 
-#arg(
-  "alignment:", "alinhamento",
-  required: true
-)[
+#arg("alignment: <- alinhamento <required>")[
   Um recurso adicional para alinhar a figura na página usando menos código.
 ]
 
-#arg(
-  "..figure-arguments", "argument",
-  required: true
-)[
+#arg("..figure-arguments <- argument <required>")[
   Quaisquer argumentos padrão do comando `#figure` original; todos eles são
   suportados por esse comando.
 ]
