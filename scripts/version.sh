@@ -41,7 +41,7 @@ sed -i "s/tags\/[0-9.]\+/tags\/${VERSION}/" "README.md"
 sed -i "s/blob\/[0-9.]\+/blob\/${VERSION}/" "README.md"
 
 SRC_CODE=(
-  $(find . -type f -iname "*.typ")
+  $(find . -type f -iname "*.typ" -o -name "README.md")
 )
 
 echo "Updating version number in Typst files..."
