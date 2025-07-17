@@ -1,7 +1,8 @@
 // NAME: Minimal Articles
 // REQ: linguify:0.4.0, numbly:0.1.0
+// TODO: Implement web article (HTML) when stable
 
-#import "@preview/linguify:0.4.0": linguify, set-database
+#import "@preview/linguify:0.4.2": linguify, set-database
 
 #let article-abstract-state = state("article-abstract", (:))
 #let article-glossary-state = state("article-glossary", (:))
