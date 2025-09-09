@@ -1,8 +1,9 @@
 // NAME: Minimal Articles
-// REQ: linguify:0.4.0, numbly:0.1.0
+// REQ: transl:0.1.1, numbly:0.1.0
 // TODO: Implement web article (HTML) when stable
 
-#import "@preview/linguify:0.4.2": linguify, set-database
+//#import "@preview/linguify:0.4.2": linguify, set-database
+#import "@preview/transl:0.1.1": transl
 
 #let article-abstract-state = state("article-abstract", (:))
 #let article-glossary-state = state("article-glossary", (:))
@@ -23,7 +24,7 @@
   paper: "a4",
   lang: "en",
   lang-foreign: none,
-  lang-data: toml("assets/lang.toml"),
+  lang-data: yaml("assets/lang.yaml"),
   justify: true,
   line-space: 0.3em,
   par-margin: 1.5em,
@@ -33,55 +34,39 @@
     left: 3cm,
     right: 2cm
   ),
-  font: ("Book Antiqua", "Times New Roman"),
+  font: ("Tex Gyre Termes", "Times New Roman"),
   font-size: 12pt,
   body
 ) = {
-  // Reqired arguments.
-  for arg in (title, authors) {
-    if arg == none {
-      panic("Missing required argument: " + arg)
-    }
-  }
-
+  assert.ne(title, none)
+  assert.ne(authors, none)
+  assert.eq(type(lang-data), dictionary)
+  
+  import "@preview/toolbox:0.1.0" as dev: get
+  
+  transl(data: lang-data)
+  
+  let def = (
+    :
+  )
+  
   // Joins title and subtitle, if any:
-  let full-title = if subtitle != none {
-    title + ": " + subtitle
-  }
-  else {
-    title
-  }
+  let full-title = title + if subtitle != none {": " + subtitle}
   
   // Forces authors to always be an array of arrays:
-  if type(authors.at(0)) == str {
-    authors = (authors, )
-  }
+  if authors.at(0).at(0, default: none) == none {authors = (authors, )}
   
   // If more than one author, set doc author as "MAIN AUTHOR et al."
   set document(
     title: full-title,
-    author: if authors.len() == 1 {
-        authors.at(0).at(0)
-      } else {
-        authors.at(0).at(0) + " et al."
-      },
-    date: if type(date) == array {
-        datetime(
-          year: date.at(0),
-          month: date.at(1),
-          day: date.at(2)
-        )
-      } else {
-        auto
-      }
+    author: authors.at(0).at(0) + if authors.len() > 1 {" et al."},
+    date: dev.date( get.auto-val(date, datetime.today()) )
   )
   set page(
     paper: paper,
     margin: margin,
-    header: context if locate(here()).page() > 1 {
-      align(right)[
-        #text(size: font-size - 2pt)[#locate(here()).page()]
-      ]
+    header: context if counter(page).get().at(0) > 1 {
+      align( right, text(size: font-size - 2pt)[#locate(here()).page()] )
     }
   )
   set par(
@@ -96,21 +81,6 @@
   )
   set terms(separator: [: ], tight: true)
   set heading(numbering: "1.1.1.1.1 ")
-  
-  show figure.caption: set text(size: 1em - 2pt)
-  show figure: set figure.caption(position: top)
-  show footnote.entry: set text(size: font-size - 2pt)
-  show heading: set block(above: font-size * 1.5, below: font-size * 1.5)
-  show heading.where(numbering: none): set align(center)
-  show heading.where(level: 1): set text(size: font-size + 2pt)
-  
-  show selector.or(
-    heading.where(level: 2),
-    heading.where(level: 3),
-    heading.where(level: 4),
-    heading.where(level: 5),
-  ): set text(size: font-size + 1pt)
-  
   set table(
     stroke: (_, y) => (
        top: if y <= 1 { 1pt } else { 0pt },
@@ -122,6 +92,18 @@
     )
   )
   
+  show figure.caption: set text(size: 1em - 2pt)
+  show figure: set figure.caption(position: top)
+  show footnote.entry: set text(size: font-size - 2pt)
+  show heading: set block(above: font-size * 1.5, below: font-size * 1.5)
+  show heading.where(numbering: none): set align(center)
+  show heading.where(level: 1): set text(size: font-size + 2pt)
+  show selector.or(
+    heading.where(level: 2),
+    heading.where(level: 3),
+    heading.where(level: 4),
+    heading.where(level: 5),
+  ): set text(size: font-size + 1pt)
   show math.equation.where(block: true): set align(left)
   show math.equation.where(block: true): set math.equation(numbering: "(1)")
   show quote.where(block: true): it => pad(x: 1em, it)
@@ -132,26 +114,22 @@
     level: 1,
     outlined: false,
     numbering: none,
-    align(center)[#full-title]
+    align(center, full-title)
   )
   
   if foreign-title != none {
-    let foreign-full-title = if foreign-subtitle != none {
-      foreign-title + ": " + foreign-subtitle
-    } else {
-      foreign-title
+    let foreign-full-title = foreign-title + if foreign-subtitle != none {
+      ": " + foreign-subtitle
     }
+    
     // Foreign title, if any:
     heading(
       level: 1,
       outlined: false,
       numbering: none,
-      align(center)[#foreign-full-title]
+      align(center, foreign-full-title)
     )
   }
-  
-  // Set linguify database
-  set-database(lang-data)
   
   // Authors
   {
@@ -172,15 +150,15 @@
   
   // Main abstract
   {
-    show heading: set  align(center)
-    // Main abstract title, in the text language:
+    show heading: set align(center)
+    
     heading(
       level: 1,
       numbering: none,
-      linguify("abstract")
+      transl("abstract")
     )
     
-    // Fallback to command if abstract argument nor set:
+    // If no #article(abstract), try #abstract instead
     if abstract == none {
       let cmd = context article-abstract-state.final().at("main", default: none)
       
@@ -196,34 +174,35 @@
   }
   
   // Foreign abstract, if any.
-  // Fallback to command if foreign-abstract argument not set:
-  if foreign-abstract == none {
-    let cmd = context article-abstract-state
-      .final()
-      .at("foreign", default: none)
+  context {
+    let foreign-abstract
+    
+    // If no #article(foreign-abstract), try #abstract("foreign") instead
+    if foreign-abstract == none {
+      let cmd = article-abstract-state.final().at("foreign", default: none)
+        
+      if cmd != none {
+        foreign-abstract = cmd
+      }
+    }
+    
+    if foreign-abstract != none {
+      set text(lang: lang-foreign)
+      show heading: set align(center)
       
-    if cmd != none {
-      foreign-abstract = cmd
+      heading(
+        level: 1,
+        numbering: none,
+        transl("abstract")
+      )
+      
+      foreign-abstract
     }
   }
-  // If foreign-abstract is set, whether by argument or command:
-  if foreign-abstract != none {
-    set text(lang: lang-foreign)
-    show heading: set align(center)
-    // Foreign abstract title, in foreign language:
-    heading(
-      level: 1,
-      numbering: none,
-      linguify("abstract")
-    )
-    
-    foreign-abstract
-  }
   
-  // Set ABNT-compliant bibliography
+  // ABNT-compliant bibliography
   set bibliography(style: "associacao-brasileira-de-normas-tecnicas")
-
-  // Textual content
+  
   body
   
   // Glossary
@@ -231,14 +210,13 @@
     heading(
       level: 1,
       numbering: none,
-      linguify("glossary")
+      transl("glossary")
     )
     
     let final-glossary-state = article-glossary-state.final()
     
     for entry in final-glossary-state.keys().sorted() {
       let value = final-glossary-state.at(entry)
-      
       
       // abbreviations with long name and definition too:
       if type(value) == array {
@@ -258,9 +236,7 @@
       
       set terms(separator: [:#linebreak()], tight: true)
       
-      block(breakable: false)[
-        #terms.item(entry, value)
-      ]
+      block(breakable: false, terms.item(entry, value))
     }
   }
   
@@ -276,7 +252,7 @@
     show heading.where(level: 1): set align(center)
     show heading.where(level: 1): set heading(
       numbering: numbly(
-        lang-data.at("lang").at(text.lang).at("appendix") + " {1:A} — ",
+        transl("appendix", to: text.lang, data: lang-data) + " {1:A} — ",
         default: "A.1.1.1.1 "
       )
     )
@@ -300,7 +276,7 @@
     show heading.where(level: 1): set align(center)
     show heading.where(level: 1): set heading(
       numbering: numbly(
-        lang-data.at("lang").at(text.lang).at("annex") + " {1:A} — ",
+        transl("annex", to: text.lang, data: lang-data) + " {1:A} — ",
         default: "A.1.1.1.1 "
       )
     )
@@ -329,7 +305,7 @@
       level: 1,
       outlined: false,
       numbering: none,
-      align(center)[#linguify("acknowledgments")]
+      align(center)[#transl("acknowledgments")]
     )
     
     thanks
@@ -497,7 +473,7 @@
       )
       #v(-1em)
       #align(center)[
-        #text(size: 1em - 2pt)[#linguify("source"): #source]
+        #text(size: 1em - 2pt)[#transl("source"): #source]
       ]
     ]
   ]

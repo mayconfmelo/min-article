@@ -1,0 +1,91 @@
+fallback: "en"
+
+en:
+  abstract: "Abstract"
+  glossary: "Glossary"
+  annex: "Annex"
+  appendix: "Appendix"
+  acknowledgments: "Acknowledgments"
+  source: "Source"
+
+pt:
+  abstract: "Resumo"
+  glossary: "Glossário"
+  annex: "Anexo"
+  appendix: "Apêndice"
+  acknowledgments: "Agradecimentos"
+  source: "Fonte"
+
+# The following are AI translations, and may contain errors:
+
+es:
+  abstract: "Resumen"
+  glossary: "Glosario"
+  annex: "Anexo"
+  appendix: "Apéndice"
+  acknowledgments: "Agradecimientos"
+  source: "Fuente"
+
+fr:
+  abstract: "Résumé"
+  glossary: "Glossaire"
+  annex: "Annexe"
+  appendix: "Appendice"
+  acknowledgments: "Remerciements"
+  source: "Source"
+
+it:
+  abstract: "Riassunto"
+  glossary: "Glossario"
+  annex: "Annesso"
+  appendix: "Appendice"
+  acknowledgments: "Ringraziamenti"
+  source: "Fonte"
+
+de:
+  abstract: "Zusammenfassung"
+  glossary: "Glossar"
+  annex: "Anhang"
+  appendix: "Anhang"
+  acknowledgments: "Danksagungen"
+  source: "Quelle"
+
+id:
+  abstract: "Abstrak"
+  glossary: "Glosarium"
+  annex: "Lampiran"
+  appendix: "Lampiran"
+  acknowledgments: "Ucapan Terima Kasih"
+  source: "Sumber"
+
+tr:
+  abstract: "Özet"
+  glossary: "Sözlük"
+  annex: "Ek"
+  appendix: "Ek"
+  acknowledgments: "Teşekkürler"
+  source: "Kaynak"
+
+ro:
+  abstract: "Rezumat"
+  glossary: "Glosar"
+  annex: "Anexă"
+  appendix: "Apéndice"
+  acknowledgments: "Mulțumiri"
+  source: "Sursă"
+
+nl:
+  abstract: "Samenvatting"
+  glossary: "Glossarium"
+  annex: "Bijlage"
+  appendix: "Appendix"
+  acknowledgments: "Dankbetuigingen"
+  source: "Bron"
+
+pl:
+  abstract: "Streszczenie"
+  glossary: "Glosariusz"
+  annex: "Aneks"
+  appendix: "Dodatek"
+  acknowledgments: "Podziękowania"
+  source: "Źródło"
