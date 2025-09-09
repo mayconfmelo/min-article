@@ -37,7 +37,7 @@
   font: ("Tex Gyre Termes", "Times New Roman"),
   font-size: 12pt,
   body
-) = {
+) = context {
   assert.ne(title, none)
   assert.ne(authors, none)
   assert.eq(type(lang-data), dictionary)
@@ -46,6 +46,8 @@
   
   transl(data: lang-data)
   
+  let abstract
+  let foreign-abstract
   let def = (
     :
   )
@@ -148,7 +150,7 @@
     counter(footnote).update(0)
   }
   
-  // Main abstract
+  // Abstract
   {
     show heading: set align(center)
     
@@ -171,11 +173,10 @@
     }
     
     abstract
-  }
-  
-  // Foreign abstract, if any.
-  context {
-    let foreign-abstract
+    
+    // Foreign abstract, if any
+    set text(lang: lang-foreign)
+    show heading: set align(center)
     
     // If no #article(foreign-abstract), try #abstract("foreign") instead
     if foreign-abstract == none {
@@ -187,8 +188,6 @@
     }
     
     if foreign-abstract != none {
-      set text(lang: lang-foreign)
-      show heading: set align(center)
       
       heading(
         level: 1,
