@@ -1,8 +1,9 @@
 // NAME: Minimal Articles
 // REQ: transl:0.1.1, numbly:0.1.0
 // TODO: Implement web article (HTML) when stable
+// TODO: implement toolbox.storage
+// TODO: implement toolbox.default
 
-//#import "@preview/linguify:0.4.2": linguify, set-database
 #import "@preview/transl:0.1.1": transl
 
 #let article-abstract-state = state("article-abstract", (:))
@@ -94,8 +95,8 @@
     )
   )
   
-  show figure.caption: set text(size: 1em - 2pt)
   show figure: set figure.caption(position: top)
+  show figure.caption: set text(size: 1em - 2pt)
   show footnote.entry: set text(size: font-size - 2pt)
   show heading: set block(above: font-size * 1.5, below: font-size * 1.5)
   show heading.where(numbering: none): set align(center)
@@ -443,37 +444,23 @@
 }
 
 
-// Original figure command
-#let figure-origin = figure
-
 // Shadows the figure command to introduce the `source` argument to it.
 #let figure(
   source: none,
   alignment: center,
-  ..figure-arguments
+  caption: none,
+  ..args
 ) = {
-  if source == none {
-    panic("ABNT figures must have a \"source\" argument")
-  }
+  assert.ne(source, none, message: "#figure(source) required by ABNT")
+  assert.ne(caption, none, message: "#figure(caption) required by ABNT")
   
-  // seoarate named from postiional arguments.
-  let args-named = figure-arguments.named()
-  let args-pos = figure-arguments.pos()
+  import "origin.typ"
   
-  if args-named.at("caption", default: none) == none {
-    panic("ABNT figures must have a \"caption\" argument")
-  }
+  set align(alignment)
   
-  align(alignment)[
-    #block(breakable: false)[
-      #figure-origin(
-        ..args-named,
-        ..args-pos
-      )
-      #v(-1em)
-      #align(center)[
-        #text(size: 1em - 2pt)[#transl("source"): #source]
-      ]
-    ]
+  block(breakable: false)[
+    #origin.figure(..args, caption: caption)
+    #v(-1em)
+    #align(center, text(size: 1em - 2pt)[#transl("source"): #source])
   ]
 }
