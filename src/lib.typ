@@ -1,8 +1,9 @@
 // NAME: Minimal Articles
 // REQ: transl:0.1.1, numbly:0.1.0
 // TODO: Implement web article (HTML) when stable
-// TODO: implement toolbox.storage
-// TODO: implement toolbox.default
+// TODO: implement #toolbox.storage
+// TODO: implement #toolbox.default
+// TODO: place-agnostic #bibliography
 
 #import "@preview/transl:0.1.1": transl
 
@@ -24,7 +25,7 @@
   date: auto,
   paper: "a4",
   lang: "en",
-  lang-foreign: none,
+  foreign-lang: none,
   lang-data: yaml("assets/lang.yaml"),
   justify: true,
   line-space: 0.3em,
@@ -43,12 +44,11 @@
   assert.ne(authors, none)
   assert.eq(type(lang-data), dictionary)
   
-  import "@preview/toolbox:0.1.0" as dev: get
+  import "@preview/toolbox:0.1.0" as dev: get, storage
   
+  // Store translation database
   transl(data: lang-data)
   
-  let abstract
-  let foreign-abstract
   let def = (
     :
   )
@@ -152,7 +152,7 @@
   }
   
   // Abstract
-  {
+  context {
     show heading: set align(center)
     
     heading(
@@ -161,34 +161,18 @@
       transl("abstract")
     )
     
-    // If no #article(abstract), try #abstract instead
-    if abstract == none {
-      let cmd = context article-abstract-state.final().at("main", default: none)
-      
-      if cmd != none {
-        abstract = cmd
-      }
-      else {
-        panic("No abstract found in whether #article(abstract) nor #abstract()")
-      }
-    }
+    // Try to get #abstract commands, fallback to #article abstract options
+    let abstract = storage.final("abstract", (:))
     
-    abstract
+    assert.ne(
+      abstract.at("main", default: none), none,
+      message: "#article(abstract) or #abstract('main') required"
+    )
+    abstract.main
     
-    // Foreign abstract, if any
-    set text(lang: lang-foreign)
-    show heading: set align(center)
-    
-    // If no #article(foreign-abstract), try #abstract("foreign") instead
-    if foreign-abstract == none {
-      let cmd = article-abstract-state.final().at("foreign", default: none)
-        
-      if cmd != none {
-        foreign-abstract = cmd
-      }
-    }
-    
-    if foreign-abstract != none {
+    if abstract.at("foreign", default: none) != none {
+      set text(lang: foreign-lang)
+      show heading: set align(center)
       
       heading(
         level: 1,
@@ -196,7 +180,7 @@
         transl("abstract")
       )
       
-      foreign-abstract
+      abstract.foreign
     }
   }
   
@@ -315,26 +299,26 @@
 
 // Receives the abstract and its designation "main" or "foreign".
 // Stores both text and designation into "article-abstract" state.
-#let abstract(
-  type,
-  body
-) = context {
-  // TODO: Study a way to give a default type = "main" value.
-  let current-abstract-state = article-abstract-state.get()
-
-  if type == "main" {
-    current-abstract-state.insert("main", body)
-    
-    article-abstract-state.update(current-abstract-state)
-  }
-  else if type == "foreign" {
-    current-abstract-state.insert("foreign", body)
-    
-    article-abstract-state.update(current-abstract-state)
-  }
-  else {
-    panic("Invalid abstract type: " + type)
-  }
+#let abstract(..args) = {
+  import "@preview/toolbox:0.1.0": storage, content2str
+  
+  args = args.pos()
+  
+  assert( (1, 2).contains(args.len()) )
+  
+  // Insert args.pos().at(1) = "main" if none is set
+  if args.len() == 1 {args.insert(0, "main")}
+  
+  let abstr = (:)
+  
+  abstr.insert(..args)
+  
+  assert(
+    args.at(0) == "main" or args.at(0) == "foreign",
+    message: "Invalid #article(" + type + ")"
+  )
+  
+  storage.add("abstract", abstr, append: true)
 }
 
 
