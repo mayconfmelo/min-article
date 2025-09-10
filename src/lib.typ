@@ -8,7 +8,6 @@
 #import "@preview/transl:0.1.1": transl
 
 #let article-abstract-state = state("article-abstract", (:))
-#let article-glossary-state = state("article-glossary", (:))
 #let article-appendices-state = state("article-appendices", ())
 #let article-annexes-state = state("article-annexes", ())
 #let article-acknowledgments-state = state("article-acknowledgments", none)
@@ -44,7 +43,7 @@
   assert.ne(authors, none)
   assert.eq(type(lang-data), dictionary)
   
-  import "@preview/toolbox:0.1.0" as dev: get, storage
+  import "@preview/toolbox:0.1.0": date as date-parse, get, storage, has
   
   // Store translation database
   transl(data: lang-data)
@@ -63,7 +62,7 @@
   set document(
     title: full-title,
     author: authors.at(0).at(0) + if authors.len() > 1 {" et al."},
-    date: dev.date( get.auto-val(date, datetime.today()) )
+    date: date-parse( get.auto-val(date, datetime.today()) )
   )
   set page(
     paper: paper,
@@ -94,6 +93,7 @@
       else { left }
     )
   )
+  set bibliography(style: "associacao-brasileira-de-normas-tecnicas")
   
   show figure: set figure.caption(position: top)
   show figure.caption: set text(size: 1em - 2pt)
@@ -111,7 +111,7 @@
   show math.equation.where(block: true): set math.equation(numbering: "(1)")
   show quote.where(block: true): it => pad(x: 1em, it)
   show raw.where(block: true): it => pad(left: 1em)[#it]
-
+  
   // Main title:
   heading(
     level: 1,
@@ -184,43 +184,34 @@
     }
   }
   
-  // ABNT-compliant bibliography
-  set bibliography(style: "associacao-brasileira-de-normas-tecnicas")
-  
   body
   
   // Glossary
-  context if article-glossary-state.final() != (:) {
+  context if storage.final("glossary", (:)) != (:) {
+    pagebreak(weak: true)
+    
     heading(
       level: 1,
       numbering: none,
       transl("glossary")
     )
     
-    let final-glossary-state = article-glossary-state.final()
+    let stored = storage.final("glossary")
+    let value
     
-    for entry in final-glossary-state.keys().sorted() {
-      let value = final-glossary-state.at(entry)
+    for entry in stored.keys().sorted() {
+      value = stored.at(entry)
       
-      // abbreviations with long name and definition too:
-      if type(value) == array {
-        if value.at(1) == none {
-          entry = [#upper(entry)]
-          value = value.at(0)
-        }
-        else {
-          entry = [#value.at(0) (#upper(entry))]
-          value = value.at(1)
-        }
-      }
+      if value.def == () and has.key(value, "long") {value = value.long}
       else {
-        // Try to capitalize first letter
-        entry = upper(entry.first()) + entry.slice(1)
+        // 'abbreviation (long form)' for #abbrev:
+        if has.key(value, "long") {entry = [#value.long (#entry)]}
+        
+        value = value.def
       }
-      
       set terms(separator: [:#linebreak()], tight: true)
       
-      block(breakable: false, terms.item(entry, value))
+      block(breakable: false, terms.item(entry, [#value]))
     }
   }
   
@@ -300,7 +291,7 @@
 // Receives the abstract and its designation "main" or "foreign".
 // Stores both text and designation into "article-abstract" state.
 #let abstract(..args) = {
-  import "@preview/toolbox:0.1.0": storage, content2str
+  import "@preview/toolbox:0.1.0": storage
   
   args = args.pos()
   
@@ -328,45 +319,32 @@
   abbreviation,
   ..definitions
 ) = context {
-  let current-glossary-state = article-glossary-state.get()
-  let abbrev
-
-  if type(abbreviation) == content {
-    if abbreviation.at("children", default: none) == none {
-      abbrev = abbreviation.text
-    }
-    else {
-      panic("abbreviation must be just plain text, no fancy content")
-    }
-  }
-  else {
-    abbrev = abbreviation
-  }
+  import "@preview/toolbox:0.1.0": storage, its, has, content2str
   
-  if current-glossary-state.at(abbrev, default: none) != none {
-    [#upper(abbrev)]
-  }
+  let abbreviation = upper(content2str(abbreviation))
+  let definitions = definitions.pos()
+  let long-form = none
+  
+  assert( its.type(abbreviation, str) )
+  
+  
+  if definitions.len() > 0 {long-form = definitions.remove(0)}
+  if definitions.len() > 0 {definitions = definitions.join(" ")}
+  
+  if long-form == none {abbreviation}
   else {
-    let long = definitions.pos().at(0, default: none)
+    let stored = storage.get("glossary", (:))
+    let this = (:)
     
-    if long == none {
-      panic("No long name of abbreviation provided")
+    if has.key(stored, abbreviation) {
+      panic("Duplicated #abbr[" + abbreviation + "]")
     }
     
-    let definition
+    [#long-form (#abbreviation)]
     
-    if definitions.pos().len() >= 2 {
-      definition = definitions.pos().at(1)
-      
-      current-glossary-state.insert(abbrev, (long, definition))
-    }
-    else {
-      current-glossary-state.insert(abbrev, (long, none))
-    }
+    this.insert(abbreviation, (long: long-form, def: definitions))
     
-    article-glossary-state.update(current-glossary-state)
-    
-    [#long (#upper(abbrev))]
+    storage.add("glossary", this, append: true)
   }
 }
 
@@ -374,25 +352,19 @@
 // Captures glossary entries to feed `article-glossary` state.
 // Shows the gloss term where it is placed.
 #let gloss(
-  term-name,
+  name,
   definition
 ) = context {
-  let current-glossary-state = article-glossary-state.get()
-  let term
+  import "@preview/toolbox:0.1.0": storage, content2str
   
-  if type(term-name) == content {
-    term = term-name.text
-  }
-  else {
-    term = term-name
-  }
+  let name = content2str(name)
+  let this = (:)
   
-  if current-glossary-state.at(term, default: none) == none {
-    current-glossary-state.insert(term, definition)
-  }
-  article-glossary-state.update(current-glossary-state)
+  this.insert(upper(name.at(0)) + name.slice(1), (def: definition))
   
-  [#term]
+  storage.add("glossary", this, append: true)
+  
+  name
 }
 
 
