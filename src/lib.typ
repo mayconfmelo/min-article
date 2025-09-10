@@ -2,7 +2,7 @@
 // REQ: transl:0.1.1, numbly:0.1.0
 // TODO: Implement web article (HTML) when stable
 // TODO: implement #toolbox.default
-// TODO: place-agnostic #bibliography
+// TODO: #abbrev retrieve long-name from storage
 
 #import "@preview/transl:0.1.1": transl
 
@@ -180,6 +180,26 @@
   
   body
   
+  // Bibliography
+  context if not its.empty( storage.final("bibliography", (:)) ) {
+    pagebreak(weak: true)
+    
+    let stored = storage.final("bibliography")
+    let bib = ()
+    let args = (:)
+    
+    for entry in stored {
+      for data in entry.pos() {
+        if type(data) != bytes {data = bytes(data)}
+        
+        bib.push(data)
+      }
+      args = args + entry.named()
+    }
+    
+    bibliography(bib, ..args)
+  }
+  
   // Glossary
   context if not its.empty( storage.final("glossary", (:)) ) {
     pagebreak(weak: true)
@@ -290,6 +310,13 @@
   )
   
   storage.add("abstract", abstr, append: true)
+}
+
+
+#let bibliography(..args) = {
+  import "@preview/toolbox:0.1.0": storage
+  
+  storage.add("bibliography", args, append: true)
 }
 
 
