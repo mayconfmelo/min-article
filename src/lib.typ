@@ -1,79 +1,84 @@
 // NAME: Minimal Articles
 // REQ: transl:0.1.1, numbly:0.1.0
 // TODO: Implement web article (HTML) when stable
-// TODO: implement #toolbox.default
 // TODO: #abbrev retrieve long-name from storage
+// TODO: compartimentalize project
 
 #import "@preview/transl:0.1.1": transl
 
 #let article(
   title: none,
-  foreign-title: none,
   subtitle: none,
+  foreign-title: none,
   foreign-subtitle: none,
+  foreign-abstract: none,
+  foreign-lang: none,
   authors: none,
   abstract: none,
-  foreign-abstract: none,
   acknowledgments: none,
   date: auto,
-  paper: "a4",
-  lang: "en",
-  foreign-lang: none,
   lang-data: yaml("assets/lang.yaml"),
-  justify: true,
-  line-space: 0.3em,
-  par-margin: 1.5em,
-  margin: (
-    top: 3cm,
-    bottom: 2cm,
-    left: 3cm,
-    right: 2cm
-  ),
-  font: ("Tex Gyre Termes", "Times New Roman"),
-  font-size: 12pt,
+  typst-defaults: false,
   body
 ) = context {
   assert.ne(title, none)
-  assert.ne(authors, none)
+  assert.eq(type(authors), array)
   assert.eq(type(lang-data), dictionary)
   
-  import "@preview/toolbox:0.1.0": date as date-parse, get, storage, has, its
+  import "@preview/toolbox:0.1.0": date as date-parse, get, storage, has, its, default
   
   // Store translation database
   transl(data: lang-data)
   
-  let def = (
-    :
+  let full-title = title + if subtitle != none {": " + subtitle}
+  let font-size = default(
+    when: text.size == 11pt,
+    value: 12pt,
+    otherwise: text.size,
+    typst-defaults
   )
   
-  // Joins title and subtitle, if any:
-  let full-title = title + if subtitle != none {": " + subtitle}
+  if type(authors.at(0)) != array {authors = (authors,)}
   
-  // Forces authors to always be an array of arrays:
-  if authors.at(0).at(0, default: none) == none {authors = (authors, )}
-  
-  // If more than one author, set doc author as "MAIN AUTHOR et al."
   set document(
     title: full-title,
     author: authors.at(0).at(0) + if authors.len() > 1 {" et al."},
     date: date-parse( get.auto-val(date, datetime.today()) )
   )
   set page(
-    paper: paper,
-    margin: margin,
+    ..default(
+      when: page.margin == auto,
+      value: (margin: (top: 3cm, bottom: 2cm, left: 3cm, right: 2cm)),
+      typst-defaults
+    ),
     header: context if counter(page).get().at(0) > 1 {
       align( right, text(size: font-size - 2pt)[#locate(here()).page()] )
     }
   )
   set par(
-    justify: justify,
-    leading: line-space,
-    spacing: par-margin,
+    ..default(
+      when: not par.justify,
+      value: (justify: true),
+      typst-defaults
+    ),
+    ..default(
+      when: par.leading == 0.65em,
+      value: (leading: 0.3em),
+      typst-defaults
+    ),
+    ..default(
+      when: par.spacing == 1.2em,
+      value: (spacing: 1.5em),
+      typst-defaults
+    ),
   )
   set text(
-    font: font,
+    ..default(
+      when: text.font == "libertinus serif",
+      value: (font: ("Tex Gyre Termes", "Times New Roman")),
+      typst-defaults
+    ),
     size: font-size,
-    lang: lang,
   )
   set terms(separator: [: ], tight: true)
   set heading(numbering: "1.1.1.1.1 ")
@@ -82,12 +87,15 @@
        top: if y <= 1 { 1pt } else { 0pt },
        bottom: 1pt,
       ),
-    align: (_, y) => (
-      if y == 0 { center }
-      else { left }
+    align: (_, y) => if y == 0 { center } else { left },
+  )
+  set bibliography(
+    ..default(
+      when: bibliography.style == "ieee",
+      value: (style: "associacao-brasileira-de-normas-tecnicas"),
+      typst-defaults
     )
   )
-  set bibliography(style: "associacao-brasileira-de-normas-tecnicas")
   
   show figure: set figure.caption(position: top)
   show figure.caption: set text(size: 1em - 2pt)
@@ -103,6 +111,11 @@
   ): set text(size: font-size + 1pt)
   show math.equation.where(block: true): set align(left)
   show math.equation.where(block: true): set math.equation(numbering: "(1)")
+  show math.equation: it => text(..default(
+    when: text.font == "new computer modern math",
+    value: (font: "Tex Gyre Termes Math"),
+    typst-defaults
+  ), it)
   show quote.where(block: true): it => pad(x: 1em, it)
   show raw.where(block: true): it => pad(left: 1em)[#it]
   
