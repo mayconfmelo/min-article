@@ -119,26 +119,32 @@
   show quote.where(block: true): it => pad(x: 1em, it)
   show raw.where(block: true): it => pad(left: 1em)[#it]
   
-  // Main title:
-  heading(
-    level: 1,
-    outlined: false,
-    numbering: none,
-    align(center, full-title)
-  )
-  
-  if foreign-title != none {
-    let foreign-full-title = foreign-title + if foreign-subtitle != none {
-      ": " + foreign-subtitle
-    }
+  // Title
+  {
+    set text(hyphenate: false)
     
-    // Foreign title, if any:
     heading(
       level: 1,
       outlined: false,
       numbering: none,
-      align(center, foreign-full-title)
+      align(center, full-title)
     )
+    
+    if foreign-title != none {
+      let foreign-full-title = foreign-title + if foreign-subtitle != none {
+        ": " + foreign-subtitle
+      }
+      
+      set text(lang: foreign-lang)
+      
+      // Foreign title, if any
+      heading(
+        level: 1,
+        outlined: false,
+        numbering: none,
+        align(center, foreign-full-title)
+      )
+    }
   }
   
   // Authors
@@ -433,6 +439,7 @@
     #align(center, text(size: 1em - 2pt)[#transl("source"): #source])
   ]
 }
+
 
 #let cmd-help() = context {
   pagebreak(weak: true)
