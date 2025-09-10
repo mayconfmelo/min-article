@@ -1,13 +1,10 @@
 // NAME: Minimal Articles
 // REQ: transl:0.1.1, numbly:0.1.0
 // TODO: Implement web article (HTML) when stable
-// TODO: implement #toolbox.storage
 // TODO: implement #toolbox.default
 // TODO: place-agnostic #bibliography
 
 #import "@preview/transl:0.1.1": transl
-
-#let article-acknowledgments-state = state("article-acknowledgments", none)
 
 #let article(
   title: none,
@@ -255,26 +252,18 @@
   }
   
   // Acknowledgments
-  // Fallback to argument when command not used
-  context if article-acknowledgments-state.get() == none {
-    if acknowledgments != none {
-      article-acknowledgments-state.update(acknowledgments)
-    }
-  }
-  // Shows acknowledgments only if whether command or aegument is provided
-  context if article-acknowledgments-state.get() != none {
+  let acknowledgments = storage.final("acknowledgments", (acknowledgments,))
+  context if acknowledgments != none {
     pagebreak(weak: true)
-    
-    let thanks = article-acknowledgments-state.get()
     
     heading(
       level: 1,
       outlined: false,
       numbering: none,
-      align(center)[#transl("acknowledgments")]
+      align(center, transl("acknowledgments"))
     )
     
-    thanks
+    acknowledgments.join()
   }
 }
 
@@ -366,6 +355,7 @@
   storage.add("appendices", data, append: true)}
 }
 
+
 // Captures annexes to feed `article-annexes` state.
 #let annex(data) = context {
   import "@preview/toolbox:0.1.0": storage
@@ -375,10 +365,10 @@
 
 
 // Thank and recognize the role of important people in the making of the document.
-#let acknowledgments(
-  thanks
-) = context {
-  article-acknowledgments-state.update(thanks)
+#let acknowledgments(data) = context {
+  import "@preview/toolbox:0.1.0": storage
+  
+  storage.add("acknowledgments", data, append: true)
 }
 
 
