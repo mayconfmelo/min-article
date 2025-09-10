@@ -1,10 +1,9 @@
 // NAME: Minimal Articles
 // REQ: transl:0.1.1, numbly:0.1.0
 // TODO: Implement web article (HTML) when stable
-// TODO: #abbrev retrieve long-name from storage
+// TODO: #abbrev retrieve long-name from storage.final()
 // TODO: compartimentalize project
 
-#import "@preview/transl:0.1.1": transl
 
 #let article(
   title: none,
@@ -25,6 +24,7 @@
   assert.eq(type(authors), array)
   assert.eq(type(lang-data), dictionary)
   
+  import "@preview/transl:0.1.1": transl
   import "@preview/toolbox:0.1.0": date as date-parse, get, storage, has, its, default
   
   // Store translation database
@@ -400,7 +400,7 @@
 #let annex(data) = context {
   import "@preview/toolbox:0.1.0": storage
   
-  storage.add("annexes", data, append: true)}
+  storage.add("annexes", data, append: true)
 }
 
 
@@ -422,6 +422,7 @@
   assert.ne(source, none, message: "#figure(source) required by ABNT")
   assert.ne(caption, none, message: "#figure(caption) required by ABNT")
   
+  import "@preview/transl:0.1.1": transl
   import "origin.typ"
   
   set align(alignment)
@@ -431,4 +432,45 @@
     #v(-1em)
     #align(center, text(size: 1em - 2pt)[#transl("source"): #source])
   ]
+}
+
+#let cmd-help() = context {
+  pagebreak(weak: true)
+  
+  set page(width: auto, height: auto, margin: 1em, header: none)
+  
+  if text.lang == "pt" {
+    table(
+      columns: 2,
+      table.header[Elemento][Comando],
+      [Título], ```typ #article(title)```,
+      [Subtitulo], ```typ #article(subtitle)```,
+      [Autores], ```typ #article(authors)```,
+      [Resumo], [```typ #abstract()```\ ```typ #article(abstract)```],
+      [Resumo estrangeiro], [```typ #abstract("foreign")```\ ```typ #article(foreign-abstract)```],
+      [Bibliografia], ```typ #bibliography()```,
+      [Glossário], ```typ #abbr() #gloss()```,
+      [Apêndices], ```typ #appendix()```,
+      [Anexos], ```typ #annex()```,
+      [Agradecimentos], ```typ #acknowledgments()```,
+    )
+  }
+  else {
+    table(
+      columns: 2,
+      table.header[Element][Command],
+      [Title], ```typ #article(title)```,
+      [Subtitle], ```typ #article(subtitle)```,
+      [Authors], ```typ #article(authors)```,
+      [Abstract], [```typ #abstract()```\ ```typ #article(abstract)```],
+      [Foreign abstract], [```typ #abstract("foreign")```\ ```typ #article(foreign-abstract)```],
+      [Bibliography], ```typ #bibliography()```,
+      [Glossary], ```typ #abbr() #gloss()```,
+      [Appendices], ```typ #appendix()```,
+      [Annexes], ```typ #annex()```,
+      [Acknowledgments], ```typ #acknowledgments()```,
+    )
+  }
+  
+  pagebreak(weak: true)
 }
