@@ -7,9 +7,6 @@
 
 #import "@preview/transl:0.1.1": transl
 
-#let article-abstract-state = state("article-abstract", (:))
-#let article-appendices-state = state("article-appendices", ())
-#let article-annexes-state = state("article-annexes", ())
 #let article-acknowledgments-state = state("article-acknowledgments", none)
 
 #let article(
@@ -43,7 +40,7 @@
   assert.ne(authors, none)
   assert.eq(type(lang-data), dictionary)
   
-  import "@preview/toolbox:0.1.0": date as date-parse, get, storage, has
+  import "@preview/toolbox:0.1.0": date as date-parse, get, storage, has, its
   
   // Store translation database
   transl(data: lang-data)
@@ -187,7 +184,7 @@
   body
   
   // Glossary
-  context if storage.final("glossary", (:)) != (:) {
+  context if not its.empty( storage.final("glossary", (:)) ) {
     pagebreak(weak: true)
     
     heading(
@@ -216,51 +213,45 @@
   }
   
   // Appendices
-  context if article-appendices-state.final() != () {
+  context if not its.empty( storage.final("appendices", (:)) ) {
     pagebreak(weak: true)
   
     import "@preview/numbly:0.1.0": numbly
     
-    // Reset heading numbering system:
-    counter(heading).update(0)
-    show heading: set heading(numbering: "A.1.1.1.1 ")
-    show heading.where(level: 1): set align(center)
-    show heading.where(level: 1): set heading(
-      numbering: numbly(
-        transl("appendix", to: text.lang, data: lang-data) + " {1:A} — ",
-        default: "A.1.1.1.1 "
-      )
+    let pattern = (
+      transl("appendix", to: text.lang, data: lang-data) + " {1:A} — ",
+      "{1:A}.{2:1} ",
+      "{1:A}.{2:1}.{3:1} ",
+      "{1:A}.{2:1}.{3:1}.{4:1} ",
+      "{1:A}.{2:1}.{3:1}.{4:1}.{5:1} ",
     )
     
-    let final-appendices-state = article-appendices-state.final()
-    
-    for appendix in (..final-appendices-state) {
-      appendix
-    }
+    set heading(numbering: numbly(..pattern, default: "A.1.1.1.1 "))
+    show heading.where(level: 1): set align(center)
+    counter(heading).update(0)
+     
+    storage.final("appendices").join()
   }
   
   // Annex
-  context if article-annexes-state.final() != () {
+  context if not its.empty( storage.final("annexes", (:)) ) {
     pagebreak(weak: true)
   
     import "@preview/numbly:0.1.0": numbly
     
-    // Reset heading numbering system:
-    counter(heading).update(0)
-    show heading: set heading(numbering: "A.1.1.1.1 ")
-    show heading.where(level: 1): set align(center)
-    show heading.where(level: 1): set heading(
-      numbering: numbly(
-        transl("annex", to: text.lang, data: lang-data) + " {1:A} — ",
-        default: "A.1.1.1.1 "
-      )
+    let pattern = (
+      transl("annex", to: text.lang, data: lang-data) + " {1:A} — ",
+      "{1:A}.{2:1} ",
+      "{1:A}.{2:1}.{3:1} ",
+      "{1:A}.{2:1}.{3:1}.{4:1} ",
+      "{1:A}.{2:1}.{3:1}.{4:1}.{5:1} ",
     )
     
-    let final-annexes-state = article-annexes-state.final()
-    
-    for annex in (..final-annexes-state) {
-      annex
-    }
+    set heading(numbering: numbly(..pattern, default: "A.1.1.1.1 "))
+    show heading.where(level: 1): set align(center)
+    counter(heading).update(0)
+     
+    storage.final("annexes").join()
   }
   
   // Acknowledgments
@@ -369,26 +360,17 @@
 
 
 // Captures appendices to feed `article-appendices` state.
-#let appendix(
-  appendix
-) = context {
-  let current-appendices-state = article-appendices-state.get()
+#let appendix(data) = context {
+  import "@preview/toolbox:0.1.0": storage
   
-  current-appendices-state.push(appendix)
-  
-  article-appendices-state.update(current-appendices-state)
+  storage.add("appendices", data, append: true)}
 }
 
-
 // Captures annexes to feed `article-annexes` state.
-#let annex(
-  annex
-) = context {
-  let current-annexes-state = article-annexes-state.get()
+#let annex(data) = context {
+  import "@preview/toolbox:0.1.0": storage
   
-  current-annexes-state.push(annex)
-  
-  article-annexes-state.update(current-annexes-state)
+  storage.add("annexes", data, append: true)}
 }
 
 
