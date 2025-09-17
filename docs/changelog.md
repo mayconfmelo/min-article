@@ -1,4 +1,7 @@
-# 0.1.0
+# 0.0.0
+
+
+## 0.1.0
 
 - Main title and foreign title (ABNT NBR 6022, item 5.1.1)
 - Standard authors presentation (ABNT NBR 6022, item 5.1.2)
@@ -18,3 +21,11 @@
 - Automatic annex (ABNT NBR 6022, item 5.3.4) insertion
 - Automatic acknowledgments (ABNT NBR 6022, item 5.3.5) insertion
 - Other minor enhancements
+
+
+### 0.2.0
+
+- Complete internal re-design
+- Added: Automatic bibliography
+- Updated: Now using  [toolbox](https://typst.app/universe/package/toolbox) for internal management
+- Updated: Now using [transl](https://typst.app/universe/package/transl) for translation
