@@ -2,6 +2,22 @@
 // TODO: Implement web article (HTML) when stable
 // TODO: Implement comment documentation
 
+
+/**#v(1fr)#outline()#v(1.2fr)#pagebreak()
+= Quick Start
+```typ
+#import "@preview/min-article:0.1.1": article
+#show: article.with(   
+	title: "Main Title",
+	subtitle: "Complementary subtitle, not more than two lines",
+	authors: (
+	  ("Main Author", "PhD in Procrastination."),
+	  ("Main Collaborator", "Degree in Doing Nothing."),
+	),
+)
+```
+**/
+
 #let article(
   title: none,
   subtitle: none,
@@ -24,9 +40,10 @@
   import "@preview/transl:0.1.1": transl
   import "@preview/toolbox:0.1.0": date as date-parse, get, storage, has, its, default
   
-  // Store translation database
   transl(data: lang-data)
+  storage.namespace("min-article")
   
+  let authors = authors
   let full-title = title + if subtitle != none {": " + subtitle}
   let font-size = default(
     when: text.size == 11pt,
@@ -172,10 +189,13 @@
     )
     
     // Try to get #abstract commands, fallback to #article abstract options
-    let abstract = storage.final("abstract", (:))
+    let abstract = storage.final("abstract", (
+      main: abstract,
+      foreign: foreign-abstract
+    ))
     
     assert.ne(
-      abstract.at("main", default: none), none,
+      abstract.main, none,
       message: "#article(abstract) or #abstract('main') required"
     )
     abstract.main
@@ -215,6 +235,7 @@
     
     bibliography(bib, ..args)
   }
+  else {panic("ABNT requires a bibliography")}
   
   // Glossary
   context if not its.empty( storage.final("glossary", (:)) ) {
@@ -288,8 +309,7 @@
   }
   
   // Acknowledgments
-  let acknowledgments = storage.final("acknowledgments", (acknowledgments,))
-  context if acknowledgments != none {
+  context if storage.final("acknowledgments", acknowledgments) != none {
     pagebreak(weak: true)
     
     heading(
@@ -299,8 +319,10 @@
       align(center, transl("acknowledgments"))
     )
     
-    acknowledgments.join()
+    storage.final("acknowledgments", acknowledgments).join()
   }
+  
+  storage.namespace("std")  // restores default storage namespace
 }
 
 #import "component.typ": *
