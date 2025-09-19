@@ -1,0 +1,34 @@
+name: Build
+
+on:
+  push:
+    tags: 
+      - "*"
+    # branches:
+    #   - "main"
+
+jobs:
+  building:
+    name: Build package and example locally
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install just
+        uses: taiki-e/install-action@v2
+        with:
+          tool: just
+      - name: Setup typst
+        id: setup-typst
+        uses: typst-community/setup-typst@v3
+        with:
+          typst-version: 0.13
+      - name: Running build script
+        run: just build
+      - name: Archive test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: typst-build-results
+          path: dev/example/*
+          retention-days: 5

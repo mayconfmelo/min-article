@@ -100,7 +100,7 @@ case "${ACTION}" in
       exit $?
     fi
     
-    # Find files and directories excluded from tje final package:
+    # Find files and directories excluded from the final package:
     EXCLUDES=()
     IFS=$'\n'
     while read -r linha; do
@@ -130,7 +130,7 @@ case "${ACTION}" in
     fi
     echo "Package \"${NAME}\" installation in \"${TARGET}\" finished."
     
-    # Move installled package to project
+    # Move installed package to project
     if [[ "${TARGET}" == "pkg" ]]; then
       echo "Moving package to: \"${PROJECT_ROOT}/dev/pkg\""
       rm -r  "${PROJECT_ROOT}/dev/pkg"
