@@ -13,7 +13,6 @@
 	),
 )
 
-
 // Break page after main/foreign abstracts for cosmetic purpose.
 #pagebreak()
 
