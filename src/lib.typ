@@ -41,7 +41,6 @@
   import "@preview/toolbox:0.1.0": date as date-parse, get, storage, has, its, default
   
   transl(data: lang-data)
-  storage.namespace("min-article")
   
   let authors = authors
   let full-title = title + if subtitle != none {": " + subtitle}
@@ -189,10 +188,11 @@
     )
     
     // Try to get #abstract commands, fallback to #article abstract options
-    let abstract = storage.final("abstract", (
-      main: abstract,
-      foreign: foreign-abstract
-    ))
+    let abstract = storage.final(
+      "abstract",
+      (main: abstract, foreign: foreign-abstract),
+      namespace: "min-article",
+    )
     
     assert.ne(
       abstract.main, none,
@@ -215,6 +215,8 @@
   }
   
   body
+  
+  storage.namespace("min-article")
   
   // Bibliography
   context if not its.empty( storage.final("bibliography", (:)) ) {
@@ -321,8 +323,6 @@
     
     storage.final("acknowledgments", acknowledgments).join()
   }
-  
-  storage.namespace("std")  // restores default storage namespace
 }
 
 #import "component.typ": *

@@ -20,14 +20,14 @@
     message: "Invalid #article(" + str(type) + ")"
   )
   
-  storage.add("abstract", abstr, append: true)
+  storage.add("abstract", abstr, append: true, namespace: "min-article")
 }
 
 
 #let bibliography(..args) = {
   import "@preview/toolbox:0.1.0": storage
   
-  storage.add("bibliography", args, append: true)
+  storage.add("bibliography", args, append: true, namespace: "min-article")
 }
 
 
@@ -35,7 +35,7 @@
 #let appendix(data) = context {
   import "@preview/toolbox:0.1.0": storage
   
-  storage.add("appendices", data, append: true)
+  storage.add("appendices", data, append: true, namespace: "min-article")
 }
 
 
@@ -43,7 +43,7 @@
 #let annex(data) = context {
   import "@preview/toolbox:0.1.0": storage
   
-  storage.add("annexes", data, append: true)
+  storage.add("annexes", data, append: true, namespace: "min-article")
 }
 
 
@@ -51,5 +51,5 @@
 #let acknowledgments(data) = context {
   import "@preview/toolbox:0.1.0": storage
   
-  storage.add("acknowledgments", data, append: true)
+  storage.add("acknowledgments", data, append: true, namespace: "min-article")
 }

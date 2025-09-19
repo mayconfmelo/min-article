@@ -10,7 +10,7 @@
   let abbreviation = upper(content2str(abbreviation))
   let definitions = definitions.pos()
   let long-form = none
-  let stored = storage.get("glossary", (:))
+  let stored = storage.get("glossary", (:), namespace: "min-article")
   
   assert( its.type(abbreviation, str) )
   
@@ -36,7 +36,7 @@
     
     this.insert(abbreviation, (long: long-form, def: definitions))
     
-    storage.add("glossary", this, append: true)
+    storage.add("glossary", this, append: true, namespace: "min-article")
   }
 }
 
@@ -54,7 +54,7 @@
   
   this.insert(upper(name.at(0)) + name.slice(1), (def: definition))
   
-  storage.add("glossary", this, append: true)
+  storage.add("glossary", this, append: true, namespace: "min-article")
   
   name
 }
