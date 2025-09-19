@@ -124,11 +124,14 @@
   ): set text(size: font-size + 1pt)
   show math.equation.where(block: true): set align(left)
   show math.equation.where(block: true): set math.equation(numbering: "(1)")
-  show math.equation: it => text(..default(
-    when: text.font == "new computer modern math",
-    value: (font: "Tex Gyre Termes Math"),
-    typst-defaults
-  ), it)
+  show math.equation: it => text(
+    ..default(
+      when: text.font == "new computer modern math",
+      value: (font: ("Tex Gyre Termes Math", "New Computer Modern Math")),
+      typst-defaults
+    ),
+    it
+  )
   show quote.where(block: true): it => pad(x: 1em, it)
   show raw.where(block: true): it => pad(left: 1em)[#it]
   
