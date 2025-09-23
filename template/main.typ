@@ -1,4 +1,4 @@
-#import "@preview/min-article:0.1.1": *
+#import "@preview/min-article:0.2.0": *
 
 #show: article.with(   
 	title: "Main Title",
@@ -8,7 +8,7 @@
 	foreign-lang: "pt",
 	authors: (
 	  ("Main Author", "PhD in Procrastination with a minor in Doing Nothing. Professor at Lazy University."),
-	  ("Main Collaborator", "Degree in Doing Nothing and researcher at Lazy University."),
+	  ("Collaborator", "Degree in Doing Nothing and researcher at Lazy University."),
 	  ("Collaborator", "Procrastination Student at Lazy University.")
 	),
 )
@@ -34,6 +34,19 @@
 
 
 #pagebreak()
+
+
+#lorem(120)
+
+#lorem(120)
+
+#lorem(120)
+
+#lorem(120)
+
+#lorem(120)
+
+#lorem(120)
 
 
 = Math
@@ -82,26 +95,30 @@ Inline math: $E = m c^2$.
 #lorem(14)
 
 
-= Terms and abbreviations
+= Abbreviations
 
-#abbrev[abnt][Associação Brasileira de Normas Técnicas][
-  Brazilian organization responsible for technical standardization
-]\
-#abbrev[abnt]\
-#abbrev[abnt]
 
-#abbrev[idk][I don't know]\
-#abbrev[idk]\
-
-#gloss[Saudade][
-  Brazilian word with no direct translation; represents a feeling of intense
-  longing for someone or something, and a desire to have this someone or
-  something back.
-]
+Abbreviations are automatically retrieved in a case-insensitive way. The first
+time it will be shown like abnt, and afterwards just the abnt abbreviation
+itself --- like this last abnt. All abbreviations follow the same logic:
+first as idk and then just idk.
 
 
 // These commands are purposelly in the wrong place, to show it does not matter
 
+#abbreviations((
+  ABNT: (
+    "Associação Brasileira de Normas Técnicas",
+    "Brazilian organization responsible for technical standardization",
+  ),
+  IDK: "I Don't Know",
+))
+
+#glossary((
+  Saudade: [Brazilian word with no direct translation; represents a feeling of
+    intense longing for someone or something, and a desire to have this someone
+    or something back],
+))
 
 #abstract[
   The abstract must succinctly highlight the content of a text. The order and

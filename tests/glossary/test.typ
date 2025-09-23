@@ -4,7 +4,7 @@
 #glossary((
   Saudade: [Brazilian word with no direct translation; represents a feeling of
     intense longing for someone or something, and a desire to have this someone
-    or something back.],
+    or something back],
 ))
 
 #insert()

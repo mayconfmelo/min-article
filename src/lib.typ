@@ -2,6 +2,8 @@
 // TODO: Implement web article (HTML) when stable
 // TODO: Implement comment documentation
 
+#import "sub/abbreviations.typ": add as abbreviations
+#import "sub/glossary.typ": add as glossary
 
 /**#v(1fr)#outline()#v(1.2fr)#pagebreak()
 = Quick Start
@@ -17,7 +19,6 @@
 )
 ```
 **/
-
 #let article(
   title: none,
   subtitle: none,
@@ -39,9 +40,11 @@
   
   import "@preview/transl:0.1.1": transl
   import "@preview/toolbox:0.1.0": date as date-parse, get, storage, has, its, default
+  import "sub/abbreviations.typ"
   
   transl(data: lang-data)
   
+  let body = body
   let authors = authors
   let full-title = title + if subtitle != none {": " + subtitle}
   let font-size = default(
@@ -217,6 +220,8 @@
     }
   }
   
+  body = abbreviations.init(body)
+  
   body
   
   storage.namespace("min-article")
@@ -244,6 +249,8 @@
   
   // Glossary
   context if not its.empty( storage.final("glossary", (:)) ) {
+    import "sub/glossary.typ"
+    
     pagebreak(weak: true)
     
     heading(
@@ -252,23 +259,7 @@
       transl("glossary")
     )
     
-    let stored = storage.final("glossary")
-    let value
-    
-    for entry in stored.keys().sorted() {
-      value = stored.at(entry)
-      
-      if value.def == () and has.key(value, "long") {value = value.long}
-      else {
-        // 'abbreviation (long form)' for #abbrev:
-        if has.key(value, "long") {entry = [#value.long (#entry)]}
-        
-        value = value.def
-      }
-      set terms(separator: [:#linebreak()], tight: true)
-      
-      block(breakable: false, terms.item(entry, [#value]))
-    }
+    glossary.insert()
   }
   
   // Appendices

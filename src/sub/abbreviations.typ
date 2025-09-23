@@ -12,7 +12,7 @@
     
     if type(item) != array {item = (item,)}
     
-    if item.len() > 1 {this.insert("def", item.slice(1))}
+    if item.len() > 1 {this.insert("def", item.slice(1).join(" "))}
     
     this.insert("long", item.at(0))
     this.insert("abbrev", true)

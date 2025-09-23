@@ -17,7 +17,7 @@
 - Automatic glossary[^12] generation
 - Automatic appendix[^13] insertion
 - Automatic annex[^14] insertion
-- Automatic acknowledgments[^13] insertion
+- Automatic acknowledgments[^15] insertion
 - Other minor enhancements
 
 [^1]: ABNT NBR 6022 (item 5.1.1)
@@ -34,13 +34,16 @@
 [^12]: ABNT NBR 6022 (item 5.3.2)
 [^13]: ABNT NBR 6022 (item 5.3.3)
 [^14]: ABNT NBR 6022 (item 5.3.4)
-[^13]: ABNT NBR 6022 (item 5.3.5)
+[^15]: ABNT NBR 6022 (item 5.3.5)
 
 
 ### 0.2.0
 
 - Complete internal re-design
 - Added: Automatic bibliography generation
-- Updated: Now using  [toolbox](https://typst.app/universe/package/toolbox) for internal management
-- Updated: Now using [transl](https://typst.app/universe/package/transl) for translation
+- `#abbreviations` to declare abreviations
+- `#glossary` to declare glossary entries
+- Removed: `#abbrev` and `#gloss` commands
+- Updated: [toolbox](https://typst.app/universe/package/toolbox) used for internal management
+- Updated: [transl](https://typst.app/universe/package/transl) used for translation
 - Updated: _Tex Gyre Termes_ as default text font (fallback to _Times New Roman_)

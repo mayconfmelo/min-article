@@ -10,6 +10,9 @@ Simple and easy way to write ABNT-compliant articles
 
 <details>
 <summary>Em Português</summary>
+
+
+
 </details>
 
 
