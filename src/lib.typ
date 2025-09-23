@@ -2,8 +2,6 @@
 // TODO: Implement web article (HTML) when stable
 // TODO: Implement comment documentation
 
-#import "sub/abbreviations.typ": add as abbreviations
-#import "sub/glossary.typ": add as glossary
 
 /**#v(1fr)#outline()#v(1.2fr)#pagebreak()
 = Quick Start
@@ -319,5 +317,7 @@
   }
 }
 
-#import "component.typ": *
-#import "collect.typ": *
+#import "sub/abbreviations.typ": add as abbreviations
+#import "sub/glossary.typ": add as glossary
+#import "sub/cmd.typ" as cmd: figure
+#import "sub/collectors.typ": *

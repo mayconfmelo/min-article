@@ -1,12 +1,12 @@
-
-// Receives the abstract and its designation "main" or "foreign".
-// Stores both text and designation into "article-abstract" state.
 #let abstract(..args) = {
   import "@preview/toolbox:0.1.0": storage
   
   args = args.pos()
   
-  assert( (1, 2).contains(args.len()) )
+  assert(
+    (1, 2).contains(args.len()),
+    message: "Supported #abstract(type, body) or #abstract(body)"
+  )
   
   // Insert args.pos().at(1) = "main" if none is set
   if args.len() == 1 {args.insert(0, "main")}
@@ -16,8 +16,8 @@
   abstr.insert(..args)
   
   assert(
-    args.at(0) == "main" or args.at(0) == "foreign",
-    message: "Invalid #article(" + str(type) + ")"
+    ("main", "foreign").contains(args.at(0)),
+    message: "Invalid type #article(" + str(type) + ")"
   )
   
   storage.add("abstract", abstr, append: true, namespace: "min-article")
@@ -31,24 +31,21 @@
 }
 
 
-// Captures appendices to feed `article-appendices` state.
-#let appendix(data) = context {
+#let appendix(data) = {
   import "@preview/toolbox:0.1.0": storage
   
   storage.add("appendices", data, append: true, namespace: "min-article")
 }
 
 
-// Captures annexes to feed `article-annexes` state.
-#let annex(data) = context {
+#let annex(data) = {
   import "@preview/toolbox:0.1.0": storage
   
   storage.add("annexes", data, append: true, namespace: "min-article")
 }
 
 
-// Thank and recognize the role of important people in the making of the document.
-#let acknowledgments(data) = context {
+#let acknowledgments(data) = {
   import "@preview/toolbox:0.1.0": storage
   
   storage.add("acknowledgments", data, append: true, namespace: "min-article")
