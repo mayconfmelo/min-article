@@ -21,9 +21,18 @@
 
 #acknowledgments("Acknowledgments")
 
+
 #set text(size: 0pt)
+// These ones also collects data:
 
-#abbrev("abbr", "Abbreviation Name", "Optional abbreviation description")
-#abbrev("abbrev", "Abbreviation Name")
+#abbreviations((
+  ABBR: (
+    "Abbreviation Name",
+    "Optional abbreviation description",
+  ),
+  ABBREV: "Abbreviation Name",
+))
 
-#gloss("term", "Glossary term description")
+#glossary((
+  term: "Glossary term description",
+))
