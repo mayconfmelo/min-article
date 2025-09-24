@@ -16,20 +16,48 @@
 	),
 )
 ```
+
+= Description
+Generate authentic, structured, and standardized articles, compliant with the
+requirements of the Brazilian Association of Technical Standards (ABNT, in
+Portuguese). The main advantage of this package, apart from the ABNT standard,
+is being able to manage, all by itself, almost all the mind-frying document
+structure and its rules: just input the data anywhere and _min-article_ will
+find where it belongs, and will put it there.
+
+This manual will be updated only when new versions break or modify something;
+otherwise, it will be valid to all newer versions starting by the one documented
+here.
+
+= options
+:show.with article:
 **/
 #let article(
-  title: none,
-  subtitle: none,
-  foreign-title: none,
-  foreign-subtitle: none,
-  foreign-abstract: none,
-  foreign-lang: none,
-  authors: none,
-  abstract: none,
-  acknowledgments: none,
-  date: auto,
-  lang-data: yaml("assets/lang.yaml"),
-  typst-defaults: false,
+  title: none, /// <- string | content <required>
+    /// Article title. |
+  subtitle: none, /// <- string | content
+    /// Article subtitle. |
+  abstract: none, /// <- string | content
+    /// Article abstract. |
+  foreign-lang: none, /// <- string
+    /// Additional foreign language used (generally a _lingua franca_). |
+  foreign-title: none, /// <- string | content
+    /// Additional title in foreign language. |
+  foreign-subtitle: none, /// <- string | content
+    /// Additional subtitle in foreign language. |
+  foreign-abstract: none, /// <- string | content
+    /// Additional abstract in foreign language. |
+  authors: none, /// <- array | array of arrays <required>
+    /** `(name, description)`\
+    Name and description of each article author. |**/
+  acknowledgments: none, /// <- string | content
+    /// Final thanks directed to anyone important in the creation of the article. |
+  date: auto, /// <- array | dictionary | datetime
+    /// `(year, month, day)`\ Article publication date. |
+  lang-data: yaml("assets/lang.yaml"), /// <- yaml | toml | dictionary
+    /// Translation data for `#text.lang` and `#article(foreign-lang)` languages. |
+  typst-defaults: false, /// <- boolean
+    /// Use original Typst defaults instead of min-article ones.
   body
 ) = context {
   assert.ne(title, none)
@@ -192,16 +220,17 @@
     )
     
     // Try to get #abstract commands, fallback to #article abstract options
-    let abstract = storage.final(
-      "abstract",
-      (main: abstract, foreign: foreign-abstract),
-      namespace: "min-article",
-    )
+    let stored = storage.final("abstract", (:), namespace: "min-article")
+    let abstract = (:)
+    
+    abstract += (main: stored.at("main", default: abstract))
+    abstract += (foreign: stored.at("foreign", default: foreign-abstract))
     
     assert.ne(
       abstract.main, none,
       message: "#article(abstract) or #abstract('main') required"
     )
+    
     abstract.main
     
     if abstract.at("foreign", default: none) != none {
@@ -317,6 +346,7 @@
   }
 }
 
+// Here because replaces some Typst commands
 #import "sub/abbreviations.typ": add as abbreviations
 #import "sub/glossary.typ": add as glossary
 #import "sub/cmd.typ" as cmd: figure

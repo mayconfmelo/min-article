@@ -1,3 +1,21 @@
+/**
+= Abbreviations Command
+```typ
+#abbreviations(data)
+```
+Collects abbreviation and glossary data. All abbreviations found in the article
+content (case-insensitive) are automatically replaced as required by ABNT. Can
+be used multiple times anywhere in the source code.
+
+data <- dictionary
+  `(abbrev: long)`\
+  `(abbrev: (long, definition))`\
+  Set each abbreviation and its long name; optionally, a glossary definition can
+  be also set.
+
+ABNT requires that an abbreviation must appear like _abbreviation (abbrev)_ the
+first time, and just _abbrev_ the next times.
+**/
 #let add(data) = {
   import "@preview/toolbox:0.1.0": storage
   
@@ -23,6 +41,7 @@
 }
 
 
+// Initialize abbreviation replacement mechanism.
 #let init(insensitive: true, body) = context {
   import "@preview/toolbox:0.1.0": storage
   

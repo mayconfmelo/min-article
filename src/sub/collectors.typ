@@ -1,3 +1,20 @@
+/**
+= Abstract Command
+```typ
+#abstract(
+  type,
+  body
+)
+```
+Collects abstract data. Also set using the `#article(abstract, foreign-abstract)`
+command — the main abstract is required by ABNT, while the foreign abstract is
+optional. Can be used multiple times anywhere in the source code.
+
+type <- string
+  The abstract defined: `"main"` or `"foreign"` — if bot set, fallback to `"main"`.
+
+An abstract is a general resume of the entire article content.
+**/
 #let abstract(..args) = {
   import "@preview/toolbox:0.1.0": storage
   
@@ -24,6 +41,19 @@
 }
 
 
+/**
+= Bibliography Command
+:bibliography:
+Collects bibliography data, replacing the original `#bibliography` command. Can
+be used multiple times anywhere in the source code.
+
+args.named() <- arguments
+  #let docs = "https://typst.app/docs/reference/model/bibliography#parameters"
+  Any arguments supported by the original #url(docs)[`#bibliography`] command.
+
+args.pos() <- arguments
+  Content (not paths) of one or more bibliography files. Use `#read` or strings.
+**/
 #let bibliography(..args) = {
   import "@preview/toolbox:0.1.0": storage
   
@@ -31,6 +61,18 @@
 }
 
 
+/**
+= Appendix Command
+:appendix:
+Collects appendix data. Inside it, each level 1 heading starts a new appendix by
+itself. Can be used multiple times anywhere in the source code.
+
+data <- content
+  The appendix content.
+
+An appendix is any additional data left out of the main article content but
+referenced or related to it.
+**/
 #let appendix(data) = {
   import "@preview/toolbox:0.1.0": storage
   
@@ -38,6 +80,17 @@
 }
 
 
+/**
+= Annex Command
+:appendix:
+Collects annex data. Inside it, each level 1 heading starts a new annex by
+itself. Can be used multiple times anywhere in the source code.
+
+data <- content
+  The annex content.
+
+An annex is any third-party data referenced or related to the article content.
+**/
 #let annex(data) = {
   import "@preview/toolbox:0.1.0": storage
   
@@ -45,6 +98,18 @@
 }
 
 
+/**
+= Acknowledgments Command
+:acknowledgments:
+Collects acknowledgments data. Also set using the `#article(acknowledgments)`
+command. Can be used multiple times anywhere in the source code.
+
+data <- content
+  The appendix content.
+
+An acknowledgments is a final thanks directed to anyone important in the
+creation of the article.
+**/
 #let acknowledgments(data) = {
   import "@preview/toolbox:0.1.0": storage
   

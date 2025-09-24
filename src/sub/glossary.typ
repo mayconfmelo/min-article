@@ -1,3 +1,14 @@
+/**
+= Glossary Command
+```typ
+#glossary(data)
+```
+Collects glossary data. Can be used multiple times anywhere in the source code.
+
+data <- dictionary
+  `(term: definition)`\
+  Set each glossary term and its definition.
+**/
 #let add(data) = {
   import "@preview/toolbox:0.1.0": storage
   
@@ -19,6 +30,7 @@
 }
 
 
+// Insert the glossary content.
 #let insert() = context {
   import "@preview/toolbox:0.1.0": storage
   

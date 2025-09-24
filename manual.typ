@@ -9,9 +9,13 @@
   package: "min-book:0.1.1",
   license: "MIT",
   logo: image("docs/assets/manual-logo.png"),
-  from-comments: read("src/lib.typ"),
+  from-comments:
+    read("src/lib.typ") +
+    read("src/sub/collectors.typ") +
+    read("src/sub/abbreviations.typ") +
+    read("src/sub/glossary.typ") +
+    read("src/sub/cmd.typ")
 )
-
 
 
 = Copyright
