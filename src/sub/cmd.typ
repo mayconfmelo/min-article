@@ -31,37 +31,27 @@ Replace the original `#figure` command to add a source option, required by ABNT.
 
 /**
 = Help Command
-```typ
-#cmd.help()
-```
+:help: => #cmd.<name>(<capt>)
 Prints a table thats helps to remember which commands are used for each article
-element, workinf as a quick reminder. The table obtained is like the following:
-#table(
-  columns: 2,
-  fill: (_,y) => if y == 0 {gray.lighten(85%)} else {none},
-  table.header[*Element*][*Command*],
-  [Title],             ```typ #article(title)```,
-  [Subtitle],          ```typ #article(subtitle)```,
-  [Authors],           ```typ #article(authors)```,
-  [Abstract],         [```typ #abstract()```\ ```typ #article(abstract)```],
-  [Foreign abstract], [```typ #abstract("foreign")```\ ```typ #article(foreign-abstract)```],
-  [Abbreviations],     ```typ #abbreviations()```,
-  [Bibliography],      ```typ #bibliography()```,
-  [Glossary],          ```typ #glossary()```,
-  [Appendices],        ```typ #appendix()```,
-  [Annexes],           ```typ #annex()```,
-  [Acknowledgments],   ```typ #acknowledgments()```,
-)
+element, working as a quick reminder.
+
+new-page <- boolean
+  Get the helper table in a custom separated page.
 **/
-#let help() = context {
-  pagebreak(weak: true)
+#let help(new-page: true) = context {
+  let args = (:)
   
-  set page(
-    width: auto,
-    height: auto,
-    margin: 1em,
-    header: none
-  )
+  if new-page {
+    pagebreak(weak: true)
+    args = (
+      width: auto,
+      height: auto,
+      margin: 1em,
+      header: none
+    )
+  }
+  
+  set page(..args)
   
   if text.lang == "pt" {
     table(
@@ -98,5 +88,5 @@ element, workinf as a quick reminder. The table obtained is like the following:
     )
   }
   
-  pagebreak(weak: true)
+  if new-page {pagebreak(weak: true)}
 }

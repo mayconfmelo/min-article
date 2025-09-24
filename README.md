@@ -1,7 +1,7 @@
 # Minimal articles
 
 
-<center>
+<center align="center">
 
 Simple and easy way to write ABNT-compliant articles
 

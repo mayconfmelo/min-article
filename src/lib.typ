@@ -6,30 +6,30 @@
 /**#v(1fr)#outline()#v(1.2fr)#pagebreak()
 = Quick Start
 ```typ
-#import "@preview/min-article:0.1.1": article
+#import "@preview/min-article:0.1.1": *
 #show: article.with(   
 	title: "Main Title",
-	subtitle: "Complementary subtitle, not more than two lines",
+	subtitle: "Complementary subtitle",
 	authors: (
-	  ("Main Author", "PhD in Procrastination."),
-	  ("Main Collaborator", "Degree in Doing Nothing."),
+	  ("Main Author", "Short author description."),
+	  ("Collaborator", "Short author description."),
 	),
 )
 ```
 
 = Description
-Generate authentic, structured, and standardized articles, compliant with the
-requirements of the Brazilian Association of Technical Standards (ABNT, in
-Portuguese). The main advantage of this package, apart from the ABNT standard,
-is being able to manage, all by itself, almost all the mind-frying document
-structure and its rules: just input the data anywhere and _min-article_ will
-find where it belongs, and will put it there.
+Generate structured and standardized articles, compliant with the requirements
+of the Brazilian Association of Technical Standards (ABNT, in Portuguese). This
+package also features what is called "collector commands", which just retrieves
+data for _min-article_; this allows to declare structural data anywhere in
+source code, without worrying about the mind-frying document structure and its
+rules at all: just write it and _min-article_ will figure it out.
 
-This manual will be updated only when new versions break or modify something;
-otherwise, it will be valid to all newer versions starting by the one documented
-here.
+Overall, this package aims to follow the ABNT standards as closelly as possible,
+using minimum customizations only when strictly necessary. Refer to the
+`docs/changelog.md` file to check out which ABNT normative documents it uses.
 
-= options
+= Options
 :show.with article:
 **/
 #let article(
@@ -72,7 +72,7 @@ here.
   
   let body = body
   let authors = authors
-  let full-title = title + if subtitle != none {": " + subtitle}
+  let full-title = title + if subtitle != none {": " + lower(subtitle)}
   let font-size = default(
     when: text.size == 11pt,
     value: 12pt,
@@ -105,7 +105,7 @@ here.
     ),
     ..default(
       when: par.leading == 0.65em,
-      value: (leading: 0.3em),
+      value: (leading: 0.35em),
       typst-defaults
     ),
     ..default(
@@ -177,7 +177,7 @@ here.
     
     if foreign-title != none {
       let foreign-full-title = foreign-title + if foreign-subtitle != none {
-        ": " + foreign-subtitle
+        ": " + lower(foreign-subtitle)
       }
       
       set text(lang: foreign-lang)
@@ -208,6 +208,9 @@ here.
     set footnote(numbering: "1")
     counter(footnote).update(0)
   }
+  
+  // Initialize abbreviations mechanism
+  show: abbreviations.init
   
   // Abstract
   context {
@@ -247,7 +250,6 @@ here.
     }
   }
   
-  body = abbreviations.init(body)
   
   body
   
