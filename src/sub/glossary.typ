@@ -51,7 +51,10 @@ data <- dictionary
         value = value.def
       }
     }
-    block(breakable: false, terms.item(entry, value + "."))
+    if value == none {panic("Glossary term '" + entry + "' without definition")}
+    if not value.ends-with(".") {value = value + "."}
+    
+    block(breakable: false, terms.item(entry, value))
   }
 
 }
