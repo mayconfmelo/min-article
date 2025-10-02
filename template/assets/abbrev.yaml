@@ -1,0 +1,38 @@
+ABNT:
+  - Associação Brasileira de Normas Técnicas
+  - Entidade privada sem fins lucrativos responsável pela normalização técnica
+    no Brasil. Define padrões e normas para garantir qualidade, segurança e
+    uniformidade em produtos, serviços e processos, incluindo normas acadêmicas
+    e científicas, como as regras de formatação de trabalhos acadêmicos
+
+WYSIWYG:
+  - What You See Is What You Get
+  - O quê você vê é o que você obtém; abordagem de softwares ou editores em que
+    o conteúdo exibido na tela durante a edição é idêntico ao resultado final,
+    seja em impressão, publicação digital ou página web. Comum em processadores
+    de texto, editores de HTML e design gráfico, facilita a criação visual sem
+    exigir conhecimento técnico aprofundado de códigos ou formatação
+
+WYSIWYM: 
+  - What You See Is What You Mean
+  - O quê você vê é o que você quer dizer; abordagem de edição de conteúdo em
+    que o usuário foca na estrutura e no significado do texto, em vez de sua
+    formatação visual. O sistema interpreta a intenção através de códigos, sem
+    mostrar imediatamente o resultado final, permitindo uma separação clara
+    entre conteúdo e apresentação
+
+HTML:
+  - HyperText Markup Language
+  - Linguagem de marcação de hypertexto; linguagem de marcação padrão utilizada
+    para estruturar e apresentar conteúdo na web, definindo elementos como
+    títulos, parágrafos, links, imagens, tabelas e outros componentes de páginas.
+
+PDF:
+  - Portable Document Format
+  - Formato de documento portátil; formato de arquivo digital desenvolvido pela
+    Adobe que preserva o layout, fontes, imagens e gráficos de um documento,
+    independentemente do software, hardware ou sistema operacional usado para
+    criá-lo ou visualizá-lo. Muito utilizado para compartilhamento e impressão de
+    documentos.
+
+NBR: Norma Brasileira

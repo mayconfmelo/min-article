@@ -1,0 +1,33 @@
+# TODO: make it Web type
+manual:
+  type: Report
+  author: Melo, Maycon F.
+  date: 2025
+  title: Minimal Articles — Simple and easy way to write ABNT-compliant Articles
+  publisher:
+    name: Maycon F. Melo
+    location: São Fidélis
+
+abnt-6022:
+  type: Misc
+  title: >
+    NBR 6022: Informação e documentação — Artigo em publicação periódica técnica e/ou
+    científica — Apresentação
+  author: ABNT
+  date: 2018
+
+abnt-6024:
+  type: Misc
+  title: >
+    NBR 6024: Informação e documentação — Numeração progressiva das seções de um
+    documento — Apresentação
+  author: ABNT
+  date: 2012
+
+abnt-14724:
+  type: Misc
+  title: >
+    NBR 14724: Informação e documentação — Citações em documentos —
+    Apresentação
+  author: ABNT
+  date: 2024
