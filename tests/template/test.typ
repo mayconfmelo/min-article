@@ -3,11 +3,11 @@
 #let doc = read("/template/main.typ")
 #let doc = doc.replace(regex("#import.*?min-article.*"), "")
 #let doc = doc.replace(
-  regex("(read|image|bibliography|include)\(\"/?"),
+  regex("(yaml|read|include|image)\(\"/?"),
   m => m.captures.at(0) + "(\"/template/"
 )
 
 #eval(
-  "[" + doc + "]",
+  "[\n" + doc + "\n]",
   scope: dictionary(lib)
 )
