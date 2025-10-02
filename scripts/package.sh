@@ -76,11 +76,11 @@ if [[ "${ACTION}" == "check" ]]; then
 fi
 
 # Check if version is set to "0.0.0" because of dev-link"
-if [[ "${VERSION}" == "0.0.0" ]]; then
-  echo "Development link activated. Aborting..."
-  echo "Run \"dev-link\" to deactivate it."
-  exit 1
-fi
+# if [[ "${VERSION}" == "0.0.0" ]]; then
+#   echo "Development link activated. Aborting..."
+#   echo "Run \"dev-link\" to deactivate it."
+#   exit 1
+# fi
 
 # Set package directory
 LIB_DIR="${DATA_DIR}/typst/packages/${TARGET}/${NAME}"
@@ -88,13 +88,13 @@ LIB_DIR="${DATA_DIR}/typst/packages/${TARGET}/${NAME}"
 # Install or remove package:
 case "${ACTION}" in
   "install")
-    echo "Installing package to: \"${LIB_DIR}/${VERSION}\""
+    echo "Installing \"${NAME}\" package"
     mkdir -p "${LIB_DIR}" 2>/dev/null
     rm -r "${LIB_DIR}/${VERSION}" 2>/dev/null
     # Copy all package files to its path:
     cp -r "${PROJECT_ROOT}" "${LIB_DIR}/${VERSION}"
     if [[ $? == 0 ]]; then
-      echo "Package files successfully copied."
+      echo "Files successfully copied."
     else
       echo "Could not copy package files. Aborting..."
       exit $?
@@ -116,7 +116,7 @@ case "${ACTION}" in
     
     # Remove files and directories excluded in typst.toml:
     if [[ ${#EXCLUDES[@]} -ne 0 ]]; then
-      echo "Removing excluded paths from final package:"
+      echo "Removing excluded paths:"
       cd "${LIB_DIR}/${VERSION}"
 
       for EXCLUDE in ${EXCLUDES[@]}; do
@@ -132,22 +132,22 @@ case "${ACTION}" in
     
     # Move installed package to project
     if [[ "${TARGET}" == "pkg" ]]; then
-      echo "Moving package to: \"${PROJECT_ROOT}/dev/pkg\""
+      echo "Moving files to: \"dev/pkg\""
       rm -r  "${PROJECT_ROOT}/dev/pkg"
       mkdir -p "${PROJECT_ROOT}/dev/pkg"
       mv "${DATA_DIR}/typst/packages/pkg/" "${PROJECT_ROOT}/dev/"
       
       if [[ $? == 0 ]]; then
-        echo "Package moved successfully to \"dev/pkg\""
+        echo "Files moved successfully to \"dev/pkg\""
       else
-        echo "Could not move package. Aborting..."
+        echo "Could not move files. Aborting..."
         exit $?
       fi
     fi
     ;;
     
   "remove")
-    echo "Removing package in: \"${LIB_DIR}\""
+    echo "Removing \"${NAME}\" package (all versions)"
     # Remove package directory:
     rm -r "${LIB_DIR}" 2>/dev/null
     if [[ $? == 0 ]]; then

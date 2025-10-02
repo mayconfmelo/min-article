@@ -11,40 +11,65 @@ else
   DATA_DIR="${APPDATA}"
 fi
 
-TARGET="local"
 VERSION="0.0.0"
-
-# Project root Directory
 PROJECT_ROOT="${1:-$PWD}"
-if [[ ! -d "${PROJECT_ROOT}" ]]; then
+DEL=${2-true}
+
+if [[ -d "${PROJECT_ROOT}" ]]; then
+  cd "${PROJECT_ROOT}"
+else
   echo "Directory not found: \"${PROJECT_ROOT}\""
+  exit 1
 fi
 
 # Get package name from typst.toml
 NAME=$(
   perl \
     -ne "print \$1 if /^\s*name\s*=\s*[\"']?(.*?)[\"']?\s*$/" \
-    "${PROJECT_ROOT}/typst.toml"
+    typst.toml
+)
+# Set link directories
+LOCAL_DIR="${DATA_DIR}/typst/packages/local/${NAME}"
+PREVIEW_DIR="${DATA_DIR}/typst/packages/preview/${NAME}"
+# List all Typst files
+TYP_CODE=(
+  $(find . -type f -iname "*.typ")
 )
 
-# Set package directory
-LINK_DIR="${DATA_DIR}/typst/packages/${TARGET}/${NAME}"
-
-if [[ -d "${LINK_DIR}/${VERSION}" ]]; then
-  echo "Deleting symlink: \"${LINK_DIR}/${VERSION}\""
-  rm "${LINK_DIR}/${VERSION}" 2>/dev/null || true
+if [[ -d "${LOCAL_DIR}/${VERSION}" ]]; then
+  # Disable deletion
+  if [[ $DEL != true ]]; then
+    exit 0
+  fi
+  
+  echo "Deleting symlink for '${NAME}:${VERSION}'"
+  rm "${LOCAL_DIR}/${VERSION}" 2>/dev/null || true
+  rm "${PREVIEW_DIR}/${VERSION}" 2>/dev/null || true
   # Remove dev linked version in "typst.toml":
   perl -i -pe \
     's/^(\s*version\s*=\s*).*?#(.*)/$1$2/' \
-    "${PROJECT_ROOT}/typst.toml"
+    typst.toml
+  # Get restored package version from typst.toml
+  VERSION=$(
+    perl \
+      -ne "print \$1 if /^\s*version\s*=\s*[\"']?(.*?)[\"']?\s*$/" \
+      typst.toml
+  )
   echo "Symlink removal finished"
 else
-  echo "Creating symlink: \"${LINK_DIR}/${VERSION}\""
-  mkdir "${LINK_DIR}" 2>/dev/null || true
-  ln -s "${PROJECT_ROOT}" "${LINK_DIR}/${VERSION}"
+  echo "Creating symlink for \"${NAME}:${VERSION}\""
+  mkdir -p "${LOCAL_DIR}" 2>/dev/null || true
+  mkdir -p "${PREVIEW_DIR}" 2>/dev/null || true
+  ln -s "${PROJECT_ROOT}" "${LOCAL_DIR}/${VERSION}"
+  ln -s "${PROJECT_ROOT}" "${PREVIEW_DIR}/${VERSION}"
   # Comment original version and insert dev linked version in "typst.toml":
   perl -i -pe \
     's/^(\s*version\s*=\s*)(.*)/$1"0.0.0" #$2/' \
-    "${PROJECT_ROOT}/typst.toml"
+    typst.toml
   echo "Symlink creation finished"
 fi
+
+echo "Updating version number in Typst files..."
+for file in ${TYP_CODE[@]}; do
+  sed -i "s/${NAME}:[0-9.]\+/${NAME}:${VERSION}/" "${file}"
+done

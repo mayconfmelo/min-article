@@ -1,6 +1,8 @@
 root := justfile_directory()
 name := `grep '^name' typst.toml | cut -d'"' -f2`
 version := `grep '^version' typst.toml | cut -d'"' -f2`
+example := "template/main.typ"
+doc := "manual.typ"
 
 [private]
 default:
@@ -22,16 +24,15 @@ test which="":
 example:
   rm -r dev/example/ 2>/dev/null || true
   mkdir -p dev/example/
-  typst compile template/main.typ dev/example/page-{0p}.png
-  typst compile template/main.typ dev/example/doc.pdf
-  #typst compile template/main.typ dev/example/doc.html --features html
+  typst compile {{example}} dev/example/page-{0p}.png
+  typst compile {{example}} dev/example/doc.pdf
 
 # compile the manual.
 doc:
   rm -r dev/manual/ 2>/dev/null || true
   mkdir -p dev/manual/
-  typst compile manual.typ dev/manual/doc.pdf
-  typst compile manual.typ dev/manual/page-{0p}.png
+  typst compile {{doc}} dev/manual/page-{0p}.png
+  typst compile {{doc}} dev/manual/doc.pdf
 
 # remove all dev files.
 clean:
@@ -63,19 +64,16 @@ init:
 # frequent dev commands.
 [private]
 dev:
-  @just install preview
-  @just example
-  @just doc
   @just test
-  
+  bash scripts/dev-link.sh "{{root}}" false
+  typst compile {{doc}} dev/manual/page-{0p}.png
+  typst watch {{example}} dev/example/page-{0p}.png
   
 # release a new package version.
 [private]
 new version:
-  @just example
-  @just doc
-  cp dev/example/doc.pdf docs/example.pdf
-  cp dev/manual/doc.pdf docs/manual.pdf
+  typst compile {{example}} docs/example.pdf
+  typst compile {{doc}} docs/manual.pdf
   git tag
   bash scripts/version.sh "{{version}}" "{{root}}"
   
