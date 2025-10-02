@@ -32,7 +32,7 @@ data <- dictionary
 
 // Insert the glossary content.
 #let insert() = context {
-  import "@preview/toolbox:0.1.0": storage
+  import "@preview/toolbox:0.1.0": storage, content2str
   
   set terms(separator: linebreak(), tight: true)
   let stored = storage.final("glossary", (:), namespace: "min-article")
@@ -52,7 +52,7 @@ data <- dictionary
       }
     }
     if value == none {panic("Glossary term '" + entry + "' without definition")}
-    if not value.ends-with(".") {value = value + "."}
+    if not content2str(value).ends-with(".") {value = value + "."}
     
     block(breakable: false, terms.item(entry, value))
   }

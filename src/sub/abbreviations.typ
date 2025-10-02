@@ -45,23 +45,30 @@ first time, and just _abbrev_ the next times.
 #let init(insensitive: true, body) = context {
   import "@preview/toolbox:0.1.0": storage
   
-  let stored = storage.final("glossary", (:), namespace: "min-article")
   let body = body
+  let stored = storage.final("glossary", (:), namespace: "min-article")
+  let marker = state("min-article-abbrev-used", (:))
   let i = if insensitive {"(?i)"} else {""}
   
   for (abbrev, value) in stored {
+    // Skip glossary terms
     if not value.abbrev {continue}
     
     let re = i + "\b" + abbrev + "\b"
-    let first = state("abbrev-first-use-" + abbrev, true)
     
     body = {
       show regex(re): it => context {
-        if first.get() [#value.long (#abbrev)] else {abbrev}
-        first.update(false)
+        let used = marker.get().at(abbrev, default: false)
+        
+        if not used [#value.long (#abbrev)] else {abbrev}
+       
+       // Mark item as already abbreviated
+        marker.update(curr => {
+          curr.insert(abbrev, true)
+          curr
+        })
       }
       body
-      first.update(none)  // clean temporary state
     }
   }
   return body

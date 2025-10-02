@@ -16,25 +16,26 @@ type <- string
 An abstract is a general resume of the entire article content.
 **/
 #let abstract(..args) = {
-  import "@preview/toolbox:0.1.0": storage
+  import "@preview/toolbox:0.1.0": storage, content2str
   
-  args = args.pos()
+  assert.ne(args.pos().len(), 0, message: "#abstract(body) required")
   
-  assert(
-    (1, 2).contains(args.len()),
-    message: "Supported #abstract(type, body) or #abstract(body)"
-  )
+  let args = args.pos()
+  let abstr = (:)
+  let kind
+  let body
   
-  // Insert args.pos().at(1) = "main" if none is set
+  // Insert "main" kind when omitted
   if args.len() == 1 {args.insert(0, "main")}
   
-  let abstr = (:)
+  kind = content2str(args.at(0))
+  body = args.slice(1).join(" ")
   
-  abstr.insert(..args)
+  abstr.insert(kind, body)
   
   assert(
-    ("main", "foreign").contains(args.at(0)),
-    message: "Invalid type #article(" + str(type) + ")"
+    ("main", "foreign").contains(kind),
+    message: "Invalid #article(" + str(type) + ") kind"
   )
   
   storage.add("abstract", abstr, append: true, namespace: "min-article")

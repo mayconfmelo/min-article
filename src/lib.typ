@@ -6,7 +6,7 @@
 /**#v(1fr)#outline()#v(1.2fr)#pagebreak()
 = Quick Start
 ```typ
-#import "@preview/min-article:0.1.1": *
+#import "@preview/min-article:0.2.0": *
 #show: article.with(   
 	title: "Main Title",
 	subtitle: "Complementary subtitle",
@@ -134,7 +134,7 @@ using minimum customizations only when strictly necessary. Refer to the
   set bibliography(
     ..default(
       when: bibliography.style == "ieee",
-      value: (style: "associacao-brasileira-de-normas-tecnicas"),
+      value: (style: "assets/associacao-brasileira-de-normas-tecnicas-usp-fmvz.txt"),
       typst-defaults
     )
   )
@@ -162,8 +162,42 @@ using minimum customizations only when strictly necessary. Refer to the
     it
   )
   show quote.where(block: true): it => pad(x: 1em, it)
-  show raw.where(block: true): it => pad(left: 1em)[#it]
-  
+  show raw: set text(
+    size: default(
+      when: text.size == 11pt,
+      value: 10pt,
+      otherwise: text.size,
+      typst-defaults
+    )
+  )
+  show ref: it => { 
+      let el = it.at("element", default: none)
+      
+      // When referencing headings in "normal" form
+      if el != none and el.func() == heading and it.form == "normal" {
+        let post = transl("appendix", "annex", to: text.lang, data: lang-data)
+        let data = el.supplement
+        let pattern = "1.1.1.1.1"
+        let space
+        
+        if el.numbering != none {
+          if post.contains(el.supplement.at("text", default: "")) {
+            pattern = "A." + pattern
+          }
+          
+          space = if el.supplement != none {" "} else {""}
+          data += space + numbering(
+            pattern,
+            ..counter(heading).at(el.location())
+          )
+        }
+        else {data = el.body}
+        
+        link(el.location(), data)
+      }
+      else {it}
+    }
+
   // Title
   {
     set text(hyphenate: false)
@@ -250,7 +284,6 @@ using minimum customizations only when strictly necessary. Refer to the
     }
   }
   
-  
   body
   
   storage.namespace("min-article")
@@ -269,7 +302,7 @@ using minimum customizations only when strictly necessary. Refer to the
         
         bib.push(data)
       }
-      args = args + entry.named()
+      args += entry.named()
     }
     
     bibliography(bib, ..args)
@@ -297,19 +330,44 @@ using minimum customizations only when strictly necessary. Refer to the
   
     import "@preview/numbly:0.1.0": numbly
     
+    let title = transl("appendix", to: text.lang, data: lang-data)
+    let data = storage.final("appendices").join()
+    let kinds = data.children
+      .filter(it => it.func() == figure and it.fields().keys().contains("kind"))
+      .map(it => it.at("kind", default: ""))
+      .dedup()
     let pattern = (
-      transl("appendix", to: text.lang, data: lang-data) + " {1:A} — ",
+      title + " {1:A} — ",
       "{1:A}.{2:1} ",
       "{1:A}.{2:1}.{3:1} ",
       "{1:A}.{2:1}.{3:1}.{4:1} ",
       "{1:A}.{2:1}.{3:1}.{4:1}.{5:1} ",
     )
     
-    set heading(numbering: numbly(..pattern, default: "A.1.1.1.1 "))
-    show heading.where(level: 1): set align(center)
+    set heading(
+      numbering: numbly(..pattern, default: "A.1.1.1.1 "),
+      supplement: title,
+    )
+    set figure(numbering: n => {
+      let h = counter(heading).get().at(0)
+      numbering("A1", h, n)
+    })
+    
+    show heading.where(level: 1): it => {
+      for kind in kinds {
+        counter(figure.where(kind: kind)).update(0)
+      }
+      counter(figure.where(kind: raw)).update(0)
+      counter(figure.where(kind: table)).update(0)
+      counter(figure.where(kind: image)).update(0)
+      counter(math.equation).update(0)
+      
+      align(center, it)
+    }
+    
     counter(heading).update(0)
      
-    storage.final("appendices").join()
+    data
   }
   
   // Annex
@@ -318,19 +376,44 @@ using minimum customizations only when strictly necessary. Refer to the
   
     import "@preview/numbly:0.1.0": numbly
     
+    let title = transl("annex", to: text.lang, data: lang-data)
+    let data = storage.final("annexes").join()
+    let kinds = data.children
+      .filter(it => it.func() == figure and it.fields().keys().contains("kind"))
+      .map(it => it.at("kind", default: ""))
+      .dedup()
     let pattern = (
-      transl("annex", to: text.lang, data: lang-data) + " {1:A} — ",
+      title + " {1:A} — ",
       "{1:A}.{2:1} ",
       "{1:A}.{2:1}.{3:1} ",
       "{1:A}.{2:1}.{3:1}.{4:1} ",
       "{1:A}.{2:1}.{3:1}.{4:1}.{5:1} ",
     )
     
-    set heading(numbering: numbly(..pattern, default: "A.1.1.1.1 "))
-    show heading.where(level: 1): set align(center)
+    set heading(
+      numbering: numbly(..pattern, default: "A.1.1.1.1 "),
+      supplement: title,
+    )
+    set figure(numbering: n => {
+      let h = counter(heading).get().at(0)
+      numbering("A1", h, n)
+    })
+    
+    show heading.where(level: 1): it => {
+      for kind in kinds {
+        counter(figure.where(kind: kind)).update(0)
+      }
+      counter(figure.where(kind: raw)).update(0)
+      counter(figure.where(kind: table)).update(0)
+      counter(figure.where(kind: image)).update(0)
+      counter(math.equation).update(0)
+      
+      align(center, it)
+    }
+    
     counter(heading).update(0)
      
-    storage.final("annexes").join()
+    data
   }
   
   // Acknowledgments
@@ -351,5 +434,5 @@ using minimum customizations only when strictly necessary. Refer to the
 // Here because replaces some Typst commands
 #import "sub/abbreviations.typ": add as abbreviations
 #import "sub/glossary.typ": add as glossary
-#import "sub/cmd.typ" as cmd: figure
+#import "sub/cmd.typ" as cmd: figure, board
 #import "sub/collectors.typ": *
