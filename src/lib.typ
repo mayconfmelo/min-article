@@ -65,7 +65,7 @@ using minimum customizations only when strictly necessary. Refer to the
   assert.eq(type(lang-data), dictionary)
   
   import "@preview/transl:0.1.1": transl
-  import "@preview/toolbox:0.1.0": date as date-parse, get, storage, has, its, default
+  import "@preview/toolbox:0.1.0": get, storage, has, its, default
   import "sub/abbreviations.typ"
   
   transl(data: lang-data)
@@ -85,7 +85,7 @@ using minimum customizations only when strictly necessary. Refer to the
   set document(
     title: full-title,
     author: authors.at(0).at(0) + if authors.len() > 1 {" et al."},
-    date: date-parse( get.auto-val(date, datetime.today()) )
+    date: get.date( get.auto-val(date, datetime.today()) )
   )
   set page(
     ..default(
@@ -162,14 +162,20 @@ using minimum customizations only when strictly necessary. Refer to the
     it
   )
   show quote.where(block: true): it => pad(x: 1em, it)
-  show raw: set text(
-    size: default(
+  show raw: it => text(
+    ..default(
       when: text.size == 11pt,
-      value: 10pt,
-      otherwise: text.size,
+      value: (size: 9pt),
       typst-defaults
-    )
+    ),
+    ..default(
+      when: text.font == "dejavu sans mono",
+      value: (font: ("Fira Mono", "Inconsolata")),
+      typst-defaults
+    ),
+    it
   )
+  show raw.where(block: true): set par(leading: 0.45em)
   show ref: it => { 
       let el = it.at("element", default: none)
       
