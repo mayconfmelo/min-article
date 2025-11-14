@@ -20,33 +20,24 @@ if [[ "${VERSION}" != "${TYP_VERSION}" ]]; then
   exit 1
 fi
 
-echo "Starting version update script. Did you already:"
-echo "1. Added changes/new features to CHANGELOG.md"
-echo "2. Updated README.md, if needed"
-echo "3. Updated docs/manual.typ, if needed"
-echo "Continue [y/N]?"
-read ANSWER
-case "${ANSWER}" in
-  "Y"|"y"|"yes"|"YES"|"Yes")
-    echo "Changing \"${NAME}\" to version \"${VERSION}\""
-    ;;
-    
-  *)
-    echo "Aborting..."
-    exit 1
-    ;;
-esac
-
 # Check if version is SemVer:
 if [[ ! "${VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
   echo "Invalid version: ${VERSION}."
   echo "Must be a semantic version"
-  exit 1
+  exit 2
+fi
+
+# Check if tag already exists
+if git rev-parse -q --verify "refs/tags/${VERSION}" >/dev/null; then
+  echo "Error: The ${VERSION} tag already exists"
+  exit 3
 fi
 
 cd "${PROJECT_ROOT}"
 
-echo "Changing links in \"README.md\"..."
+echo "Releasing version \"${VERSION}\""
+
+echo "Updating links in \"README.md\"..."
 sed -i "s/tags\/[0-9.]\+/tags\/${VERSION}/" "README.md"
 sed -i "s/blob\/[0-9.]\+/blob\/${VERSION}/" "README.md"
 
@@ -54,20 +45,8 @@ SRC_CODE=(
   $(find . -type f -iname "*.typ" -o -iname "README.md")
 )
 
-echo "Updating version number in Typst files..."
+echo "Checking version in Typst files..."
 for file in ${SRC_CODE[@]}; do
+  echo "   ${file}"
   sed -i "s/${NAME}:[0-9.]\+/${NAME}:${VERSION}/" "${file}"
 done
-
-echo "Updating version number in \"typst.toml\"..."
-perl -i -pe 's/^(\s*version\s*=\s*).*/$1"'${VERSION}'"/' typst.toml
-
-echo "Trying to commit and push unstaged changes, if any..."
-git add .
-git commit -m "VERSION: ${VERSION} released"
-git push origin main --force
-echo "Creating new git tag..."
-git tag "${VERSION}"
-git push origin "${VERSION}"
-
-echo "New version ${VERSION} successfully released."

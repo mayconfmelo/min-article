@@ -61,21 +61,27 @@ spell correct="no":
 init:
   typst init '@preview/{{name}}:{{version}}' dev/{{name}}
 
-# frequent dev commands.
+
+# useful dev commands.
 [private]
 dev:
   @just test
   bash scripts/dev-link.sh "{{root}}" false
-  typst compile {{doc}} dev/manual/page-{0p}.png
   typst watch {{example}} dev/example/page-{0p}.png
   
 # release a new package version.
 [private]
-new version:
-  typst compile {{example}} docs/example.pdf
-  typst compile {{doc}} docs/manual.pdf
+release:
   git tag
   bash scripts/version.sh "{{version}}" "{{root}}"
+  just install
+  typst compile {{example}} docs/example.pdf
+  typst compile {{doc}} docs/manual.pdf
+  git add .
+  git commit -m "VERSION: {{version}} released" || true
+  git push origin main --force
+  git tag "{{version}}"
+  git push origin "{{version}}"
   
 # install and build it (used in CI).
 [private]
@@ -87,6 +93,8 @@ build:
 [private]
 deploy:
   #!/usr/bin/env bash
+  bash scripts/version.sh "{{version}}" "{{root}}"
+  
   cd ../packages
   git checkout -b main
   just update
