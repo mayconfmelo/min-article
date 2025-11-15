@@ -1,13 +1,8 @@
-// NAME: Manual for min-article
-
-#import "@preview/min-manual:0.2.1": manual, arg, univ, url
+#import "@preview/min-manual:0.3.0": manual, arg, univ, url
 
 #show: manual.with(
   title: "Minimal Articles",
-  description: "Simple and easy way to write ABNT-compliant articles.",
-  authors: "Maycon F. Melo <@mayconfmelo>",
-  package: "min-book:0.1.1",
-  license: "MIT",
+  manifest: toml("typst.toml"),
   logo: image("docs/assets/manual-logo.png"),
   from-comments:
     read("src/lib.typ") +

@@ -1,5 +1,5 @@
 /**
-= Abstract Command
+== Abstract
 ```typ
 #abstract(
   type,
@@ -7,7 +7,7 @@
 )
 ```
 Collects abstract data. Also set using the `#article(abstract, foreign-abstract)`
-command — the main abstract is required by ABNT, while the foreign abstract is
+options. The main abstract is required by ABNT, while the foreign abstract is
 optional. Can be used multiple times anywhere in the source code.
 
 type <- string
@@ -43,7 +43,7 @@ An abstract is a general resume of the entire article content.
 
 
 /**
-= Bibliography Command
+== Bibliography
 :bibliography:
 Collects bibliography data, replacing the original `#bibliography` command. Can
 be used multiple times anywhere in the source code.
@@ -63,7 +63,7 @@ args.pos() <- arguments
 
 
 /**
-= Appendix Command
+== Appendix
 :appendix:
 Collects appendix data. Inside it, each level 1 heading starts a new appendix by
 itself. Can be used multiple times anywhere in the source code.
@@ -82,7 +82,7 @@ referenced or related to it.
 
 
 /**
-= Annex Command
+== Annex
 :appendix:
 Collects annex data. Inside it, each level 1 heading starts a new annex by
 itself. Can be used multiple times anywhere in the source code.
@@ -100,10 +100,10 @@ An annex is any third-party data referenced or related to the article content.
 
 
 /**
-= Acknowledgments Command
+== Acknowledgments
 :acknowledgments:
 Collects acknowledgments data. Also set using the `#article(acknowledgments)`
-command. Can be used multiple times anywhere in the source code.
+option. Can be used multiple times anywhere in the source code.
 
 data <- content
   The appendix content.

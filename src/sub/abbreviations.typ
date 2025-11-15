@@ -1,5 +1,5 @@
 /**
-= Abbreviations Command
+== Abbreviations
 ```typ
 #abbreviations(data)
 ```

@@ -1,404 +1,256 @@
+#import "@preview/min-manual:0.3.0": manual, arg, url
 
-// Article Manual
-#import "@preview/min-manual:0.1.0": manual, arg, univ
+#set text(lang: "pt")
 
 #show: manual.with(
   title: "Minimal Articles",
   description: "Forma simples a fácil de escrever artigos em conformidade com a ABNT",
-  authors: "Maycon F. Melo <https://github.com/mayconfmelo>",
-  cmd: "min-article",
-  version: "0.1.0",
+  authors: "Maycon F. Melo <@mayconfmelo>",
+  package: "min-article:0.2.0",
+  url: "https://github.com/mayconfmelo/min-article",
   license: "MIT",
-  toc: true,
-  logo: image("assets/manual-logo.png"),
-  lang: "pt"
+  logo: image("manual-logo.png"),
 )
 
+
+#v(1fr)
+#outline()
+#v(1.2fr)
 #pagebreak()
 
 
 = Início Rápido
-
-```typ
-#import "@preview/min-article:0.1.0": article
+```typst
+#import "@preview/min-article:0.2.0": *
 #show: article.with(
-	title: "Título Principal",
-	subtitle: "Subtítulo complementar",
-	foreign-title: "Main Title",
-	foreign-subtitle: "Complementary subtitle",
-	authors: (
-	  ("Main Author", "Doctor in Procrastination, etc, etc."),
-	  ("Main Collaborator", "Graduate in Doing Nothing, etc, etc."),
-	  ("Collaborator", "Student of Procrastination, etc, etc.")
-	),
-	lang: "pt",
-	lang-foreign: "en"
+  title: "Título Principal",
+  subtitle: "Subtítulo complementar",
+  foreign-title: "Main Title",
+  foreign-subtitle: "Complementary subtitle",
+  foreign-lang: "en",
+  authors: (
+    ("Autor Principal", "Descrição sucinta do autor."),
+    ("Colaborador", "Descrição sucinta do autor."),
+  ),
 )
 ```
 
 = Descrição
 
-Gere artigos autênticos, estruturados, e no padrão, em conformidade com os
-requerimentos da Associação Brasileira de Normas Técnicas (ABNT). O principal
-diferencial deste pacote, além de seguir os padrões ABNT definidos pelas normas
-NBR 6022 e NBR 14724, é ser capaz de gerenciar por conta própria a praticamente
-toda a estressante estruturação do documento e suas regrinhas: apenas insira os
-dados em qualquer local que o _min-article_ encontrará onde eles devem estar no
-artigo, e os colocará la.
+Gere artigos estruturados e padronizados, em conformidade com os requisitos da
+Associação Brasileira de Normas Técnicas (ABNT). Este pacote também inclui os
+chamados "comandos coletores", que simplesmente obtém dados para serm usados pelo
+_min-article_; isso permite declarar dados estruturais em qualquer lugar do
+código-fonte, sem se preocupar com a complexa estrutura do documento e suas
+regras: basta escrever e o _min-article_ se encarregará do resto.
 
-Este manual será atualizado apenas quando novas versões quebrarem ou modificarem
-algo; do contrário, este será válido para todas as novas versões, a partir desta
-documentada aqui.
+Em geral, este pacote visa seguir os padrões da ABNT o mais fielmente possível,
+utilizando personalizações mínimas apenas quando estritamente necessário.
+Consulte o arquivo `docs/changelog.md` para verificar quais documentos normativos
+ABNT são utilizados.
 
 
 = Opções
-
-Esta é a lista completa de opções disponíveis, e seus valores padrão:
-
 ```typm
 #show: book.with(
   title: none,
-  foreign-title: none,
   subtitle: none,
-  foreign-subtitle: none,
-  authors: none,
   abstract: none,
+  foreign-lang: none,
+  foreign-title: none,
+  foreign-subtitle: none,
   foreign-abstract: none,
+  authors: none,
   acknowledgments: none,
   date: auto,
-  paper: "a4",
-  lang: "en",
-  lang-foreign: none,
-  lang-data: toml("assets/lang.toml"),
-  justify: true,
-  line-space: 0.3em,
-  par-margin: 1.5em,
-  margin: (
-    top: 3cm,
-    bottom: 2cm,
-    left: 3cm,
-    right: 2cm
-  ),
-  font: ("Book Antiqua", "Times New Roman"),
-  font-size: 12pt,
+  lang-data: yaml("assets/lang.yaml"),
+  typst-defaults: false,
 )
 ```
 
-Parece set muita coisa logo de cara, mas vamos por partes pra entender tudo isto
-melhor:
-
 #arg("title: <- string | conteúdo <required>")[
-  O título principal do artigo, em sua língua nativa.
+  Título principal do artigo, em sua língua nativa.
 ]
-
-#arg("foreign-title: <- string | conteúdo")[
-  O título do artigo em uma língua estrangeira --- geralmente uma _lingua franca_:
-  um idioma conhecido e usado universalmente (atualmente é o inglês).
+#arg("subtitle: <- string | conteúdo")[
+  Subtítulo do artigo em sua língua nativa; geralmente com duas linhas ou menos.
 ]
-
-#arg("subtitle: <- string | conteúdo | none")[
-  O subtítulo do artigo; geralmente com duas linhas ou menos.
-]
-
-#arg("foreign-subtitle: <- string | conteúdo | none")[
-  O subtítulo do artigo na língua estrangeira.
-]
-
-#arg("authors: <- array <required>")[
-  Um array de arrays contendo o nome e breve currículo de cada autor, no formato
-  `( (NOME, CURRÍCULO), (NOME, CURRÍCULO) )`. Se um array simples for usado, seu
-  primeiro elemento será tratado como `NOME` e seu segundo como `CURRÍCULO`.
-]
-
-#arg("abstract: <- conteúdo")[
-  A forma mais feia de definir o resumo formal de tudo que o documento fala. É
-  mais bonito e intuitivo usar o comando `#abstract("main")` ao invés deste
-  argumento.
-]
-
-#arg("foreign-abstract: <- conteúdo")[
-  A forma mais feia de definir o resumo do artigo em língua estrangeira. É
-  mais bonito e intuitivo usar o comando `#abstract("foreign")` ao invés deste
-  argumento.
-]
-
-#arg("acknowledgments: <- conteúdo")[
-  A forma mais feia de definir os agradecimentos finais do artigo. É mais bonito
-  e intuitivo usar o comando `#acknowledgments` ao invés deste argumento.
-]
-
-#arg("date: <- array | auto")[
-  A data de publicação do artigo, no formato `(yyyy, mm, dd)`. Se não definida,
-  ou definida como `auto`, será usads a data atual.
-]
-
-#arg("paper: <- string")[
-  Define o tipo de papel da página --- e seu tamanho, por consequência.
-]
-
-#arg("lang: <- string")[
-  Define o idioma principal do texto.
-]
-
+#arg("abstract: <- conteúdo")[Resumo do artigo.]
 #arg("foreign-lang: <- string")[
-  Define o idioma estrangeiro, usado no título e resumo secundários.
+  Língua estrangeira adicional (geralmente uma _lingua franca_.)
 ]
-
-#arg("lang-data: <- arquivo")[
-  Define um arquivo do #univ("linguify") customizado com traduções para as seções
-  geradas automaticamente. O arquivo padrão oficialmente possui total suporte
-  para o português e o inglês, além de algumas outras linguagens obtidas de tradução
-  por IA.
+#arg("foreign-title: <- string | conteúdo")[Título em língua estrangeira.]
+#arg("foreign-subtitle: <- string | conteúdo")[Subtítulo em língua estrangeira.]
+#arg("foreign-abstract: <- conteúdo")[Resumo em língua estrangeira.]
+#arg("authors: <- array | array de arrays <required>")[
+  `(nome, descrição)`\
+  Nome e descrição de cada um dos autores do artigo.
 ]
-
-#arg("justify: <- booleano")[
-  Define se o texto terá alinhamento justificado.
+#arg("acknowledgments: <- conteúdo")[
+  Agradecimentos finais, geralmente às pessoas importantes na criação do artigo.
 ]
-
-#arg("line-space: <- tamanho")[
-  Define o eapaço entre linhas no documento.
+#arg("date: <- array | dicionário")[`(ano, mês, dia)`\ Data de publicação do artigo.]
+#arg("lang-data: <- yaml | toml | dicionário")[
+  Dados de tradução para os idiomas de `#text.lang` e `#article(foreign-lang)`.
 ]
-
-#arg("par-margin: <- tamanho")[
-  Define o espaço de margrm após cada parágrafo. Defina o mesmo valor de
-  `line-space` oara obter parágrafos sem espaço adicional entre si.
-]
-
-#arg("margin: <- tamanho")[
-  Define as margens do documento.
-]
-
-#arg("font: <- string | array")[
-  Define as faílias de fontes usadas no texto: uma fonte principal e suas suplentes.
-]
-
-#arg("font-size: <- tamanho")[
-  Define o tamaho do texto no documento.
+#arg("typst-defaults: <- booleano")[
+  Use os padrões do Typst ao invés dos padrões do _min-article_.
 ]
 
 
-= Comando Abstract
+= Comandos
 
+
+== Resumo
 ```typ
-#import "@preview/min-article:0.1.0": abstract
 #abstract(
   type,
   body
 )
 ```
-
-Esta é a melhor maneira de definir os resumos dos artigos. Este comando apenas
-captura o conteúdo do resumo e o envia para o comando `article`, onde os resumos
-são gerados de fato. Por isso, você pode colocar este comando em qualquer lugar
-dentro do corpo do documento, e ele será gerado no local correto, logo após os
-títulos, conforme determina a ABNT NBR 6022.
+Coleta dados para o resumo. Também pode ser definido comm as opções
+`#article(abstract, foreign-abstract)`. O resumo principal é obrigatório,
+enquanto que o resumo estrangeiro é opcional. O comando pode ser usado múltiplas
+vezes em qualquer lugar no código-fonte.
 
 #arg("type <- string")[
-  Define de qual resumo se trata: o resumo principal `"main"`, ou o resumo
-  estrangeiro `"foreign"`; apenas strings com esses valores são aceitas.
+  O resumo definido: `"main"` (principal) ou `"foreign"` (língua estrangeira);
+  se omitido, o primeiro é usado por padrão.
 ]
 
-#arg("body <- conteúdo")[
-  O conteúdo do resumo
-]
+Um resumo é um compilado geral do conteúdo do artigo inteiro, de forma resumida.
 
 
-= Comando Abbreviations
-
+== Bibliografia
 ```typ
-#import "@preview/min-article:0.1.0": abbrev
-#abrev(
-  abbreviation,
-  long,
-  definition
-)
+#bibliography(..args)
 ```
+Coleta dados bibliográficos de arquivos.Substitui o comando `#bibliography`
+padrão, pode ser usado múltiplas vezes e em qualquer lugar no código-fonte.
 
-Este comando gerencia abreviações conforme exigido pela ABNT NBR 14724: na
-primeira vez em que é utilizado, imprime o nome completo seguido da abreviação
-entre parênteses; a partir de então, ao ser usado novamente com a mesma
-abreviação, imprime apenas a abreviação. Além disso, cada nova abreviação é
-coletada para ser incluída em um glossário gerado automaticamente, juntamente
-com uma definição mais extensa da abreviação (opcional), e seu nome completo.
-
-#arg("abbreviation <- string | conteúdo <required>")[
-  A abreviação em si. Não suporta qualquer estilização ou aspas --- até mesmo
-  apóstrofes. É recomendado o uso de apenas letras minúsculas — automaticamente
-  tranformadas em maiúsculas, — e realizar quaisquer estilizações necessárias
-  no texto fora do comando `abbrev`.
+#arg("args.pos() <- argumentos")[
+  Conteúdo de um ou maia arquivos de bibliografia. Use `#read` ou strings.
 ]
-
-#arg("long <- string | conteúdo")[
-  O nome extenso completo, que é representado pela abreviação.
-]
-
-#arg("definition <- string | conteúdo")[
-  Uma definição opcional da abreviação e seu nome, para ser usada  no glossário.
-  Quando nenhuma definicão é dada, o nome completo por extenso é usado como
-  definição de sua abreviação.
+#arg("args.named() <- argumentos")[
+  #let docs = "https://typst.app/docs/reference/model/bibliography#parameters"
+  Quaisquer opções suportadas pelo comando #url(docs)[`#bibliography`] original.
 ]
 
 
-
-= Comando Glossary Term
-
+== Apêndice
 ```typ
-#import "@preview/min-article:0.1.0": gloss
-#gloss(
-  term-name
-  definition
-)
+#appendix(data)
 ```
+Coleta dados de apêndice. Dentro do ambiente, cada titulo de nível 1 inicia um
+novo apêndice individual. Pode ser usado múltiplas vezes e em qualquer lugar
+no código-fonte.
 
-Este comando funciona junto com `#abbrev`, coletando termos para um glossário
-gerado automaticamente. Enquanto abbrev coleta apenas abreviações, gloss pode
-coletar qualquer palavra ou expressão. Ele apenas obtém os dados e imprime o
-termo no local onde o comando é escrito; posteriormente, o comando article usa
-esses dados para gerar um glossário automático após o corpo principal do texto,
-conforme determina a ABNT NBR 6022. Se nenhum dado for coletado por `#gloss` ou
-`#abbrev`, nenhum glossário será gerado.
+#arg("dados <- conteúdo")[Ambiente do apêndice.]
 
-
-#arg("term-name <- string | conteúdo <required>")[
-  O nome do terml no glossário; é o quê será definido. Se o nome possui
-  quaisquer caracteres espeicias como apóstrofes ou aspas, é recomendado usar
-  uma string ao invés de conteúdo.
-]
-
-#arg("definition <- string | conteúdo <required>")[
-  A definição de `term-name`; um texto sucinto que o descreve e o explica.
-]
+Um apêndice é qualquer dado adicional que não faz parte do conteúdo principal do
+artigo, mas que é referenciado ou relacionado a ele.
 
 
-= Comando Appendix
-
+== Anexo
 ```typ
-#import "@preview/min-article:0.1.0": appendix
-#appendix(
-  appendix
-)
+#annex(data)
 ```
+Coleta dados de anexos. Dentro do ambiente, cada titulo de nível 1 inicia um
+novo anexo individual. Pode ser usado múltiplas vezes e em qualquer lugar no
+código-fonte.
 
-Este comando apenas captura os apêndices inseridos ao longo do corpo do texto e
-os envia para o comando `article`, onde os apêndices são gerados de fato. Por
-isso, você pode colocar este comando em qualquer lugar dentro do corpo do
-documento, e ele será gerado no local correto, logo após o glossário, se houver,
-conforme determina a ABNT NBR 6022. É possível usar o comando várias vezes para
-coletar múltiplos apêndices. Os apêndices contêm dados e informações adicionais
-que não foram incluídos no documento em si, mas que foram citados ou estão
-relacionados a ele.
+#arg("dados <- conteúdo")[Ambiente do anexo.]
 
-#arg("appendix <- conteúdo <required>")[
-  O conteúdo do apêndice em si. Em documentos mais extensos, é recomendado usar
-  arquivos _typ_ separados para apêndices e incluí-los aqui. Dentro do conteúdo, toda seção
-  primária (título de nível 1) é tratada como um novo apêndice.
+Um anexo é qualquer dado de terceiros referenciado ou relacionado ao conteúdo do
+artigo.
+
+
+== Agradecimentos
+```typ
+#acknowledgments(data)
+```
+Coleta dados de agradecimentos. Também pode ser definido com a opção
+`#article(acknowledgments)`. Pode ser usado múltiplas vezes e em qualquer lugar
+no código-fonte.
+
+#arg("dados <- conteúdo")[Ambiente do agradecimento.]
+
+Um agradecimento é uma mensagem final dirigida a alguém, geralmente pessoas
+importante na produção do artigo.
+
+
+== Abreviações
+```typ
+#abbreviations(data)
+```
+Coleta dados de abreviações e/ou glossário. Todas as abreviações  encontradas no
+conteúdo do artigo (sem distinção entre maiúsculas e minúsculas) são
+automaticamente substituídas conforme exigido pela ABNT. Pode ser usado múltiplas
+vezes e em qualquer lugar no código-fonte.
+
+#arg("data <- dictionary")[
+  `(abrev: (extenso, definição))`\
+  Define cada abreviação e seu nome por extenso; opcionalmente, uma definição de
+  glossário também pode ser incluída.
+]
+
+O ABNT exige que uma abreviação apareça como _abreviação (abrev)_ na primeira
+aparição e apenas _abbrev_ nas apariçôes seguintes.
+
+
+== Glossário
+```typ
+#glossary(data)
+```
+Coleta dados de glossário. Pode ser usado múltiplas vezes em qualquer lugar no
+código-fonte.
+
+#arg("data <- dictionário")[
+  `(termo: definição)`\
+  Define cada termo do glossário e sua definição.
 ]
 
 
-= Comando Annex
-
+== Figura
 ```typ
-#import "@preview/min-article:0.1.0": annex
-#annex(
-  annex
-)
-```
-
-Este comando apenas captura os anexos inseridos ao longo do corpo do texto e
-os envia para o comando `article`, onde os anexos são gerados de fato. Por
-isso, você pode colocar este comando em qualquer lugar dentro do corpo do
-documento, e ele será gerado no local correto, logo após os apêndices, se houver
-algum, conforme determina a ABNT NBR 6022. É possível usar o comando várias vezes
-para coletar múltiplos anexos. Os anexos são documentos criados ou informações
-coletadas por terceiros, mas que foram citados ou estão relacionados ao documento
-atual.
-
-#arg("annex <- conteúdo <required>")[
-  O conteúdo do anexo em si. Em documentos mais extensos, é recomendado usar
-  arquivos _typ_ separados para anexos e incluí-los aqui. Dentro do conteúdo,
-  toda seção primária (título de nível 1) é tratada como um novo anexo.
-]
-
-
-= Comando Acknowledgments
-
-```typ
-#import "@preview/min-article:0.1.0": acknowledgments
-#acknowledgments(
-  thanks
-)
-```
-
-Este comando apenas captura o conteúdo dos agradecimentos e o envia para o
-comando `article`, onde a seção de agradecimentos é gerada de fato. Por isso,
-você pode colocar este comando em qualquer lugar dentro do corpo do documento,
-e ele será gerado no local correto, bem no final do documento, conforme determina
-a ABNT NBR 6022. Os agradecimentos são um texto para agradecer e reconhecer o
-valor das pessoas que desempenharam papéis importantes na criação do artigo.
-
-
-= Comando Figure
-
-```typ
-#import "@preview/min-article:0.1.0": figure
 #figure(
-  source: none,
-  alignment: center,
-  ..figure-arguments
+  body,
+  caption: none,
+  source: none, /// reference | string | content <required>
+    /// The figure source.
+  align: center, /// alignment
+    /// Align the figure — does not replace `#figure(placement)`.
+  ..args, /// arguments
 )
 ```
+Substitui o comando `#figure` original para adicionar uma opção de fonte,
+exigida pela ABNT para figuras.
 
-Este comando sobrepõe o comando padrão `#figure` para adicionar dois argumentos
-a ele. Conforme exige a ABNT NBR 6022, todas as figuras devem ter uma legenda
-na parte superior e uma fonte na parte inferior, e este comando atende a essa
-exigência adicionando o argumento `source`. O outro argumento, `alignment`, é
-apenas um recurso adicional para alinhar a figura usando menos código.
-
-#arg("source: <- string | conteúdo <required>")[
-  A fonte da informação mostrada na figura — mesmo se for o próprio autor.
-  Geralmente, é uma citação bibliográfica ou apenas "Autor" seguido do ano de
-  criação da figura, entre parênteses.
-]
-
-#arg("alignment: <- alinhamento <required>")[
-  Um recurso adicional para alinhar a figura na página usando menos código.
-]
-
-#arg("..figure-arguments <- argument <required>")[
-  Quaisquer argumentos padrão do comando `#figure` original; todos eles são
-  suportados por esse comando.
+#arg("source: <- referência | string | conteúdo")[Fonte da figura.]
+#arg("align: <- alinhamento")[Alinha a figura — não substitui `#figure(placement)`.]
+#arg("..args <- argumentos")[
+  #let docs = "https://typst.app/docs/reference/model/figure/#parameters"
+  Quaisquer argumentos suportados pelo comando #url(docs)[`#figure`] original.
 ]
 
 
-= Nota Sobre Bibliografias
+== Ajuda
+```typ
+#cmd.help(new-page: true)
+```
+Imprime uma tabela que ajuda a lembrar quais comandos são usados para cada
+elemento do artigo, funcionando como um lembrete rápido.
 
-Infelizmente, não há como carregar o arquivo de bibliografia para que _min-article_
-o processe e gere a bibliografia no lugar correto automaticamente. Portanto,
-essa tarefa fica por sua conta. Isso significa que, se você inserir o comando em
-algum lugar, ele aparecerá exatamente onde foi escrito e não no local correto
-automaticamente. Estou buscando uma solução para esse problema, mas parece ser
-uma limitação do Typst.
-
-Por isso, como é necessário definir manualmente onde a bibliografia será
-inserida, escreva o comando `bibliography` após o fim de todo o conteúdo do
-texto. Assim, ele será exibido no local correto, conforme exige a ABNT NBR 6022:
-depois do texto e antes do glossário, se houver. Ele pode ser escrito antes de
-qualquer um dos comandos coletores descritos aqui, mas qualquer outro conteúdo
-adicionado após ele será exibido depois da bibliografia — no local errado.
+#arg("new-page <- booleano")[Imprime a tabela em uma página separada.]
 
 
-= Traduções
+== Quadro
+```typ
+#board(..args)
+```
+Um wrapper simples em torno do comando original `#table` com contornos, usado
+para criar quadros em figuras, com suporte para múltiplos painéis.
 
-This package uses #univ("linguify") to translate the headings automatically generated.
-Currently, it offers support to English and Portuguese, and some other languages
-by IA translations. If your language is not supported, or wrongly translated by
-AI, consider contrivuting to this project by helping in the translation.
-
-Este pacote usa #univ("linguify") para traduzir automaticamente os títulos
-gerados. Atualmente, ele oferece suporte para inglês e português, além de outros
-idiomas por meio de traduções obtidas por IA. Se o seu idioma não for suportado
-ou for traduzido incorretamente pela IA, considere contribuir para este projeto
-ajudando na tradução.
+#arg("args <- argumentos")[Quaisquer argumentos suportados pelo comando `#table`.]
 
 
 = Copyright

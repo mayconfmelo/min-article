@@ -1,7 +1,4 @@
-// NAME: Minimal Articles
-// TODO: Implement web article (HTML) when stable
-// TODO: Implement comment documentation
-
+// TODO: Implement web article when HTML become stable
 
 /**#v(1fr)#outline()#v(1.2fr)#pagebreak()
 = Quick Start
@@ -20,14 +17,14 @@
 = Description
 Generate structured and standardized articles, compliant with the requirements
 of the Brazilian Association of Technical Standards (ABNT, in Portuguese). This
-package also features what is called "collector commands", which just retrieves
+package also features what is called "collector commands", which just obtain
 data for _min-article_; this allows to declare structural data anywhere in
 source code, without worrying about the mind-frying document structure and its
 rules at all: just write it and _min-article_ will figure it out.
 
 Overall, this package aims to follow the ABNT standards as closelly as possible,
 using minimum customizations only when strictly necessary. Refer to the
-`docs/changelog.md` file to check out which ABNT normative documents it uses.
+`docs/changelog.md` file to check out which ABNT normative documents are used.
 
 = Options
 :show.with article:
@@ -48,8 +45,7 @@ using minimum customizations only when strictly necessary. Refer to the
   foreign-abstract: none, /// <- string | content
     /// Additional abstract in foreign language. |
   authors: none, /// <- array | array of arrays <required>
-    /** `(name, description)`\
-    Name and description of each article author. |**/
+    /// `(name, description)`\ Name and description of each article author. |
   acknowledgments: none, /// <- string | content
     /// Final thanks directed to anyone important in the creation of the article. |
   date: auto, /// <- array | dictionary | datetime
@@ -57,7 +53,7 @@ using minimum customizations only when strictly necessary. Refer to the
   lang-data: yaml("assets/lang.yaml"), /// <- yaml | toml | dictionary
     /// Translation data for `#text.lang` and `#article(foreign-lang)` languages. |
   typst-defaults: false, /// <- boolean
-    /// Use original Typst defaults instead of min-article ones.
+    /// Use original Typst defaults instead of min-article ones. |
   body
 ) = context {
   assert.ne(title, none)
@@ -437,7 +433,10 @@ using minimum customizations only when strictly necessary. Refer to the
   }
 }
 
-// Here because replaces some Typst commands
+
+/// = Commands
+
+// At the end because they replace some Typst commands
 #import "sub/abbreviations.typ": add as abbreviations
 #import "sub/glossary.typ": add as glossary
 #import "sub/cmd.typ" as cmd: figure, board

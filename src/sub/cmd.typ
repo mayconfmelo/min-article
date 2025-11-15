@@ -1,5 +1,5 @@
 /**
-= Figure Command
+== Figure
 :figure:
 Replace the original `#figure` command to add a source option, required by ABNT.
 **/
@@ -32,7 +32,7 @@ Replace the original `#figure` command to add a source option, required by ABNT.
 
 
 /**
-= Help Command
+== Help
 :help: => #cmd.<name>(<capt>)
 Prints a table thats helps to remember which commands are used for each article
 element, working as a quick reminder.
@@ -100,7 +100,7 @@ new-page <- boolean
 
 
 /**
-= Board Command
+== Board
 ```typ
 #board(..args)
 ```

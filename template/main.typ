@@ -279,12 +279,6 @@ final do código-fonte e ainda assim ele aparecerá no local correto @manual.
       ````
     )
     draw.content(
-      (2,-1.3),
-      ```typc article()```,
-      name: "cmd",
-      padding: 0.1,
-    )
-    draw.content(
       (4,0),
       `abs`,
       anchor: "west",
@@ -365,14 +359,18 @@ final do código-fonte e ainda assim ele aparecerá no local correto @manual.
       stroke: black.lighten(30%),
       mark: (
         stroke: black.lighten(30%),
-        fill: black.lighten(30%)
+        fill: black.lighten(30%),
       )
     )
     
-    draw.line((0,-2.5), "cmd")
-    draw.line((0,-2.9), "cmd")
-    draw.line("cmd.north", "abs.west")
-    draw.line("cmd.south", "bib.west")
+    draw.line((0,-2.5), (2,-1.3), "abs.west")
+    draw.line((0,-2.9), (2,-1.3), "bib.west")
+    
+    draw.content(
+      (2,-1.3),
+      block(```typc article()```, fill: white, inset: 0.2em),
+      name: "cmd",
+    )
   })
 ) <coletores>
 
@@ -517,9 +515,9 @@ benéficos, e com isso angariar maior popularidade para as mesmas.
   assemelhados.
   
   #figure(
-    kind: "diagram",
-    supplement: "Diagrama",
-    caption: "Esquema da estrutura de um artigo.",
+    kind: "scheme",
+    supplement: "Esquema",
+    caption: "Estrutura de um artigo.",
     source: "Elaborado pelo autor.",
     canvas({
       draw.set-style(padding: 0.5em)
@@ -601,7 +599,7 @@ benéficos, e com isso angariar maior popularidade para as mesmas.
   
   #figure(
     supplement: "Esquema",
-    caption: "Estrutura do trabalho acadêmico",
+    caption: "Estrutura do trabalho acadêmico.",
     source: [@abnt-14724],
     image("assets/abnt-14724.jpg")
   )

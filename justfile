@@ -3,6 +3,7 @@ name := `grep '^name' typst.toml | cut -d'"' -f2`
 version := `grep '^version' typst.toml | cut -d'"' -f2`
 example := "template/main.typ"
 doc := "manual.typ"
+doc-pt := "docs/assets/manual-pt.typ"
 
 [private]
 default:
@@ -33,6 +34,10 @@ doc:
   mkdir -p dev/manual/
   typst compile {{doc}} dev/manual/page-{0p}.png
   typst compile {{doc}} dev/manual/doc.pdf
+  rm -r dev/manual-pt/ 2>/dev/null || true
+  mkdir -p dev/manual-pt/
+  typst compile {{doc-pt}} dev/manual-pt/page-{0p}.png
+  typst compile {{doc-pt}} dev/manual-pt/doc.pdf
 
 # remove all dev files.
 clean:
@@ -77,6 +82,7 @@ release:
   just install
   typst compile {{example}} docs/example.pdf
   typst compile {{doc}} docs/manual.pdf
+  typst compile {{doc-pt}} docs/manual-pt.pdf
   git add .
   git commit -m "VERSION: {{version}} released" || true
   git push origin main --force

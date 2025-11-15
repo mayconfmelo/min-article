@@ -1,5 +1,5 @@
 /**
-= Glossary Command
+== Glossary
 ```typ
 #glossary(data)
 ```
