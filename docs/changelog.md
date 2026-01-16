@@ -47,3 +47,7 @@
 - Updated: [toolbox](https://typst.app/universe/package/toolbox) used for internal management
 - Updated: [transl](https://typst.app/universe/package/transl) used for translation
 - Updated: _Tex Gyre Termes_ as default text font (fallback to _Times New Roman_)
+- Updated: `#bibliography` fully compliant to ABNT standard[^16]
+- Updated: Adapted CSL file to Hayagriva's limitations (uses [workarounds](../tests/bib/bib.yaml))
+
+[^16]: ABNT NBR 6023:2025

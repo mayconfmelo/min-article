@@ -2,11 +2,9 @@
 
 
 <div align="center">
-
 <p class="hidden">
   Simple and easy way to write ABNT-compliant articles.
 </p>
-
 
 <p class="hidden">
   <a href="https://typst.app/universe/package/min-article">
@@ -53,6 +51,7 @@
 )
 ```
 
+
 ## Descrição
 
 Gere artigos estruturados e padronizados, em conformidade com os requisitos da
@@ -66,6 +65,19 @@ Em geral, este pacote visa seguir os padrões da ABNT o mais fielmente possível
 utilizando personalizações mínimas apenas quando estritamente necessário.
 Consulte o arquivo `docs/changelog.md` para verificar quais documentos normativos
 ABNT são utilizados.
+
+
+## Sobre Referências Bibliográficas
+
+Devido à [limitações no processamento de referências do Typst](https://github.com/mayconfmelo/min-article/issues/1),
+nem todos os tipos de referência suportados pelo BibLaTeX/CSL são reconhecidos
+diretamente; recomendamos escrever bibliografias diretamente em [Hayagriva](https://github.com/typst/hayagriva)
+para obter melhores resultados.
+
+Mesmo o Hayagriva apresenta limitações em comparação com o CSL, portanto, para
+contornar possíveis problemas tentando seguir a norma ABNT NBR 6023:2025 o mais
+fielmente possível, um estilo CSL personalizado com algumas soluções alternativas
+(gambiarras) é fornecido.
 
 ------------
 
@@ -90,6 +102,7 @@ ABNT são utilizados.
 )
 ```
 
+
 ## Description
 
 Generate structured and standardized articles, compliant with the requirements
@@ -102,3 +115,15 @@ rules at all: just write it and _min-article_ will figure it out.
 Overall, this package aims to follow the ABNT standards as closelly as possible,
 using minimum customizations only when strictly necessary. Refer to the
 `docs/changelog.md` file to check out which ABNT normative documents are used.
+
+
+## Regarding Bibliographic References
+
+Due to [limitations in Typst's reference processing](https://github.com/mayconfmelo/min-article/issues/1),
+not all reference types supported by BibLaTeX/CSL are directly recognized; que
+recommend writing bibliographies directly in [Hayagriva](https://github.com/typst/hayagriva)
+for better results.
+
+Even Hayagriva has limitations compared to CSL, so to circumvent potential
+problems while trying to follow the ABNT NBR 6023:2025 standard as closely as
+possible, a customized CSL style with some workarounds is provided.
