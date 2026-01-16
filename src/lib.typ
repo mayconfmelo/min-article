@@ -130,7 +130,7 @@ using minimum customizations only when strictly necessary. Refer to the
   set bibliography(
     ..default(
       when: bibliography.style == "ieee",
-      value: (style: "assets/associacao-brasileira-de-normas-tecnicas-usp-fmvz.txt"),
+      value: (style: "assets/abnt.csl"),
       typst-defaults
     )
   )
