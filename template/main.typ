@@ -408,7 +408,7 @@ são muito limitados.
   caption: [Execução de código Typst com pré-visualização instantânea em um
     dispositivo móvel.],
   source: "Capturado pelo autor.",
-  rotate(-90deg, image("assets/typst-web.png"), reflow: true)
+  rotate(-90deg, image("assets/img/typst-web.png"), reflow: true)
 )
 
 No caso do Typst, a pré-visualização instantânea está disponível também quando
@@ -601,7 +601,7 @@ benéficos, e com isso angariar maior popularidade para as mesmas.
     supplement: "Esquema",
     caption: "Estrutura do trabalho acadêmico.",
     source: [@abnt-14724],
-    image("assets/abnt-14724.jpg")
+    image("assets/img/abnt-14724.jpg")
   )
 ]
 

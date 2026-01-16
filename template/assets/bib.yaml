@@ -1,33 +1,48 @@
-# TODO: make it Web type
 manual:
-  type: Report
+  type: Web
   author: Melo, Maycon F.
   date: 2025
-  title: Minimal Articles — Simple and easy way to write ABNT-compliant Articles
+  title: "Minimal Articles: Simple and easy way to write ABNT-compliant Articles"
+  url: https://github.com/mayconfmelo/min-article/tree/dev/docs
   publisher:
     name: Maycon F. Melo
     location: São Fidélis
 
 abnt-6022:
-  type: Misc
+  type: Reference
   title: >
-    NBR 6022: Informação e documentação — Artigo em publicação periódica técnica e/ou
-    científica — Apresentação
+    NBR 6022:
+    Informação e documentação —
+    Artigo em publicação periódica técnica e/ou científica —
+    Apresentação
   author: ABNT
   date: 2018
+  publisher:
+    name: Associação Brasileira de Normas Técnicas
+    location: Rio de Janeiro
 
 abnt-6024:
-  type: Misc
+  type: Reference
   title: >
-    NBR 6024: Informação e documentação — Numeração progressiva das seções de um
-    documento — Apresentação
+    NBR 6024:
+    Informação e documentação —
+    Numeração progressiva das seções de um documento —
+    Apresentação
   author: ABNT
   date: 2012
+  publisher:
+    name: Associação Brasileira de Normas Técnicas
+    location: Rio de Janeiro
 
 abnt-14724:
-  type: Misc
+  type: Reference
   title: >
-    NBR 14724: Informação e documentação — Citações em documentos —
+    NBR 14724:
+    Informação e documentação —
+    Citações em documentos —
     Apresentação
   author: ABNT
   date: 2024
+  publisher:
+    name: Associação Brasileira de Normas Técnicas
+    location: Rio de Janeiro
