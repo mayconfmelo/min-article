@@ -25,7 +25,7 @@ Documento cartográfico @map[p. 0]\
 Documento tridimensional @3d[p. 0]\
 Documento eletrônico @online[p. 0]\
 
-Artigo online @post[p. 0]\
+Artigo online @blog-post[p. 0]\
 
 #v(3em)
 #line()
@@ -34,4 +34,4 @@ Artigo online @post[p. 0]\
 #pagebreak(weak: true)
 
 #import "@preview/debug-city:0.0.2": debug-cite
-//#debug-cite(<online>)
+#debug-cite(<fio>)

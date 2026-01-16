@@ -69,8 +69,13 @@ book:
     pmid: 8
     pmcid: 9
   parent:
+  - type: Anthology
     title: Coleção
-    issue: 10 # gambiarra (volume em coleção)
+    volume: 10
+  - type: Conference
+    title: Evento
+    location: Local do evento
+    date: 1902
 
 # Parte de tese/monografia/livro
 part:
@@ -99,6 +104,7 @@ part:
     pmid: 7
     pmcid: 8
   parent:
+    type: Book
     title: Livro
     author: Sobrenome, Nome
     volume: 9
@@ -523,7 +529,7 @@ online:
 
 
 # Artigo online
-post:
+blog-post:
   type: Article
   author: Sobrenome, Nome
   title: Título da Postagem
@@ -549,6 +555,10 @@ post:
 # art: # graphic
 #   type: Artwork
 #   title: Obra de Arte
+
+# post: # post
+#   type: Post
+#   title: Postagem em Rede Social
 
 # manuscript: # manuscript
 #   type: Manuscript
