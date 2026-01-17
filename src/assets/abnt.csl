@@ -8,7 +8,7 @@
     <link href="http://www.zotero.org/styles/associacao-brasileira-de-normas-tecnicas" rel="template"/>
     <author>
       <name>Maycon Fernandes Melo</name>
-      <email>TODO</email>
+      <email>mayconfmelo.contato@gmail.com</email>
       <uri>https://www.github.com/mayconfmelo</uri>
     </author>
     <contributor>
@@ -17,7 +17,6 @@
       <uri>https://www.mendeley.com/profiles/alberto-kawai/</uri>
     </contributor>
     <category citation-format="author-date"/>
-    <category field="medicine"/>
     <summary>The Brazilian Standard Style in accordance with ABNT-NBR 6023:2025 (adapted to Typst/Hayagriva)</summary>
     <updated>2022-04-05T16:21:57+00:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
@@ -50,6 +49,7 @@
       </term>
     </terms>
   </locale>
+  <!-- TODO: Optimize CSL macros -->
   <macro name="access">
     <text variable="URL" prefix="Disponível em: " suffix=". "/>
     <date variable="accessed" prefix="Acesso em: " suffix=". ">
@@ -57,6 +57,20 @@
       <date-part name="month" form="short" suffix=". " text-case="lowercase"/>
       <date-part name="year"/>
     </date>
+  </macro>
+  <macro name="main-author">
+    <names variable="author" font-variant="normal">
+      <name font-style="normal" font-variant="normal" delimiter="; " delimiter-precedes-last="always" name-as-sort-order="all">
+        <name-part name="family" text-case="uppercase"/>
+        <name-part name="given" text-case="capitalize-first"/>
+      </name>
+      <label form="short" plural="never" text-case="lowercase" font-style="normal" prefix=" (" suffix=")"/>
+      <substitute>
+        <names variable="editor"/>
+        <names variable="translator"/>
+        <text macro="title" text-case="uppercase"/>
+      </substitute>
+    </names>
   </macro>
   <macro name="author">
     <group delimiter="; ">
@@ -66,11 +80,11 @@
           <name-part name="given" text-case="capitalize-first"/>
         </name>
         <label form="short" plural="never" text-case="lowercase" font-style="normal" prefix=" (" suffix=")"/>
-        <substitute>
+        <!--<substitute>
           <names variable="editor"/>
           <names variable="translator"/>
           <text macro="title" text-case="uppercase"/>
-        </substitute>
+        </substitute>-->
       </names>
       <names variable="editor-translator" font-variant="normal">
         <name font-style="normal" font-variant="normal" delimiter="; " delimiter-precedes-last="always" name-as-sort-order="all">
@@ -125,13 +139,15 @@
   </macro>
   <macro name="collection">
     <choose>
-      <if variable="event-title" match="any">
+      <if variable="collection-title">
         <group delimiter=", " prefix="(" suffix="). ">
-          <text variable="event-title"/>
-          <text variable="collection-number"/>
+          <text variable="collection-title"/>
           <choose>
-            <if type="thesis" match="any">
-              <text variable="volume" prefix="v. "/>
+            <if variable="collection-number">
+              <group>
+                <text term="volume" form="short" suffix=". "/>
+                <text variable="collection-number"/>
+              </group>
             </if>
           </choose>
         </group>
@@ -195,8 +211,21 @@
     </choose>
   </macro>
   <macro name="event">
+    <group delimiter=", ">
+      <text variable="event-title" text-case="uppercase"/>
+      <group delimiter=" ">
+        <date variable="event-date">
+          <date-part name="day"/>
+          <date-part name="month" form="short"/>
+          <date-part name="year"/>
+        </date>
+      </group>
+      <text variable="event-place"/>
+    </group>
+  </macro>
+  <macro name="event-old">
     <choose>
-      <if variable="event">
+      <if variable="event-title">
         <choose>
           <if variable="genre" match="none">
             <text term="in" text-case="capitalize-first" suffix=": "/>
@@ -407,30 +436,46 @@
   </citation>
   <bibliography>
     <sort>
-      <key macro="author"/>
+      <key macro="main-author"/>
       <key variable="issued"/>
     </sort>
     <layout>
       <choose>
         <if type="book">
           <group>
-            <text macro="author" suffix=". "/>
-            <text macro="title" suffix=". "/>
+            <choose>
+              <if variable="event-title">
+                <choose>
+                  <if variable="author" match="none">
+                    <text macro="event" suffix=". "/>
+                    <text variable="title" suffix=". " font-weight="bold"/>
+                  </if>
+                  <else>
+                    <text macro="author" suffix=". "/>
+                    <text variable="title" suffix=". "/>
+                  </else>
+                </choose>
+              </if>
+              <else>
+                <text macro="author" suffix=". "/>
+                <text variable="title" suffix=". " font-weight="bold"/>
+              </else>
+            </choose>
             <group delimiter=" " suffix=". ">
               <text macro="edition"/>
               <text macro="volume"/>
             </group>
             <text macro="translator" suffix=". "/>
-            <text macro="publisher"/>
-            <text variable="number-of-pages" suffix=" p. " prefix=". "/>
             <choose>
-              <if variable="event-title" match="any">
-                <group delimiter=", " prefix="(" suffix="). ">
-                  <text variable="event-title"/>
-                  <text variable="issue" prefix="v. "/>
-                </group>
+              <if variable="event-title author" match="all">
+                <text term="in" text-case="capitalize-first" suffix=": "/>
+                <text macro="event" suffix=". "/>
+                <text variable="genre" suffix=". " font-weight="bold"/>
               </if>
             </choose>
+            <text macro="publisher" suffix=". "/>
+            <text variable="number-of-pages" suffix=" p. "/>
+            <text macro="collection"/>
             <text variable="chapter-number" suffix=": "/>
             <text variable="page" prefix="p. " suffix=". "/>
             <text macro="serial-number"/>
@@ -440,7 +485,6 @@
         </if>
         <else-if type="thesis">
           <group>
-            <text macro="author" suffix=". "/>
             <group delimiter="; " suffix=". ">
               <names variable="author" font-variant="normal">
                 <name font-style="normal" font-variant="normal" delimiter="; " delimiter-precedes-last="always" name-as-sort-order="all">
@@ -448,11 +492,6 @@
                   <name-part name="given" text-case="capitalize-first"/>
                 </name>
                 <label form="short" plural="never" text-case="lowercase" font-style="normal" prefix=" (" suffix=")"/>
-                <substitute>
-                  <names variable="editor"/>
-                  <names variable="translator"/>
-                  <text macro="title" text-case="uppercase"/>
-                </substitute>
               </names>
               <names variable="editor" font-variant="normal">
                 <name font-style="normal" font-variant="normal" delimiter="; " delimiter-precedes-last="always" name-as-sort-order="all">
@@ -460,11 +499,6 @@
                   <name-part name="given" text-case="capitalize-first"/>
                 </name>
                 <label form="short" plural="never" text-case="lowercase" font-style="normal" prefix=" (" suffix=")"/>
-                <substitute>
-                  <names variable="editor"/>
-                  <names variable="translator"/>
-                  <text macro="title" text-case="uppercase"/>
-                </substitute>
               </names>
               <names variable="editor-translator" font-variant="normal">
                 <name font-style="normal" font-variant="normal" delimiter="; " delimiter-precedes-last="always" name-as-sort-order="all">
@@ -573,10 +607,10 @@
             <text macro="access"/>
           </group>
         </else-if>
-        <else-if type="article-newspaper article-magazine article-journal" match="any">
+        <else-if type="article article-newspaper article-magazine article-journal" match="any">
           <group>
             <text macro="author" suffix=". "/>
-            <text macro="title" suffix=". "/>
+            <text variable="title" suffix=". "/>
             <text macro="container-title" suffix=", "/>
             <text variable="collection-title" suffix=". "/>
             <group delimiter=", " suffix=". ">
@@ -608,6 +642,7 @@
                 <text macro="edition"/>
                 <text macro="volume"/>
                 <text variable="issue" prefix="n. "/>
+                <text variable="number"/>
               </if>
             </choose>
           </group>
@@ -844,7 +879,26 @@
         </else-if>
         <else-if type="song" match="any">
           <group>
-            <text variable="title" suffix=". "/>
+            <choose>
+              <if variable="author">
+                <names variable="author" font-variant="normal" suffix=". ">
+                  <name font-style="normal" font-variant="normal" delimiter="; " delimiter-precedes-last="always" name-as-sort-order="all">
+                    <name-part name="family" text-case="uppercase"/>
+                    <name-part name="given" text-case="capitalize-first"/>
+                  </name>
+                  <label form="short" plural="never" text-case="lowercase" font-style="normal" prefix=" (" suffix=")"/>
+                  <substitute>
+                    <names variable="editor"/>
+                    <names variable="translator"/>
+                    <text macro="title" text-case="uppercase"/>
+                  </substitute>
+                </names>
+                <text variable="title" suffix=". " font-weight="bold"/>
+              </if>
+              <else>
+                <text variable="title" suffix=". "/>
+              </else>
+            </choose>
             <text variable="genre" suffix=". "/>
             <names variable="executive-producer" delimiter=", " prefix="Direção: " suffix=". ">
               <name delimiter=", " sort-separator=" " delimiter-precedes-last="always">
