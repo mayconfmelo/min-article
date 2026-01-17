@@ -2,6 +2,8 @@
 #set bibliography(style: "/src/assets/abnt.csl")
 #set text(lang: "pt", region: "BR")
 
+#show: set columns(2)
+
 Tese de doutorado @thesis[p. 0]\
 Monografia/livro/folheto @book[p. 0]\
 Parte de tese/monografia/livro @part[p. 0]\
@@ -11,7 +13,7 @@ Fascículo @entry[p. 0]\
 Artigo em periódico @article-periodical[p. 0]\
 Artigo em jornal @article-newspaper[p. 0]\
 Evento @event[p. 0]\
-Parte de Evento em monografia @event-part-thesis[p. 0]\
+Parte de Evento em monografia @event-part-book[p. 0]\
 Parte de Evento em periódico @event-part-periodical[p. 0]\
 Patente @patent[p. 0]\
 Legislação @legislation[p. 0]\
@@ -34,4 +36,4 @@ Artigo online @blog-post[p. 0]\
 #pagebreak(weak: true)
 
 #import "@preview/debug-city:0.0.2": debug-cite
-#debug-cite(<fio>)
+//#debug-cite(<blog-post>)

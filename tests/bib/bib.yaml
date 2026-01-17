@@ -3,21 +3,21 @@
 # TODO: get rid of the workarounds when Hayagriva have full CSL support
 
 # Tese de doutorado
-thesis:
+thesis: # (thesis)
   type: Thesis
   title: Tese de Doutorado
   author: Sobrenome, Nome
   date: 1901-01-01
-  editor: Sobrenome, Nome
   genre: Tipo de Tese (Curso)
   chapter: Capítulo
   volume: 1
-  page-range: 2–3
+  issue: 2
+  page-range: 3–4
   page-total: 42
   note: Anotação
   affiliated:
     - role: organizer # gambiarra (orientador)
-      names: Nome Sobrenome
+      names: Sobrenome, Nome
     - role: translator
       names: Sobrenome, Nome
   url:
@@ -27,24 +27,18 @@ thesis:
     name: Faculdade, Universidade
     location: Local da Instituição
   serial-number:
-    doi: 4
-    isbn: 5
-    issn: 6
-    pmid: 7
-    pmcid: 8
-  parent:
-    type: Anthology
-    title: Coleção
-    volume: 9
-    issue: 10
+    doi: 5
+    isbn: 6
+    issn: 7
+    pmid: 8
+    pmcid: 9
 
-# Monografia e livro/folheto
-book:
+# Monografia/livro/folheto
+book: # (book)
   type: Book
   title: Livro
   author: Sobrenome, Nome
-  date: 1901-01-01
-  editor: Sobrenome, Nome
+  date: 1902-01-01
   chapter: Capítulo
   edition: 1
   volume: 2
@@ -52,8 +46,6 @@ book:
   page-total: 42
   note: Anotação
   affiliated:
-    - role: organizer
-      names: Sobrenome, Nome
     - role: translator
       names: Sobrenome, Nome
   url:
@@ -72,18 +64,19 @@ book:
   - type: Anthology
     title: Coleção
     volume: 10
-  - type: Conference
-    title: Evento
-    location: Local do evento
-    date: 1902
+  # - type: Conference
+  #   genre: Anais do Evento # gambiarra (anais/publicação do evento)
+  #   title: Evento
+  #   location: Local do evento
+  #   date: 1902
 
 # Parte de tese/monografia/livro
-part:
+part: # (chapter)
   type: Chapter
   title: Parte da Obra
   author: Sobrenome, Nome
   genre: Gênero
-  date: 1902-01-01
+  date: 1903-01-01
   edition: 1
   page-range: 2–3
   page-total: 42
@@ -91,10 +84,8 @@ part:
   note: Anotação
   url:
     value: https://example.com
-    date: 1902-01-01
+    date: 1903-01-01
   affiliated:
-    - role: organizer
-      names: Sobrenome, Nome
     - role: translator
       names: Sobrenome, Nome
   serial-number:
@@ -117,11 +108,11 @@ part:
       location: Local de Publicação
 
 # Correspondência
-letter:
+letter: # (document, webpage)
   type: Misc # gambiarra (não há tipo para carta)
   title: "[Correspondência]"
   author: Sobrenome, Nome
-  date: 1903-01-01
+  date: 1904-01-01
   note: Descrição
   publisher: # gambiarra (destinatário)
     name: Nome Sobrenome. Local de Escrita
@@ -131,13 +122,11 @@ letter:
     date: 1904-01-01
   
 # Periódico, ou parte de evento em periódico
-periodical:
+periodical: # (entry)
   type: Entry
   title: # gambiarra (referência por título)
     value: PERIÓDICO
     short: Periódico
-  date: 1904-01-01
-  issue: 1904–1950
   note: 1940–1945
   url:
     value: https://example.com
@@ -146,6 +135,7 @@ periodical:
     name: Editora
     location: Local de Publicação
   serial-number:
+    serial: 1940–1945 # gambiarra (período de atividade)
     doi: 5
     isbn: 6
     issn: 7
@@ -155,7 +145,7 @@ periodical:
     type: Periodical
 
 # Fascículo, suplemento, etc.
-entry:
+entry: # (entry)
   type: Entry
   title: # gambiarra (referência por título)
     value: FASCÍCULO
@@ -179,21 +169,15 @@ entry:
     pmcid: 9
 
 # Artigo/matéria em periódico, ou parte de evento em periódico
-article-periodical:
+article-periodical: # (article-journal)
   type: Article
   title: Artigo em Periódico
   author: Sobrenome, Nome
   date: 1906-01-01
-  editor: Sobrenome, Nome
   publisher:
     location: Local
   page-range: 1–2
   note: Anotação
-  affiliated:
-    - role: organizer
-      names: Sobrenome, Nome
-    - role: translator
-      names: Sobrenome, Nome
   url:
     value: https://example.com
     date: 1906-01-01
@@ -210,21 +194,15 @@ article-periodical:
     issue: 9
 
 # Artigo/matéria em jornal
-article-newspaper:
+article-newspaper: # (article-newspaper)
   type: Article
   title: Artigo em Jornal
   author: Sobrenome, Nome
   date: 1907-01-01
-  editor: Sobrenome, Nome
   publisher:
     location: Local
   page-range: 1–2
   note: Anotação
-  affiliated:
-    - role: organizer
-      names: Sobrenome, Nome
-    - role: translator
-      names: Sobrenome, Nome
   url:
     value: https://example.com
     date: 1907-01-01
@@ -241,10 +219,9 @@ article-newspaper:
     issue: 9
 
 # Evento em monografia/artigo
-event:
-  type: Article
+event: # (book)
+  type: Proceedings
   title: Anais do Evento
-  author: Evento, 1 # gambiarra (nome e número do evento)
   publisher:
     name: Editora
     location: Local de Publicação
@@ -264,15 +241,18 @@ event:
     pmid: 7
     pmcid: 8
   parent:
-    type: Proceedings
-    title: 1908, Local do Evento # gambiarra (dados do evento)
+    type: Conference
+    title: Evento, 1
+    location: Local do Evento
+    date: 1908
 
 # Parte de evento em monografia
-event-part-thesis:
-  type: Chapter
-  title: Parte do Evento
+event-part-book: # (book)
+  type: Book
+  title: Parte do Evento em monografia
   author: Sobrenome, Nome
   date: 1909-01-01
+  genre: Anais do Evento # gambiarra (anais/publicação do evento)
   page-range: 1–2
   serial-number:
     doi: 5
@@ -281,24 +261,25 @@ event-part-thesis:
     pmid: 8
     pmcid: 9
   note: Anotação
+  publisher:
+    name: Editora
+    location: Local de Publicação
+  url:
+    value: https://example.com
+    date: 1909-01-01
   parent:
-    title: Monografia
-    author: Evento, Local do Evento, 1 # gambiarra (dados do evento)
+    type: Conference
+    title: Evento, 1
+    location: Local do Evento
+    date: 1909
     note: Anotação
-    url:
-      value: https://example.com
-      date: 1909-01-01
-    publisher:
-      name: Editora
-      location: Local de Publicação
 
 # Parte de evento em artigo/matéria em periódico
-event-part-periodical:
+event-part-periodical: # (article)
   type: Article
-  title: Parte do Evento
+  title: Parte do Evento em Periódico
   author: Sobrenome, Nome
   date: 1910-01-01
-  editor: Sobrenome, Nome
   publisher:
     location: Local
   page-range: 1–2
@@ -313,31 +294,31 @@ event-part-periodical:
     pmid: 6
     pmcid: 7
   parent:
-    type: Periodical
+    type: Conference
     title: Periódico
     volume: 8
     issue: 9
 
 # Patente
-patent:
+patent: # (patent)
   type: Patent
   title: Patente
   author: Sobrenome, Nome
   editor: Nome Sobrenome # gambiarra (depositante/titular)
   date: 1911-02-02
-  serial-number: BR n. AA0000000-A0
+  serial-number: BR AA0000000-A0
   note: Anotação
   url:
     value: https://example.com
-    date: 1907-01-01
+    date: 1911-01-01
   parent:
     type: Original
     date: 1911-01-01
 
 # Legislação, ou atos admimistrativos
-legislation:
+legislation: # (legislation)
   type: Legislation
-  author: Jurisdição # gambiarra
+  author: Jurisdição
   genre: Epígrafe. Ementa # gambiarra
   title: Publicação
   date: 1912-01-01
@@ -354,9 +335,9 @@ legislation:
     date: 1912-01-01
 
 # Jurisprudência
-legal-case:
+legal-case: # (legal_case)
   type: Case
-  author: Jurisdição # gambiarra
+  author: Jurisdição
   genre: Tipo. Processo. Ementa # gambiarra
   title: Publicação
   organization: Tribunal (turma)
@@ -374,18 +355,18 @@ legal-case:
     location: Local de Publicação
   url:
     value: https://example.com
-    date: 1912-01-01
+    date: 1913-01-01
   parent:
     type: Legislation
 
 # Documentos civis
-document:
+document: #(document, webpage)
   type: Misc
   title: Documento
   author: Sobrenome, Nome
   organization: Órgão Expedidor
   date: 1914-01-01
-  publisher: "Registro em:"
+  publisher: "Registro em:" # gambiarra (expressão necessária antes de date)
   note: >-
     Certidão registrada às fls. 000 do livro n. 000 de assentamento de nascimento
     n. 00000. Data de nascimento: 2 fev. 1914
@@ -394,7 +375,7 @@ document:
     date: 1914-01-01
   
 # Documento audiovisual
-video:
+video: # (motion_picture)
   type: Video
   title: # gambiarra (referência por título)
     value: TÍTULO do Vídeo
@@ -419,10 +400,10 @@ video:
       names: Sobrenome, Nome
   url:
     value: https://example.com
-    date: 1914-01-01
+    date: 1915-01-01
 
 # Documento sonoro
-audio:
+audio: # (song)
   type: Audio
   title: # gambiarra (referência por título)
     value: TÍTULO do Áudio
@@ -449,10 +430,10 @@ audio:
       names: Sobrenome, Nome
   url:
     value: https://example.com
-    date: 1915-01-01
+    date: 1916-01-01
 
 # Partitura
-music-sheet:
+music-sheet: # (song)
   type: Audio
   title: Partitura
   author: Sobrenome, Nome
@@ -462,17 +443,12 @@ music-sheet:
   publisher:
     name: Editora
     location: Local de Publicação
-  affiliated:
-    - role: collaborator
-      names: Sobrenome, Nome
   url:
     value: https://example.com
     date: 1917-01-01
-  parent:
-    type: Audio
 
 # Documento iconográfico
-image:
+image: # (event)
   type: Exhibition
   title: Iconografia
   author: Sobrenome, Nome
@@ -481,11 +457,9 @@ image:
   url:
     value: https://example.com
     date: 1918-01-01
-  parent:
-    type: Audio
 
 # Documento cartográfico
-map:
+map: # (document, webpage)
   type: Misc
   title: Mapa
   author: Sobrenome, Nome
@@ -499,7 +473,7 @@ map:
     date: 1919-01-01
 
 # Documento tridimensional
-3d:
+3d: # (document, webpage)
   type: Misc
   author: Sobrenome, Nome
   title: Arquivo 3D
@@ -513,7 +487,7 @@ map:
     date: 1920-01-01
 
 # Documento de acesso exclusivo em meio eletrônico
-online:
+online: # (webpage)
   type: Web
   author: Sobrenome, Nome
   title: Conteúdo Web
@@ -527,9 +501,8 @@ online:
     value: https://example.com
     date: 1921-01-01
 
-
 # Artigo online
-blog-post:
+blog-post: # (post-weblog)
   type: Article
   author: Sobrenome, Nome
   title: Título da Postagem
@@ -548,30 +521,30 @@ blog-post:
 
 # TODO: Adapt the following types
 
-# scene: # misc
+# scene: # (misc)
 #   type: Scene
 #   title: Cena
 
-# art: # graphic
+# art: # (graphic)
 #   type: Artwork
 #   title: Obra de Arte
 
-# post: # post
+# post: # (post)
 #   type: Post
 #   title: Postagem em Rede Social
 
-# manuscript: # manuscript
+# manuscript: # (manuscript)
 #   type: Manuscript
 #   title: Manuscrito
 
-# show: # misc
+# show: # ()
 #   type: Performance
 #   title: Show
 
-# manual: # misc
+# manual: # ()
 #   type: Reference
 #   title: Manual
   
-# repo: # shoftware
+# repo: # (software)
 #   type: Repository
 #   title: Repositório
