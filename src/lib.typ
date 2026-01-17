@@ -1,6 +1,7 @@
 // TODO: Implement web article when HTML become stable
+// TODO: Update authors to dictionary
 
-/**#v(1fr)#outline()#v(1.2fr)#pagebreak()
+/** #v(1fr) #outline() #v(1.2fr) #pagebreak()
 = Quick Start
 ```typ
 #import "@preview/min-article:0.2.0": *
@@ -8,8 +9,8 @@
 	title: "Main Title",
 	subtitle: "Complementary subtitle",
 	authors: (
-	  ("Main Author", "Short author description."),
-	  ("Collaborator", "Short author description."),
+	  "Main Author": "Short description",
+	  "Collaborator": "Short description",
 	),
 )
 ```
@@ -36,6 +37,8 @@ using minimum customizations only when strictly necessary. Refer to the
     /// Article subtitle. |
   abstract: none, /// <- string | content
     /// Article abstract. |
+  foreign: (:), /// <- dictionary
+    /// `(title, subtitle, abstract, lang)`\ Set (optional) foreign language data. |
   foreign-lang: none, /// <- string
     /// Additional foreign language used (generally a _lingua franca_). |
   foreign-title: none, /// <- string | content
@@ -44,7 +47,7 @@ using minimum customizations only when strictly necessary. Refer to the
     /// Additional subtitle in foreign language. |
   foreign-abstract: none, /// <- string | content
     /// Additional abstract in foreign language. |
-  authors: none, /// <- array | array of arrays <required>
+  authors: (:), /// <- array | array of arrays <required>
     /// `(name, description)`\ Name and description of each article author. |
   acknowledgments: none, /// <- string | content
     /// Final thanks directed to anyone important in the creation of the article. |
@@ -68,6 +71,7 @@ using minimum customizations only when strictly necessary. Refer to the
   
   let body = body
   let authors = authors
+  let foreign = (title: none, subtitle: none, abstract: none, lang: none) + foreign
   let full-title = title + if subtitle != none {": " + lower(subtitle)}
   let font-size = default(
     when: text.size == 11pt,
@@ -211,19 +215,19 @@ using minimum customizations only when strictly necessary. Refer to the
       align(center, full-title)
     )
     
-    if foreign-title != none {
-      let foreign-full-title = foreign-title + if foreign-subtitle != none {
-        ": " + lower(foreign-subtitle)
-      }
+    if foreign.title != none {
+      assert.ne(foreign.lang, none, message: "#article(foreign.lang) must be set")
       
-      set text(lang: foreign-lang)
+      if foreign.subtitle != none {foreign.title += ": " + foreign.subtitle}
+      
+      set text(lang: foreign.lang)
       
       // Foreign title, if any
       heading(
         level: 1,
         outlined: false,
         numbering: none,
-        align(center, foreign-full-title)
+        align(center, foreign.title)
       )
     }
   }
@@ -263,7 +267,7 @@ using minimum customizations only when strictly necessary. Refer to the
     let abstract = (:)
     
     abstract += (main: stored.at("main", default: abstract))
-    abstract += (foreign: stored.at("foreign", default: foreign-abstract))
+    abstract += (foreign: stored.at("foreign", default: foreign.abstract))
     
     assert.ne(
       abstract.main, none,
@@ -273,7 +277,9 @@ using minimum customizations only when strictly necessary. Refer to the
     abstract.main
     
     if abstract.at("foreign", default: none) != none {
-      set text(lang: foreign-lang)
+      assert.ne(foreign.lang, none, message: "#article(foreign.lang) must be set")
+      
+      set text(lang: foreign.lang)
       show heading: set align(center)
       
       heading(

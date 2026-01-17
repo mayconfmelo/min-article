@@ -5,9 +5,11 @@
 #show: article.with(   
 	title: "Artigos em conformidade com a ABNT",
 	subtitle: "Mudando o foco de estrutura para escrita",
-	foreign-lang: "en",
-	foreign-title: "ABNT-compliant articles",
-	foreign-subtitle: "Shifting focus from structure to writing",
+	foreign: (
+	  title: "ABNT-compliant articles",
+	  subtitle: "Shifting focus from structure to writing",
+	  lang: "en",
+	),
 	authors: (
 	  "Maycon F. Melo",
     [Desenvolvedor do pacote _min-article_ para a linguagem Typst.]
