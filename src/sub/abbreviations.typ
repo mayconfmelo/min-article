@@ -17,7 +17,7 @@ ABNT requires that an abbreviation must appear like _abbreviation (abbrev)_ the
 first time, and just _abbrev_ the next times.
 **/
 #let add(data) = {
-  import "@preview/toolbox:0.1.0": storage
+  import "@preview/nexus-tools:0.1.0": storage
   
   assert.eq(
     type(data), dictionary,
@@ -43,7 +43,7 @@ first time, and just _abbrev_ the next times.
 
 // Initialize abbreviation replacement mechanism.
 #let init(insensitive: true, body) = context {
-  import "@preview/toolbox:0.1.0": storage
+  import "@preview/nexus-tools:0.1.0": storage
   
   let body = body
   let stored = storage.final("glossary", (:), namespace: "min-article")

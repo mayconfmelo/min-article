@@ -10,7 +10,7 @@ data <- dictionary
   Set each glossary term and its definition.
 **/
 #let add(data) = {
-  import "@preview/toolbox:0.1.0": storage
+  import "@preview/nexus-tools:0.1.0": storage
   
   assert.eq(
     type(data), dictionary,
@@ -32,7 +32,7 @@ data <- dictionary
 
 // Insert the glossary content.
 #let insert() = context {
-  import "@preview/toolbox:0.1.0": storage, content2str
+  import "@preview/nexus-tools:0.1.0": storage, content2str
   
   set terms(separator: linebreak(), tight: true)
   let stored = storage.final("glossary", (:), namespace: "min-article")

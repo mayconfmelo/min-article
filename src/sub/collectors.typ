@@ -16,7 +16,7 @@ type <- string
 An abstract is a general resume of the entire article content.
 **/
 #let abstract(..args) = {
-  import "@preview/toolbox:0.1.0": storage, content2str
+  import "@preview/nexus-tools:0.1.0": storage, content2str
   
   assert.ne(args.pos().len(), 0, message: "#abstract(body) required")
   
@@ -56,7 +56,7 @@ args.pos() <- arguments
   Content (not paths) of one or more bibliography files. Use `#read` or strings.
 **/
 #let bibliography(..args) = {
-  import "@preview/toolbox:0.1.0": storage
+  import "@preview/nexus-tools:0.1.0": storage
   
   storage.add("bibliography", args, append: true, namespace: "min-article")
 }
@@ -75,7 +75,7 @@ An appendix is any additional data left out of the main article content but
 referenced or related to it.
 **/
 #let appendix(data) = {
-  import "@preview/toolbox:0.1.0": storage
+  import "@preview/nexus-tools:0.1.0": storage
   
   storage.add("appendices", data, append: true, namespace: "min-article")
 }
@@ -93,7 +93,7 @@ data <- content
 An annex is any third-party data referenced or related to the article content.
 **/
 #let annex(data) = {
-  import "@preview/toolbox:0.1.0": storage
+  import "@preview/nexus-tools:0.1.0": storage
   
   storage.add("annexes", data, append: true, namespace: "min-article")
 }
@@ -112,7 +112,7 @@ An acknowledgments is a final thanks directed to anyone important in the
 creation of the article.
 **/
 #let acknowledgments(data) = {
-  import "@preview/toolbox:0.1.0": storage
+  import "@preview/nexus-tools:0.1.0": storage
   
   storage.add("acknowledgments", data, append: true, namespace: "min-article")
 }

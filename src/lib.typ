@@ -59,12 +59,12 @@ using minimum customizations only when strictly necessary. Refer to the
     /// Use original Typst defaults instead of min-article ones. |
   body
 ) = context {
-  assert.ne(title, none)
-  assert.eq(type(authors), array)
-  assert.eq(type(lang-data), dictionary)
+  assert.ne(title, none, message: "#article(title) required")
+  assert.ne(authors, (:), message: "#article(authors) dictionary required")
+  assert.eq(type(lang-data), dictionary, message: "#article(lang-data) required")
   
   import "@preview/transl:0.1.1": transl
-  import "@preview/toolbox:0.1.0": get, storage, has, its, default
+  import "@preview/nexus-tools:0.1.0": get, storage, has, its, default
   import "sub/abbreviations.typ"
   
   transl(data: lang-data)
