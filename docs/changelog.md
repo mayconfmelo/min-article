@@ -44,10 +44,14 @@
 - `#abbreviations` to declare abreviations
 - `#glossary` to declare glossary entries
 - Removed: `#abbrev` and `#gloss` commands
-- Updated: [toolbox](https://typst.app/universe/package/toolbox) used for internal management
 - Updated: [transl](https://typst.app/universe/package/transl) used for translation
-- Updated: _Tex Gyre Termes_ as default text font (fallback to _Times New Roman_)
+- Updated: (_Tex Gyre Termes, Times New Roman_) as default font families
 - Updated: `#bibliography` fully compliant to ABNT standard[^16]
 - Updated: Adapted CSL file to Hayagriva's limitations (uses [workarounds](../tests/bib/bib.yaml))
+- Updated `#article` arguments:
+  - `foreign-title` &Rarr; `foreign.title`
+  - `foreign-subtitle)` &Rarr; `foreign.subtitle`
+  - `foreign-lang)` &Rarr; `foreign.lang`
+- Updated: Set authors using a dictionary instead of array-of-arrays
 
 [^16]: ABNT NBR 6023:2025

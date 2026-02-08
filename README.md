@@ -40,13 +40,14 @@
 #show: article.with(
   title: "Título Principal",
   subtitle: "Subtítulo complementar",
-  foreign-title: "Main Title",
-  foreign-subtitle: "Complementary subtitle",
-  foreign-lang: "en"
+  foreign: (
+    title: "Main Title",
+    subtitle: "Complementary subtitle",
+    lang: "en",
+  ),
   authors: (
-    ("Autor Principal", "Doutor em Procrastinação, etc."),
-    ("Colaborador", "Formado em Fazer Nada, etc."),
-    ("Colaborador", "Estudante de Procrastinação.")
+    "Autor Principal": "Breve descrição do autor",
+    "Colaborador": "Breve descrição do autor",
   ),
 )
 ```
@@ -91,13 +92,14 @@ fielmente possível, um estilo CSL personalizado com algumas soluções alternat
 #show: article.with(
   title: "Main Title",
   subtitle: "Complementary subtitle",
-  foreign-title: "Título Principal",
-  foreign-subtitle: "Subtítulo complementar",
-  foreign-lang: "pt",
+  foreign: (
+    title: "Título Principal",
+    subtitle: "Subtítulo complementar",
+    lang: "pt",
+  ),
   authors: (
-    ("Main Author", "PhD in Procrastination, etc."),
-    ("Collaborator", "Degree in Doing Nothing, etc."),
-    ("Collaborator", "Procrastination Student.")
+    "Main Author": "Brief author description",
+    "Collaborator": "Brief author description",
   ),
 )
 ```
@@ -120,7 +122,7 @@ using minimum customizations only when strictly necessary. Refer to the
 ## Regarding Bibliographic References
 
 Due to [limitations in Typst's reference processing](https://github.com/mayconfmelo/min-article/issues/1),
-not all reference types supported by BibLaTeX/CSL are directly recognized; que
+not all reference types supported by BibLaTeX/CSL are directly recognized; we
 recommend writing bibliographies directly in [Hayagriva](https://github.com/typst/hayagriva)
 for better results.
 
