@@ -11,8 +11,8 @@
 	  lang: "en",
 	),
 	authors: (
-	  "Maycon F. Melo",
-    [Desenvolvedor do pacote _min-article_ para a linguagem Typst.]
+	  "Maycon F. Melo":
+	    [Desenvolvedor do pacote _min-article_ para a linguagem Typst.]
 	),
 )
 

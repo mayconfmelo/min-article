@@ -80,11 +80,9 @@ using minimum customizations only when strictly necessary. Refer to the
     typst-defaults
   )
   
-  if type(authors.at(0)) != array {authors = (authors,)}
-  
   set document(
     title: full-title,
-    author: authors.at(0).at(0) + if authors.len() > 1 {" et al."},
+    author: authors.keys().at(0) + if authors.keys().len() > 1 {" et al."},
     date: get.date( get.auto-val(date, datetime.today()) )
   )
   set page(
@@ -238,9 +236,9 @@ using minimum customizations only when strictly necessary. Refer to the
     set footnote(numbering: "*")
     
     v(1.5em)
-    for author in authors {
-      author.at(0)
-      footnote[#author.at(1)]
+    for author in authors.keys() {
+      author
+      footnote[#authors.at(author)]
       linebreak()
     }
     v(4.5em)
