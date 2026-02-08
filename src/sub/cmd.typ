@@ -34,7 +34,7 @@ Replace the original `#figure` command to add a source option, required by ABNT.
 /**
 == Help
 :help: => #cmd.<name>(<capt>)
-Prints a table thats helps to remember which commands are used for each article
+Prints a table that helps to remember which commands are used for each article
 element, working as a quick reminder.
 
 new-page <- boolean

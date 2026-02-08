@@ -41,7 +41,7 @@
 
 - Complete internal re-design
 - Added: Automatic bibliography generation
-- `#abbreviations` to declare abreviations
+- `#abbreviations` to declare abbreviations
 - `#glossary` to declare glossary entries
 - Removed: `#abbrev` and `#gloss` commands
 - Updated: [transl](https://typst.app/universe/package/transl) used for translation
